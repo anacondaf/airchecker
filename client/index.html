@@ -7,18 +7,21 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- GG Font -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://kit.fontawesome.com/3e6c5ff1db.js" crossorigin="anonymous"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.js"
-        integrity="sha512-7U4rRB8aGAHGVad3u2jiC7GA5/1YhQcQjxKeaVms/bT66i3LVBMRcBI9KwABNWnxOSwulkuSXxZLGuyfvo7V1A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Chartjs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- SocketIO -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
 
     <title>AirChecker</title>
 </head>
@@ -41,7 +44,7 @@
         <section class="time-seriers-db">
             <div class="air-info">
                 <div class="index">
-                    <span>58</span>
+                    <span id="aqi">58</span>
                 </div>
 
                 <div class="text">
@@ -58,51 +61,7 @@
 
     </div>
 
-    <script>
-        const ctx = document.getElementById('myChart');
-
-        const checkAirLevel = (value) => {
-            if (value < 2) {
-                return '#38BC5B'
-            } else if (value >= 5) {
-                return 'rgb(192,75,75)'
-            }
-
-            return '#E0BB4B'
-        }
-
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['4:00', '4:01', '4:02', '4:03', '4:04', '4:05', '4:06', '4:07', '4:08'],
-                datasets: [{
-                    data: [5, 0, 3, 5, 2, 3, 1, 2, 2],
-                    borderWidth: 1,
-                    tension: 0.5,
-                    pointBackgroundColor: '#18191C',
-                    pointBorderColor: '#ffffff',
-                    pointBorderWidth: 1.5,
-                    borderColor: 'rgb(75, 192, 192)',
-                    segment: {
-                        borderColor: ctx => checkAirLevel(Math.abs(ctx.p0.y - ctx.p1.y))
-                    },
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                }
-            }
-        });
-    </script>
-
+    <script src="main.js"></script>
 </body>
 
 </html>

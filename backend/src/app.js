@@ -5,12 +5,13 @@ const compression = require("compression");
 const logger = require("./config/logger");
 const config = require("./config/config");
 const http = require("http");
+const socketio = require("./websocket/socketio");
 
 const { db } = require("./database");
 
 let server;
 
-const startServer = () => {
+const startServer = async () => {
 	const app = express();
 
 	// set security HTTP headers
@@ -39,6 +40,21 @@ const startServer = () => {
 	db();
 
 	const httpServer = http.createServer(app);
+
+	const { message, io } = await socketio(httpServer);
+	logger.info(message);
+
+	app.post("/chart", (req, res) => {
+		const { labelList, aqiList } = req.body;
+
+		io.emit("update-chart", {
+			labels: labelList,
+			datas: aqiList,
+			aqi: aqiList[aqiList.length - 1],
+		});
+
+		res.status(200).json({ message: "Update chart success!" });
+	});
 
 	server = httpServer.listen(config.port, () => {
 		logger.info(`Listening to port ${config.port}`);
