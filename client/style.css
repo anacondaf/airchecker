@@ -1,0 +1,125 @@
+html {
+	font-family: "Open Sans", sans-serif;
+	color: #ffffff;
+}
+
+body {
+	margin: 0;
+	background-color: #ffffff;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 0;
+	padding: 0;
+}
+
+.divider {
+	margin: 40px 0px;
+}
+
+.container {
+	margin-top: 24px;
+	background-color: #171b1c;
+	width: 500px;
+	height: 700px;
+	padding: 32px 24px;
+	border-radius: 16px;
+}
+
+section {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.top {
+	flex-direction: row;
+}
+
+.top > .top-left > h1 {
+	font-size: 30px;
+}
+
+.top > .top-left > p {
+	font-size: 15px;
+	margin-top: 5px;
+	color: #919595;
+}
+
+.top > .settings {
+	width: 15px;
+	height: 15px;
+	padding: 12px;
+	background-color: #2e2f30;
+	display: flex;
+	border-radius: 10px;
+	border: 0.2px solid #3f4042;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+
+/* SECTION: time-seriers-db */
+
+.time-seriers-db {
+	flex-direction: column;
+}
+
+.time-seriers-db > .air-info {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 30px;
+}
+
+.time-seriers-db > .air-info > .index {
+	position: relative;
+	height: 65px;
+	width: 65px;
+	background: conic-gradient(#e0bb4b 3.6deg, #383838 0deg);
+	border-radius: 50%;
+	display: flex;
+	margin-right: 10px;
+	justify-content: center;
+	align-items: center;
+	color: #ffffff;
+	font-size: 20px;
+	font-weight: 900;
+}
+
+.time-seriers-db > .air-info > .index::before {
+	content: "";
+	position: absolute;
+	height: 55px;
+	width: 55px;
+	background-color: #18191c;
+	border-radius: 50%;
+}
+
+.time-seriers-db > .air-info > .index > span {
+	position: relative;
+}
+
+.time-seriers-db > .air-info > .text {
+	word-wrap: break-word;
+	flex-basis: 80%;
+}
+
+.time-seriers-db > .air-info > .text > h4 {
+	margin-bottom: 8px;
+}
+
+.time-seriers-db > .air-info > .text > p {
+	color: #919595;
+	font-size: 13px;
+}
