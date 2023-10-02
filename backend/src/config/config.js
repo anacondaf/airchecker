@@ -15,6 +15,12 @@ const envVarsSchema = Joi.object()
 		DB_PASSWORD: Joi.string(),
 		DB_NAME: Joi.string(),
 		DB_PORT: Joi.string(),
+
+		MQTT_PROTOCOL: Joi.string(),
+		MQTT_HOST: Joi.string(),
+		MQTT_PORT: Joi.string(),
+		MQTT_USER: Joi.string(),
+		MQTT_PASSWORD: Joi.string(),
 	})
 	.unknown();
 
@@ -34,4 +40,10 @@ module.exports = {
 	dbUserName: envVars.DB_USERNAME,
 	dbPassword: envVars.DB_PASSWORD,
 	dbName: envVars.DB_NAME,
+
+	mqttProtocol: envVars.MQTT_PROTOCOL,
+	mqttHost: envVars.MQTT_HOST,
+	mqttPort: envVars.MQTT_PORT,
+	mqttUser: envVars.MQTT_USER,
+	mqttPassword: envVars.MQTT_PASSWORD,
 };

@@ -29,7 +29,7 @@ const initChart = () => {
 			],
 			datasets: [
 				{
-					data: [5, 0, 3, 5, 2, 3, 1, 2, 12],
+					data: [0, 3, 5, 2, 3, 1, 2, 12, 60],
 					borderWidth: 1,
 					tension: 0.5,
 					pointBackgroundColor: "#18191C",

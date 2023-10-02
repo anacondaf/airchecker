@@ -6,10 +6,12 @@ const logger = require("./config/logger");
 const config = require("./config/config");
 const http = require("http");
 const socketio = require("./websocket/socketio");
+const mqtt = require("./mqtt/mqtt");
 
 const { db } = require("./database");
 
 let server;
+let mqttClient;
 
 const startServer = async () => {
 	const app = express();
@@ -40,9 +42,35 @@ const startServer = async () => {
 	db();
 
 	const httpServer = http.createServer(app);
-
-	const { message, io } = await socketio(httpServer);
+	var { message, io } = await socketio(httpServer);
 	logger.info(message);
+
+	var { message, client } = await mqtt(io);
+	logger.info(message);
+
+	mqttClient = client;
+
+	app.post("/", (req, res) => {
+		res.status(200).json({ data: "oke" });
+	});
+
+	app.get("/airchecker", (req, res) => {
+		mqttClient.publish(
+			"/airchecker",
+			"Hello QOS1",
+			{
+				qos: 2,
+				retain: true,
+			},
+			(error) => {
+				if (error) {
+					console.error(error);
+				}
+			}
+		);
+
+		res.status(200).json({ data: "oke" });
+	});
 
 	app.post("/chart", (req, res) => {
 		const { labelList, aqiList } = req.body;
@@ -72,6 +100,11 @@ const exitHandler = () => {
 	} else {
 		process.exit(1);
 	}
+
+	// Callback for disconnection
+	mqttClient.end(false, {}, () => {
+		console.log("MQTTClient disconnected");
+	});
 };
 
 const unexpectedErrorHandler = (error) => {
