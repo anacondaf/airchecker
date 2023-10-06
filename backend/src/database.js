@@ -21,6 +21,19 @@ const connectMySql = () => {
 		logger.info("Connect to MySQL as id: " + connection.threadId);
 	});
 
+	connection.query(
+		"CREATE TABLE AirQuality (\
+		id varchar(255),\
+		aqi float,\
+		humidity float,\
+		temperature float,\
+		co float,\
+		measuredAt datetime);",
+		function (err, results, fields) {
+			if (err.code != "ER_TABLE_EXISTS_ERROR") logger.error(err);
+		}
+	);
+
 	return connection;
 };
 

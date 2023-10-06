@@ -1,6 +1,8 @@
 const mqtt = require("mqtt");
 const config = require("../config/config");
 const logger = require("../config/logger");
+const { v4: uuidv4 } = require("uuid");
+const AirQualityModel = require("../models/AirQuality");
 
 const mqttClient = (io) => {
 	return new Promise((resolve) => {
@@ -51,28 +53,33 @@ const mqttClient = (io) => {
 					}
 				);
 			});
-		});
 
-		client.on("message", (topic, message) => {
-			// message is Buffer
+			client.on("message", async (topic, message) => {
+				message = JSON.parse(message);
+				console.log(message);
 
-			message = JSON.parse(message);
-			console.log(message["aqi"]);
+				await AirQualityModel.create({
+					aqi: message["aqi"],
+					humidity: message["humidity"],
+					temperature: message["temp"],
+					co: message["co"],
+				});
 
-			io.emit("update-chart", {
-				labels: [
-					"4:01",
-					"4:02",
-					"4:03",
-					"4:04",
-					"4:05",
-					"4:06",
-					"4:07",
-					"4:08",
-					"4:09",
-				],
-				datas: [0, 3, 5, 2, 3, 1, 2, 12, 12],
-				aqi: Math.round(message["aqi"]),
+				io.emit("update-chart", {
+					labels: [
+						"4:01",
+						"4:02",
+						"4:03",
+						"4:04",
+						"4:05",
+						"4:06",
+						"4:07",
+						"4:08",
+						"4:09",
+					],
+					datas: [0, 3, 5, 2, 3, 1, 2, 12, 12],
+					aqi: Math.round(message["aqi"]),
+				});
 			});
 		});
 

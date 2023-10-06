@@ -79,5 +79,5 @@ void loop() {
 
   serializeJson(doc, espSerial);
 
-  delay(5000);
+  delay(3600000);
 }

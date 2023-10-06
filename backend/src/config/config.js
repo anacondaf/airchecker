@@ -15,7 +15,8 @@ const envVarsSchema = Joi.object()
 		DB_PASSWORD: Joi.string(),
 		DB_NAME: Joi.string(),
 		DB_PORT: Joi.string(),
-
+		DB_URL: Joi.string(),
+		MONGODB_URL: Joi.string().required().description("Mongo DB url"),
 		MQTT_PROTOCOL: Joi.string(),
 		MQTT_HOST: Joi.string(),
 		MQTT_PORT: Joi.string(),
@@ -40,10 +41,17 @@ module.exports = {
 	dbUserName: envVars.DB_USERNAME,
 	dbPassword: envVars.DB_PASSWORD,
 	dbName: envVars.DB_NAME,
-
+	dbUrl: envVars.DB_URL,
 	mqttProtocol: envVars.MQTT_PROTOCOL,
 	mqttHost: envVars.MQTT_HOST,
 	mqttPort: envVars.MQTT_PORT,
 	mqttUser: envVars.MQTT_USER,
 	mqttPassword: envVars.MQTT_PASSWORD,
+	mongoose: {
+		url: envVars.MONGODB_URL,
+		options: {
+			useNewUrlParser: true,
+			useUnifiedTopology: true,
+		},
+	},
 };
