@@ -2,6 +2,8 @@ const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
 const logger = require("./config/logger");
+const AirQualityModel = require("./models/AirQuality");
+const moment = require("moment-timezone");
 
 const start = async () => {
 	const app = express();
@@ -23,6 +25,19 @@ const start = async () => {
 };
 
 const apiRoutes = (app, io, mqtt) => {
+	app.get("/", async (req, res) => {
+		io.emit("update-chart", {
+			labels: docs[0]["createdAt"],
+			aqi: Math.trunc(aqis.pop()),
+			datas: aqis,
+			humidity: humidity,
+			temperature: temperature,
+			co: co,
+		});
+
+		res.status(200).json({ data: "oke" });
+	});
+
 	app.post("/", (req, res) => {
 		res.status(200).json({ data: "oke" });
 	});

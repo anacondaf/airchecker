@@ -63,6 +63,13 @@ const initChart = () => {
 window.onload = (event) => {
 	var chart = initChart();
 
+	socket.on("new-date", (msg) => {
+		console.log(msg);
+
+		const todayLabel = document.getElementById("today");
+		todayLabel.innerHTML = msg.today;
+	});
+
 	socket.on("update-chart", (msg) => {
 		console.log(msg);
 

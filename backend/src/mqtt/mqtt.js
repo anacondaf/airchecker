@@ -1,7 +1,7 @@
 const mqtt = require("mqtt");
 const config = require("../config/config");
 const logger = require("../config/logger");
-const { v4: uuidv4 } = require("uuid");
+const { getData } = require("../helper/getData");
 const AirQualityModel = require("../models/AirQuality");
 
 const mqttClient = (io) => {
@@ -65,20 +65,16 @@ const mqttClient = (io) => {
 					co: message["co"],
 				});
 
-				io.emit("update-chart", {
-					labels: [
-						"4:01",
-						"4:02",
-						"4:03",
-						"4:04",
-						"4:05",
-						"4:06",
-						"4:07",
-						"4:08",
-						"4:09",
-					],
-					datas: [0, 3, 5, 2, 3, 1, 2, 12, 12],
-					aqi: Math.round(message["aqi"]),
+				const { labels, aqi, datas, humidity, temperature, co } =
+					await getData();
+
+				socket.emit("update-chart", {
+					labels,
+					aqi: Math.trunc(aqi),
+					datas,
+					humidity,
+					temperature,
+					co,
 				});
 			});
 		});
