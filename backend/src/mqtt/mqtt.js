@@ -26,8 +26,8 @@ const mqttClient = (io) => {
 				notifyTopic,
 				`${clientId} is connected`,
 				{
-					qos: 2,
-					retain: true,
+					qos: 0,
+					retain: false,
 				},
 				(error) => {
 					if (error) {
@@ -44,7 +44,7 @@ const mqttClient = (io) => {
 					`${clientId} subscribes to topic ${dataTopic}`,
 					{
 						qos: 2,
-						retain: true,
+						retain: false,
 					},
 					(error) => {
 						if (error) {
@@ -68,7 +68,7 @@ const mqttClient = (io) => {
 				const { labels, aqi, datas, humidity, temperature, co } =
 					await getData();
 
-				socket.emit("update-chart", {
+				io.emit("update-chart", {
 					labels,
 					aqi: Math.trunc(aqi),
 					datas,

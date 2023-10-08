@@ -1,8 +1,9 @@
+const { reverse } = require("dns");
 const AirQualityModel = require("../models/AirQuality");
 
 const getData = async () => {
 	const docs = await AirQualityModel.aggregate([
-		{ $sort: { createdAt: 1 } },
+		{ $sort: { createdAt: -1 } },
 		{ $limit: 6 },
 		{
 			$project: {
@@ -26,12 +27,14 @@ const getData = async () => {
 		},
 	]).exec();
 
-	aqis = docs[0]["aqi"];
-	humidity = docs[0]["humidity"][docs[0]["humidity"].length - 1];
-	temperature = docs[0]["temperature"][docs[0]["temperature"].length - 1];
-	co = docs[0]["co"][docs[0]["co"].length - 1];
+	console.log(docs);
 
-	docs[0]["createdAt"] = docs[0]["createdAt"].map((x) => {
+	aqis = docs[0]["aqi"].reverse();
+	humidity = docs[0]["humidity"][0];
+	temperature = docs[0]["temperature"][0];
+	co = docs[0]["co"][0];
+
+	docs[0]["createdAt"] = docs[0]["createdAt"].reverse().map((x) => {
 		const d = new Date(x);
 		return d.getHours() + ":" + d.getMinutes();
 	});
