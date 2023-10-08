@@ -123,3 +123,28 @@ section {
 	color: #919595;
 	font-size: 13px;
 }
+
+.detail-pollutant {
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.pollutant-card {
+	width: 50px;
+	background-color: #ffffff;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border-radius: 5px;
+	padding: 0.25em;
+}
+
+.pollutant-card h4 {
+	font-size: 13px;
+	color: #030514;
+}
+
+.pollutant-card p {
+	font-size: 11px;
+	color: #424242;
+}

@@ -81,5 +81,13 @@ window.onload = (event) => {
 		// Update current AQI
 		const aqiText = document.getElementById("aqi");
 		aqiText.innerHTML = msg.aqi;
+
+		// Update pollutant
+		const temp = document.getElementById("temp");
+		temp.innerHTML = msg["temperature"];
+		const humidity = document.getElementById("humidity");
+		humidity.innerHTML = msg["humidity"];
+		const co = document.getElementById("co");
+		co.innerHTML = msg["co"];
 	});
 };

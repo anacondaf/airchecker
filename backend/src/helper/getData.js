@@ -27,9 +27,9 @@ const getData = async () => {
 	]).exec();
 
 	aqis = docs[0]["aqi"];
-	humidity = docs[0]["humidity"][0];
-	temperature = docs[0]["temperature"][0];
-	co = docs[0]["co"][0];
+	humidity = docs[0]["humidity"][docs[0]["humidity"].length - 1];
+	temperature = docs[0]["temperature"][docs[0]["temperature"].length - 1];
+	co = docs[0]["co"][docs[0]["co"].length - 1];
 
 	docs[0]["createdAt"] = docs[0]["createdAt"].map((x) => {
 		const d = new Date(x);
