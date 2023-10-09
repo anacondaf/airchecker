@@ -4,7 +4,7 @@ const AirQualityModel = require("../models/AirQuality");
 const getData = async () => {
 	const docs = await AirQualityModel.aggregate([
 		{ $sort: { createdAt: -1 } },
-		{ $limit: 6 },
+		{ $limit: 10 },
 		{
 			$project: {
 				_id: 1,
