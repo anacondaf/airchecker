@@ -4,13 +4,13 @@ const initChart = () => {
 	const myChartCanvas = document.getElementById("myChart");
 
 	const checkAirLevel = (value) => {
-		if (value < 2) {
-			return "#38BC5B";
-		} else if (value >= 5) {
-			return "rgb(192,75,75)";
+		if (value > 0) {
+			return "#38BC5B"; // GREEN
+		} else if (value < 0) {
+			return "rgb(192,75,75)"; // RED
 		}
 
-		return "#E0BB4B";
+		return "#E0BB4B"; // YELLOW
 	};
 
 	const chart = new Chart(myChartCanvas, {
@@ -38,7 +38,7 @@ const initChart = () => {
 					borderColor: "rgb(75, 192, 192)",
 					segment: {
 						borderColor: (ctx) =>
-							checkAirLevel(Math.abs(ctx.p0.parsed.y - ctx.p1.parsed.y)),
+							checkAirLevel(ctx.p0.parsed.y - ctx.p1.parsed.y),
 					},
 				},
 			],
