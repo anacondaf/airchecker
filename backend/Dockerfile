@@ -7,8 +7,11 @@ WORKDIR /app
 # Copy package.json and package-lock.json to the container
 COPY package*.json ./
 
+# Install pm2
+RUN npm install pm2 -g
+
 # Install app dependencies
-RUN npm ci --only=production
+RUN npm ci
 
 # Copy the rest of the app source code to the container
 COPY . .

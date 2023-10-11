@@ -27,6 +27,32 @@ services:
     networks:
       - node-network
 
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    container_name: backend_service
+    ports:
+      - "3000:80"
+    networks:
+      - node-network
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: on-failure
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      backend:
+        condition: service_started
+    networks:
+      - node-network
+
 networks:
   node-network:
     driver: bridge
