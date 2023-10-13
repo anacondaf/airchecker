@@ -31,22 +31,6 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    environment:
-      - "PORT=80"
-      - "RABBITMQ=localhost"
-      - "NODE_ENV=development"
-      - "DB_PORT=3306"
-      - "DB_HOST=localhost"
-      - "DB_USERNAME=root"
-      - "DB_PASSWORD=P@ssw0rd!"
-      - "DB_NAME=airchecker"
-      - "DB_URL=mysql://root:P@ssw0rd!@localhost:5432/airchecker"
-      - "MONGODB_URL=mongodb+srv://admin:Pa$$word!@aircheckercluster.yymawyw.mongodb.net/aircheckerdb?retryWrites=true&w=majority"
-      - "MQTT_PROTOCOL=mqtt"
-      - "MQTT_HOST=broker.emqx.io"
-      - "MQTT_PORT=1883"
-      - "MQTT_USER=emqx"
-      - "MQTT_PASSWORD=public"
     restart: unless-stopped
     container_name: api
     ports:
