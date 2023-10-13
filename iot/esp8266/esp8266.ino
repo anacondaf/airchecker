@@ -6,12 +6,12 @@
 const char* ssid = "ANHKIET";         // Enter SSID
 const char* password = "family@123";  // Enter Password
 
-#define mqtt_host "broker.emqx.io"  // Thay bằng thông tin của bạn
-#define mqtt_topic "/airchecker"    //Giữ nguyên nếu bạn tạo topic tên là demo
+#define mqtt_host "airchecker.online"
+#define mqtt_topic "/airchecker"
 #define mqtt_topic_noti "/airchecker/noti"
-#define mqtt_user "emqx"  //Giữ nguyên nếu bạn tạo user là esp8266 và pass là 123456
-#define mqtt_pwd "public"
-const uint16_t mqtt_port = 1883;  //Port của CloudMQTT
+#define mqtt_user "admin"
+#define mqtt_pwd "Pa$$word!"
+const uint16_t mqtt_port = 1883;
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -129,7 +129,7 @@ void loop() {
 
     char buffer[256];
     serializeJson(doc, buffer);
-    bool result = client.publish(mqtt_topic, buffer, true); // client.publish_P(topic, payload, payload_size, retain)
+    bool result = client.publish(mqtt_topic, buffer); // client.publish_P(topic, payload, payload_size, retain)
 
     if (result) {
       Serial.println("Publish message to MQTT broker success: ");
