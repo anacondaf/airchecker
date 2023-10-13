@@ -26,15 +26,6 @@ const start = async () => {
 
 const apiRoutes = (app, io, mqtt) => {
 	app.get("/", async (req, res) => {
-		io.emit("update-chart", {
-			labels: docs[0]["createdAt"],
-			aqi: Math.trunc(aqis.pop()),
-			datas: aqis,
-			humidity: humidity,
-			temperature: temperature,
-			co: co,
-		});
-
 		res.status(200).json({ data: "oke" });
 	});
 
