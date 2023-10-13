@@ -22,6 +22,8 @@ const mqttClient = (io) => {
 		const notifyTopic = "/airchecker/noti";
 
 		client.on("connect", async () => {
+			logger.info(`Connect to mqtt ${connectUrl}`);
+
 			await client.publishAsync(
 				notifyTopic,
 				`${clientId} is connected`,
