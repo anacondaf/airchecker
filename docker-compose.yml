@@ -47,6 +47,7 @@ services:
       - 443:443
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./client:/app/client
     depends_on:
       api:
         condition: service_started
