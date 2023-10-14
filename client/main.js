@@ -1,4 +1,4 @@
-const socket = io("https://api.airchecker.online");
+const socket = io("https://api.airchecker.online/api");
 
 const initChart = () => {
 	const myChartCanvas = document.getElementById("myChart");
