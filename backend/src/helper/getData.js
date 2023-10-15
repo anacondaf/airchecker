@@ -37,10 +37,8 @@ const getData = async () => {
 	docs[0]["createdAt"] = docs[0]["createdAt"].reverse().map((x) => {
 		const d = new Date(x);
 
-		var tzDifference = d.getTimezoneOffset();
+		var tzDifference = -420; //region vn timeoffset
 		var offsetTime = new Date(d.getTime() - tzDifference * 60 * 1000);
-
-		console.log(offsetTime);
 
 		return offsetTime.getHours() + ":" + offsetTime.getMinutes();
 	});
