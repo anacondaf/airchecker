@@ -36,7 +36,11 @@ const getData = async () => {
 
 	docs[0]["createdAt"] = docs[0]["createdAt"].reverse().map((x) => {
 		const d = new Date(x);
-		return d.getHours() + ":" + d.getMinutes();
+
+		var tzDifference = d.getTimezoneOffset();
+		var offsetTime = new Date(d.getTime() - tzDifference * 60 * 1000);
+
+		return offsetTime.getHours() + ":" + offsetTime.getMinutes();
 	});
 
 	docs[0]["createdAt"].pop();
