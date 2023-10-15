@@ -59,7 +59,7 @@ services:
     image: portainer/portainer-ce:latest
     container_name: portainer_air_checker
     ports:
-      - 9443:9443
+      - "9000:9000"
     volumes:
       - ./airchecker/portainerdata:/data
       - /var/run/docker.sock:/var/run/docker.sock
