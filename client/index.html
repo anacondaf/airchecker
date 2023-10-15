@@ -62,8 +62,9 @@
                 </div>
 
                 <div class="text">
-                    <h4>Moderate</h4>
-                    <p>Air quality is acceptable. However, for some pollutants there may be a moderate health concern
+                    <h4 id="aqi-level">Moderate</h4>
+                    <p id="aqi-desc">Air quality is acceptable. However, for some pollutants there may be a moderate
+                        health concern
                         for a very small number of people who are unusually sensitive to air pollution.</p>
                 </div>
             </div>
@@ -73,21 +74,45 @@
 
         <div class="divider"></div>
 
-        <div class="detail-pollutant">
-            <div class="pollutant-card">
-                <h4 id="temp">230</h4>
-                <p>Temp</p>
+        <div class="detail-pollutants">
+            <div class="accordion">
+                <p>View detail pollutants</p>
+                <i class=" fa-solid fa-caret-down" id="acc-icon"></i>
             </div>
 
-            <div class="pollutant-card">
-                <h4 id="humidity">180</h4>
-                <p>Humidity</p>
+            <div class="panel">
+                <div class="pollutant-card">
+                    <div class="info">
+                        <p>Temperature (&deg;C)</p>
+                    </div>
+
+                    <div class="index-pollutant">
+                        <span id="temp">nan</span>
+                    </div>
+                </div>
+
+                <div class="pollutant-card">
+                    <div class="info">
+                        <p>Humidity</p>
+                    </div>
+
+                    <div class="index-pollutant">
+                        <span id="humidity"></span>
+                    </div>
+                </div>
+
+                <div class="pollutant-card">
+                    <div class="info">
+                        <p>Cacbon Monoxide (ppm)</p>
+                    </div>
+
+                    <div class="index-pollutant">
+                        <span id="co"></span>
+                    </div>
+                </div>
             </div>
 
-            <div class="pollutant-card">
-                <h4 id="co">180</h4>
-                <p>CO</p>
-            </div>
+
         </div>
 
     </div>
