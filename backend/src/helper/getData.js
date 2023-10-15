@@ -40,6 +40,8 @@ const getData = async () => {
 		var tzDifference = d.getTimezoneOffset();
 		var offsetTime = new Date(d.getTime() - tzDifference * 60 * 1000);
 
+		console.log(offsetTime);
+
 		return offsetTime.getHours() + ":" + offsetTime.getMinutes();
 	});
 
