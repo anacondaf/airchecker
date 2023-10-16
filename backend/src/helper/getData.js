@@ -15,10 +15,14 @@ const getData = async () => {
 		{
 			$match: {
 				createdAt: {
-					$gte: ISODate(
-						offsetToday.toISOString().replace(/T(.+)/g, "T00:00:00.000Z")
-					),
-					$lt: ISODate(offsetNextDay),
+					$gte: {
+						$date: offsetToday
+							.toISOString()
+							.replace(/T(.+)/g, "T00:00:00.000Z"),
+					},
+					$lt: {
+						$date: offsetNextDay,
+					},
 				},
 			},
 		},
