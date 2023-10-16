@@ -2,7 +2,26 @@ const { reverse } = require("dns");
 const AirQualityModel = require("../models/AirQuality");
 
 const getData = async () => {
+	const tzDifference = -420; //region vn timeoffset
+
+	const serverToday = new Date(Date.now());
+	var offsetToday = new Date(serverToday.getTime() - tzDifference * 60 * 1000)
+		.toISOString()
+		.replace(/T(.+)/g, "T00:00:00.000Z");
+
+	var offsetNextDay = new Date(offsetToday.getTime() + 24 * 3600 * 1000)
+		.toISOString()
+		.replace(/T(.+)/g, "T00:00:00.000Z");
+
 	const docs = await AirQualityModel.aggregate([
+		{
+			$match: {
+				createdAt: {
+					$gte: ISODate(offsetNextDay),
+					$lt: ISODate(offsetNextDay),
+				},
+			},
+		},
 		{ $sort: { createdAt: -1 } },
 		{ $limit: 10 },
 		{
@@ -36,8 +55,6 @@ const getData = async () => {
 
 	docs[0]["createdAt"] = docs[0]["createdAt"].reverse().map((x) => {
 		const d = new Date(x);
-
-		var tzDifference = -420; //region vn timeoffset
 		var offsetTime = new Date(d.getTime() - tzDifference * 60 * 1000);
 
 		return offsetTime.getHours() + ":" + offsetTime.getMinutes();
