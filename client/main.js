@@ -1,4 +1,4 @@
-const socket = io("https://api.airchecker.online");
+const socket = io("http://localhost:80");
 
 const initChart = () => {
 	const myChartCanvas = document.getElementById("myChart");
@@ -147,6 +147,24 @@ window.onload = (event) => {
 
 		var aqiLevel = document.getElementById("aqi-level");
 		var aqiDescription = document.getElementById("aqi-desc");
+
+		if (msg.labels.length == 0) {
+			Swal.fire({
+				position: "bottom",
+				title: "Not grab data for today yet! Wait for next hour",
+				icon: "info",
+				showCloseButton: true,
+				timer: 2000,
+				width: "25em",
+				timerProgressBar: true,
+				showConfirmButton: false,
+				toast: true,
+				didOpen: (toast) => {
+					toast.addEventListener("mouseenter", Swal.stopTimer);
+					toast.addEventListener("mouseleave", Swal.resumeTimer);
+				},
+			});
+		}
 
 		// Update chart
 		chart.data.labels = msg.labels;

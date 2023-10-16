@@ -4,6 +4,7 @@ const cors = require("cors");
 const logger = require("./config/logger");
 const AirQualityModel = require("./models/AirQuality");
 const moment = require("moment-timezone");
+const { getData } = require("./helper/getData");
 
 const start = async () => {
 	const app = express();
@@ -27,6 +28,11 @@ const start = async () => {
 const apiRoutes = (app, io, mqtt) => {
 	app.get("/", async (req, res) => {
 		res.status(200).json({ data: "oke" });
+	});
+
+	app.get("/aqi", async (req, res) => {
+		var results = await getData();
+		res.status(200).json({ data: results });
 	});
 
 	app.post("/", (req, res) => {

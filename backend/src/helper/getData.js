@@ -15,14 +15,10 @@ const getData = async () => {
 		{
 			$match: {
 				createdAt: {
-					$gte: {
-						$date: offsetToday
-							.toISOString()
-							.replace(/T(.+)/g, "T00:00:00.000Z"),
-					},
-					$lt: {
-						$date: offsetNextDay,
-					},
+					$gte: new Date(
+						offsetToday.toISOString().replace(/T(.+)/g, "T00:00:00.000Z")
+					),
+					$lt: new Date(offsetNextDay),
 				},
 			},
 		},
@@ -52,27 +48,38 @@ const getData = async () => {
 
 	console.log(docs);
 
-	aqis = docs[0]["aqi"].reverse();
-	humidity = docs[0]["humidity"][0];
-	temperature = docs[0]["temperature"][0];
-	co = docs[0]["co"][0];
+	if (docs.length > 0) {
+		aqis = docs[0]["aqi"].reverse();
+		humidity = docs[0]["humidity"][0];
+		temperature = docs[0]["temperature"][0];
+		co = docs[0]["co"][0];
 
-	docs[0]["createdAt"] = docs[0]["createdAt"].reverse().map((x) => {
-		const d = new Date(x);
-		var offsetTime = new Date(d.getTime() - tzDifference * 60 * 1000);
+		docs[0]["createdAt"] = docs[0]["createdAt"].reverse().map((x) => {
+			const d = new Date(x);
+			var offsetTime = new Date(d.getTime() - tzDifference * 60 * 1000);
 
-		return offsetTime.getHours() + ":" + offsetTime.getMinutes();
-	});
+			return offsetTime.getHours() + ":" + offsetTime.getMinutes();
+		});
 
-	docs[0]["createdAt"].pop();
+		docs[0]["createdAt"].pop();
+
+		return {
+			labels: docs[0]["createdAt"],
+			aqi: aqis.pop(),
+			datas: aqis,
+			humidity,
+			temperature,
+			co,
+		};
+	}
 
 	return {
-		labels: docs[0]["createdAt"],
-		aqi: aqis.pop(),
-		datas: aqis,
-		humidity,
-		temperature,
-		co,
+		labels: [],
+		aqi: null,
+		datas: [],
+		humidity: null,
+		temperature: null,
+		co: null,
 	};
 };
 
