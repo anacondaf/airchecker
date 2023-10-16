@@ -150,7 +150,7 @@ window.onload = (event) => {
 
 		if (msg.labels.length == 0) {
 			Swal.fire({
-				position: "bottom",
+				position: "center",
 				title: "Not grab data for today yet! Wait for next hour",
 				icon: "info",
 				showCloseButton: true,
