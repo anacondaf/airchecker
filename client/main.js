@@ -1,4 +1,4 @@
-const socket = io("http://localhost:80");
+const socket = io("https://airchecker.online");
 
 const initChart = () => {
 	const myChartCanvas = document.getElementById("myChart");
