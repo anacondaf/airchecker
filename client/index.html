@@ -40,6 +40,18 @@
     <!-- SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <!-- frenchkiss -->
+    <script src="https://cdn.jsdelivr.net/npm/frenchkiss/dist/umd/frenchkiss.js"></script>
+
+    <!-- i18next -->
+    <script src="https://cdn.jsdelivr.net/npm/i18next@21.6.10/i18next.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-i18next@1.2.1/jquery-i18next.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/i18next-browser-languagedetector@6.1.3/i18nextBrowserLanguageDetector.min.js"></script>
+
+    <!-- jQuery -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+
     <title>AirChecker</title>
 </head>
 
@@ -47,12 +59,26 @@
     <div class="container">
         <section class="top section">
             <div class="top-left">
-                <h1>Today's air quality</h1>
-                <p><span id="today"></span> - Ho Chi Minh City, Viet Nam</p>
+                <h1 data-i18n="intro.title"></h1>
+                <p><span id="today"></span> - <span data-i18n="intro.location"></span> </p>
             </div>
 
-            <div class="settings">
-                <i class="fa-solid fa-gear"></i>
+            <div class="dropdown">
+                <div class="language-button" id="language-button" onclick="langDropdownClick()">
+                    <img src="assets/flags/uk.png" class="lang en">
+                </div>
+
+                <div id="lang-drop-down" class="dropdown-content">
+                    <div class="lang-box" id="lang-box" onclick="langBoxOnClick(this)">
+                        <p>Tiếng Việt</p>
+                        <img src="assets/flags/vn.png" class="lang vn">
+                    </div>
+
+                    <div class="lang-box" id="lang-box" onclick="langBoxOnClick(this)">
+                        <p>English</p>
+                        <img src="assets/flags/uk.png" class="lang en">
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -60,8 +86,10 @@
 
         <section class="time-seriers-db">
             <div class="air-info">
-                <div class="index">
-                    <span id="aqi"></span>
+                <div class="index-circle">
+                    <div class="index">
+                        <span id="aqi"></span>
+                    </div>
                 </div>
 
                 <div class="text">
@@ -79,14 +107,15 @@
 
         <div class="detail-pollutants">
             <div class="accordion">
-                <p>View detail pollutants</p>
+                <p data-i18n="accordion.title" id="accordion-title">View detail pollutants</p>
                 <i class=" fa-solid fa-caret-down" id="acc-icon"></i>
             </div>
 
             <div class="panel">
                 <div class="pollutant-card">
                     <div class="info">
-                        <p>Temperature (&deg;C)</p>
+                        <p data-i18n="pollutant.temp"></p>
+                        <p>(&deg;C)</p>
                     </div>
 
                     <div class="index-pollutant">
@@ -96,7 +125,7 @@
 
                 <div class="pollutant-card">
                     <div class="info">
-                        <p>Humidity</p>
+                        <p data-i18n="pollutant.humid"></p>
                     </div>
 
                     <div class="index-pollutant">
@@ -106,7 +135,8 @@
 
                 <div class="pollutant-card">
                     <div class="info">
-                        <p>Cacbon Monoxide (ppm)</p>
+                        <p data-i18n="pollutant.co"></p>
+                        <p>(ppm)</p>
                     </div>
 
                     <div class="index-pollutant">
@@ -122,7 +152,7 @@
 
     <script src="main.js"></script>
     <script src="scripts/pwa_handler.js"></script>
-
+    <script src="i18n.js"></script>
 
     <script>
         // PWA

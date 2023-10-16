@@ -56,17 +56,57 @@ section {
 	color: #919595;
 }
 
-.top > .settings {
+.top > .dropdown {
+	position: relative;
+}
+
+.top > .dropdown > .language-button {
 	width: 15px;
 	height: 15px;
 	padding: 12px;
-	background-color: #2e2f30;
 	display: flex;
 	border-radius: 10px;
-	border: 0.2px solid #3f4042;
 	justify-content: center;
 	align-items: center;
 	cursor: pointer;
+}
+
+.top > .dropdown > .dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #f1f1f1;
+	min-width: 160px;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+}
+
+.top > .dropdown > .dropdown-content > .lang-box {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.5em;
+	cursor: pointer;
+}
+
+.top > .dropdown .lang {
+	width: 28px;
+	height: 28px;
+}
+
+.top > .dropdown > .dropdown-content > .lang-box > p {
+	color: black;
+	text-decoration: none;
+	display: block;
+	margin-left: 8px;
+	font-size: 14px;
+}
+
+.top > .dropdown > .dropdown-content .lang-box:hover > p {
+	text-decoration: underline;
+}
+
+.drop-down-show {
+	display: block !important;
 }
 
 /* SECTION: time-seriers-db */
@@ -80,9 +120,14 @@ section {
 	justify-content: space-between;
 	align-items: center;
 	margin-bottom: 30px;
+	width: 100%;
 }
 
-.time-seriers-db > .air-info > .index {
+.time-seriers-db > .air-info > .index-circle {
+	flex: 1;
+}
+
+.time-seriers-db > .air-info > .index-circle > .index {
 	position: relative;
 	height: 65px;
 	width: 65px;
@@ -97,7 +142,7 @@ section {
 	font-weight: 900;
 }
 
-.time-seriers-db > .air-info > .index::before {
+.time-seriers-db > .air-info > .index-circle > .index::before {
 	content: "";
 	position: absolute;
 	height: 55px;
@@ -106,13 +151,13 @@ section {
 	border-radius: 50%;
 }
 
-.time-seriers-db > .air-info > .index > span {
+.time-seriers-db > .air-info > .index-circle > .index > span {
 	position: relative;
 }
 
 .time-seriers-db > .air-info > .text {
 	word-wrap: break-word;
-	flex-basis: 80%;
+	flex: 1;
 }
 
 .time-seriers-db > .air-info > .text > h4 {
@@ -122,6 +167,8 @@ section {
 .time-seriers-db > .air-info > .text > p {
 	color: #919595;
 	font-size: 13px;
+	word-wrap: break-word;
+	width: 380px;
 }
 
 /* Style pollutants accordion */

@@ -72,7 +72,7 @@ const mqttClient = (io) => {
 
 				io.emit("update-chart", {
 					labels,
-					aqi: Math.round(aqi * 100) / 100,
+					aqi: aqi != null ? Math.round(aqi * 100) / 100 : null,
 					datas,
 					humidity,
 					temperature,
