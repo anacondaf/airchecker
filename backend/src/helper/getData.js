@@ -5,9 +5,7 @@ const getData = async () => {
 	const tzDifference = -420; //region vn timeoffset
 
 	const serverToday = new Date(Date.now());
-	var offsetToday = new Date(serverToday.getTime() - tzDifference * 60 * 1000)
-		.toISOString()
-		.replace(/T(.+)/g, "T00:00:00.000Z");
+	var offsetToday = new Date(serverToday.getTime() - tzDifference * 60 * 1000);
 
 	var offsetNextDay = new Date(offsetToday.getTime() + 24 * 3600 * 1000)
 		.toISOString()
@@ -17,7 +15,9 @@ const getData = async () => {
 		{
 			$match: {
 				createdAt: {
-					$gte: ISODate(offsetNextDay),
+					$gte: ISODate(
+						offsetToday.toISOString().replace(/T(.+)/g, "T00:00:00.000Z")
+					),
 					$lt: ISODate(offsetNextDay),
 				},
 			},
