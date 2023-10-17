@@ -295,6 +295,8 @@ var requestNotificationPermission = () => {
 
 window.onload = (event) => {
 	var isWelcomed = sessionStorage.getItem("isWelcomed");
+	console.log("isWelcomed: ", isWelcomed);
+
 	if (!isWelcomed) requestNotificationPermission();
 
 	var chart = initChart();
