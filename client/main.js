@@ -361,7 +361,7 @@ window.onload = (event) => {
 		if (levels >= 1) {
 			const subscription = sessionStorage.getItem("sw-subscription");
 
-			await fetch("http://localhost:80/webpush/subscribe", {
+			await fetch(`${API_URL}/webpush/subscribe`, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
