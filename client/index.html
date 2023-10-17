@@ -173,7 +173,7 @@
 
         // Register service worker
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('service-worker.js', { scope: '/client/' }).then(async (registration) => {
+            navigator.serviceWorker.register('./service-worker.js', { scope: '/client/' }).then(async (registration) => {
                 console.log("Service Worker Registered!")
 
                 subscription = await registration.pushManager.subscribe({
