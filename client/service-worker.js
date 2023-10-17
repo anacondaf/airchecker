@@ -21,17 +21,32 @@ if ("serviceWorker" in navigator) {
 		.then(async (registration) => {
 			console.log("Service Worker Registered!");
 
-			console.log(registration);
+			return registration.pushManager
+				.getSubscription()
+				.then(async (subscription) => {
+					if (subscription) {
+						sessionStorage.setItem(
+							"sw-subscription",
+							JSON.stringify(subscription)
+						);
 
-			subscription = await registration.pushManager.subscribe({
-				userVisibleOnly: true,
-				applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
-			});
+						console.log("getSubscription success!");
 
-			console.log(subscription);
+						return subscription;
+					}
 
-			sessionStorage.setItem("sw-subscription", JSON.stringify(subscription));
-			return subscription;
+					subscription = await registration.pushManager.subscribe({
+						userVisibleOnly: true,
+						applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
+					});
+
+					sessionStorage.setItem(
+						"sw-subscription",
+						JSON.stringify(subscription)
+					);
+
+					return subscription;
+				});
 		});
 }
 
