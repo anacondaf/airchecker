@@ -19,35 +19,32 @@ if ("serviceWorker" in navigator) {
 	navigator.serviceWorker
 		.register("service-worker.js")
 		.then(async (registration) => {
-			console.log("Service Worker Registered!");
-
-			return registration.pushManager
-				.getSubscription()
-				.then(async (subscription) => {
-					if (subscription) {
-						sessionStorage.setItem(
-							"sw-subscription",
-							JSON.stringify(subscription)
-						);
-
-						console.log("getSubscription success!");
-
-						return subscription;
-					}
-
-					subscription = await registration.pushManager.subscribe({
-						userVisibleOnly: true,
-						applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
-					});
-
-					sessionStorage.setItem(
-						"sw-subscription",
-						JSON.stringify(subscription)
-					);
-
-					return subscription;
-				});
+			if (registration.installing) {
+				console.log("Service worker installing");
+			} else if (registration.waiting) {
+				console.log("Service worker installed");
+			} else if (registration.active) {
+				console.log("Service worker active");
+			}
 		});
+
+	navigator.serviceWorker.ready.then(async (registration) => {
+		// var subscription = await registration.pushManager.getSubscription();
+
+		// if (subscription) {
+		// 	sessionStorage.setItem("sw-subscription", JSON.stringify(subscription));
+		// 	console.log(subscription);
+
+		// 	return subscription;
+		// }
+
+		var subscription = await registration.pushManager.subscribe({
+			userVisibleOnly: true,
+			applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
+		});
+
+		sessionStorage.setItem("sw-subscription", JSON.stringify(subscription));
+	});
 }
 
 // Name of the Cache.
