@@ -17,7 +17,7 @@ const publicVapidKey =
 // Register service worker
 if ("serviceWorker" in navigator) {
 	navigator.serviceWorker
-		.register("service-worker.js", { scope: "/" })
+		.register("service-worker.js", { scope: "/client/" })
 		.then(async (registration) => {
 			console.log("Service Worker Registered!");
 
@@ -39,7 +39,7 @@ if ("serviceWorker" in navigator) {
 const CACHE = "aircheckerCache";
 
 // Select files for caching.
-let urlsToCache = ["./index.html", "./assets", "./scripts"];
+let urlsToCache = ["index.html", "assets", "scripts"];
 
 // Cache all the selected items once application is installed.
 self.addEventListener("install", (event) => {
