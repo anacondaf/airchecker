@@ -1,4 +1,5 @@
-const socket = io("https://api.airchecker.online");
+const API_URL = "https://api.airchecker.online";
+const socket = io(API_URL);
 
 const initChart = () => {
 	const myChartCanvas = document.getElementById("myChart");
@@ -276,7 +277,26 @@ function getAQIInfo(currentAQI) {
 	}
 }
 
+var requestNotificationPermission = () => {
+	Notification.requestPermission().then((result) => {
+		if (result === "granted") {
+			console.log("Notification permission is granted");
+
+			const notiTitle = "Welcome to Air Checker";
+			const options = {
+				icon: "./assets/favicon.png",
+			};
+
+			new Notification(notiTitle, options);
+			sessionStorage.setItem("isWelcomed", true);
+		}
+	});
+};
+
 window.onload = (event) => {
+	var isWelcomed = sessionStorage.getItem("isWelcomed");
+	if (!isWelcomed) requestNotificationPermission();
+
 	var chart = initChart();
 
 	socket.on("new-date", (msg) => {
@@ -286,7 +306,7 @@ window.onload = (event) => {
 		todayLabel.innerHTML = msg.today;
 	});
 
-	socket.on("update-chart", (msg) => {
+	socket.on("update-chart", async (msg) => {
 		console.log(msg);
 
 		var aqiLevel = document.getElementById("aqi-level");
@@ -336,6 +356,19 @@ window.onload = (event) => {
 		);
 
 		aqiLevel.classList.add(levels);
+
+		// Push Notification
+		if (levels >= 1) {
+			const subscription = sessionStorage.getItem("sw-subscription");
+
+			await fetch("http://localhost:80/webpush/subscribe", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ subscription }),
+			});
+		}
 
 		// Update pollutant
 		const temp = document.getElementById("temp");

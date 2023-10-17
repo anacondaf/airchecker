@@ -1,16 +1,8 @@
 // Name of the Cache.
-const CACHE = "cacheV1";
+const CACHE = "aircheckerCache";
 
 // Select files for caching.
-let urlsToCache = [
-	"/",
-	"/index.html",
-	"/assets",
-	"/assets/favicon.png",
-	"/scripts",
-	"/scripts/pwa-handler.js",
-	"style.css",
-];
+let urlsToCache = ["./index.html", "./assets", "./scripts"];
 
 // Cache all the selected items once application is installed.
 self.addEventListener("install", (event) => {
@@ -32,4 +24,14 @@ self.addEventListener("fetch", (event) => {
 			return fetch(event.request);
 		})
 	);
+});
+
+// Listen for push notification event
+self.addEventListener("push", (event) => {
+	const data = event.data.json();
+
+	self.registration.showNotification(data.title, {
+		body: data.body,
+		icon: data.icon,
+	});
 });

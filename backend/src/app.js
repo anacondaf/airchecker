@@ -5,12 +5,21 @@ const logger = require("./config/logger");
 const AirQualityModel = require("./models/AirQuality");
 const moment = require("moment-timezone");
 const { getData } = require("./helper/getData");
+const webpush = require("web-push");
+const config = require("./config/config");
+const { captureScreenshot } = require("./puppeteer/puppeteer");
 
 const start = async () => {
 	const app = express();
 
+	webpush.setVapidDetails(
+		"mailto:nguyenduckhai8101@gmail.com",
+		config.vapidPublicKey,
+		config.vapidPrivateKey
+	);
+
 	// set security HTTP headers
-	app.use(helmet());
+	app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 
 	// parse json request body
 	app.use(express.json());
@@ -18,7 +27,6 @@ const start = async () => {
 	// parse urlencoded request body
 	app.use(express.urlencoded({ extended: true }));
 
-	// enable cors
 	app.use(cors());
 	app.options("*", cors());
 
@@ -27,6 +35,8 @@ const start = async () => {
 
 const apiRoutes = (app, io, mqtt) => {
 	app.get("/", async (req, res) => {
+		await captureScreenshot();
+
 		res.status(200).json({ data: "oke" });
 	});
 
@@ -36,24 +46,6 @@ const apiRoutes = (app, io, mqtt) => {
 	});
 
 	app.post("/", (req, res) => {
-		res.status(200).json({ data: "oke" });
-	});
-
-	app.get("/airchecker", (req, res) => {
-		mqtt.publish(
-			"/airchecker",
-			"Hello QOS1",
-			{
-				qos: 2,
-				retain: true,
-			},
-			(error) => {
-				if (error) {
-					console.error(error);
-				}
-			}
-		);
-
 		res.status(200).json({ data: "oke" });
 	});
 
@@ -67,6 +59,31 @@ const apiRoutes = (app, io, mqtt) => {
 		});
 
 		res.status(200).json({ message: "Update chart success!" });
+	});
+
+	// Test webpush notification
+	app.post("/webpush/subscribe", (req, res) => {
+		try {
+			var { subscription } = req.body;
+
+			const payload = JSON.stringify({
+				title: "Risks to air quality near where you live.",
+				body: "We have recorded that the air index is at a level that can be harmful to your health!",
+				icon: "https://res.cloudinary.com/dv1jbd8mq/image/upload/v1697540735/fxan8fhvg4qdsi8rkvrb.png",
+			});
+
+			subscription = JSON.parse(subscription);
+
+			logger.info(
+				`Receive webpush subscription: ${JSON.stringify(subscription)}`
+			);
+
+			webpush
+				.sendNotification(subscription, payload)
+				.catch((error) => console.error(error));
+		} catch (error) {
+			console.log(error);
+		}
 	});
 };
 

@@ -152,16 +152,40 @@
 
     <script src="main.js"></script>
     <script src="scripts/pwa_handler.js"></script>
-    <script src="i18n.js"></script>
 
     <script>
-        // PWA
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register(
-                './service-worker.js', {
-                scope: '/'
+        function urlBase64ToUint8Array(base64String) {
+            const padding = '='.repeat((4 - base64String.length % 4) % 4);
+            const base64 = (base64String + padding)
+                .replace(/-/g, '+')
+                .replace(/_/g, '/');
+
+            const rawData = window.atob(base64);
+            const outputArray = new Uint8Array(rawData.length);
+
+            for (let i = 0; i < rawData.length; ++i) {
+                outputArray[i] = rawData.charCodeAt(i);
             }
-            )
+            return outputArray;
+        }
+
+        const publicVapidKey = 'BDPfEh70bIlgjkpRJL3lX3bEVXDrmqlL-UeBJ8pu7cdnHoKkYTLvzyn51_oU1yCria3VY_bdfnIDuDuGlaSTyk4';
+
+        // Register service worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js', { scope: '/client/' }).then(async (registration) => {
+                console.log("Service Worker Registered!")
+
+                subscription = await registration.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: urlBase64ToUint8Array(publicVapidKey),
+                });
+
+                console.log(subscription)
+
+                sessionStorage.setItem('sw-subscription', JSON.stringify(subscription))
+                return subscription;
+            });
         }
     </script>
 

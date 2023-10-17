@@ -22,6 +22,8 @@ const envVarsSchema = Joi.object()
 		MQTT_PORT: Joi.string(),
 		MQTT_USER: Joi.string(),
 		MQTT_PASSWORD: Joi.string(),
+		VAPID_PUBLIC_KEY: Joi.string(),
+		VAPID_PRIVATE_KEY: Joi.string(),
 	})
 	.unknown();
 
@@ -54,4 +56,6 @@ module.exports = {
 			useUnifiedTopology: true,
 		},
 	},
+	vapidPublicKey: envVars.VAPID_PUBLIC_KEY,
+	vapidPrivateKey: envVars.VAPID_PRIVATE_KEY,
 };

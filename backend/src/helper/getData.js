@@ -49,10 +49,10 @@ const getData = async () => {
 	console.log(docs);
 
 	if (docs.length > 0) {
-		aqis = docs[0]["aqi"].reverse();
-		humidity = docs[0]["humidity"][0];
-		temperature = docs[0]["temperature"][0];
-		co = docs[0]["co"][0];
+		const aqis = docs[0]["aqi"].reverse();
+		const humidity = docs[0]["humidity"][0];
+		const temperature = docs[0]["temperature"][0];
+		const co = docs[0]["co"][0];
 
 		docs[0]["createdAt"] = docs[0]["createdAt"].reverse().map((x) => {
 			const d = new Date(x);
