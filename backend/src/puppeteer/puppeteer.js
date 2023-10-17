@@ -3,7 +3,7 @@ const path = require("path");
 const logger = require("../config/logger");
 
 async function captureScreenshot() {
-	const targetUrl = "http://localhost:5500/client/index.html";
+	const targetUrl = "https://www.airchecker.online";
 	const storageLocation = `../assets/${Date.now()}.png`;
 
 	try {
