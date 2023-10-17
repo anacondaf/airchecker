@@ -29,15 +29,6 @@ if ("serviceWorker" in navigator) {
 		});
 
 	navigator.serviceWorker.ready.then(async (registration) => {
-		// var subscription = await registration.pushManager.getSubscription();
-
-		// if (subscription) {
-		// 	sessionStorage.setItem("sw-subscription", JSON.stringify(subscription));
-		// 	console.log(subscription);
-
-		// 	return subscription;
-		// }
-
 		var subscription = await registration.pushManager.subscribe({
 			userVisibleOnly: true,
 			applicationServerKey: urlBase64ToUint8Array(publicVapidKey),

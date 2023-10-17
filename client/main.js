@@ -359,6 +359,14 @@ window.onload = (event) => {
 
 		aqiLevel.classList.add(levels);
 
+		// Update pollutant
+		const temp = document.getElementById("temp");
+		temp.innerHTML = msg["temperature"];
+		const humidity = document.getElementById("humidity");
+		humidity.innerHTML = msg["humidity"];
+		const co = document.getElementById("co");
+		co.innerHTML = msg["co"];
+
 		// Push Notification
 		if (levels >= 1) {
 			const subscription = sessionStorage.getItem("sw-subscription");
@@ -371,14 +379,6 @@ window.onload = (event) => {
 				body: JSON.stringify({ subscription }),
 			});
 		}
-
-		// Update pollutant
-		const temp = document.getElementById("temp");
-		temp.innerHTML = msg["temperature"];
-		const humidity = document.getElementById("humidity");
-		humidity.innerHTML = msg["humidity"];
-		const co = document.getElementById("co");
-		co.innerHTML = msg["co"];
 	});
 
 	var lang =
@@ -400,8 +400,6 @@ const lngs = {
 };
 
 const rerender = () => {
-	// start localizing, details:
-	// https://github.com/i18next/jquery-i18next#usage-of-selector-function
 	$("body").localize();
 };
 
