@@ -17,7 +17,7 @@ const publicVapidKey =
 // Register service worker
 if ("serviceWorker" in navigator) {
 	navigator.serviceWorker
-		.register("service-worker.js", { scope: "/client/" })
+		.register("service-worker.js")
 		.then(async (registration) => {
 			console.log("Service Worker Registered!");
 
