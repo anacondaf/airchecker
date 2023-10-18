@@ -31,7 +31,7 @@ async function captureScreenshot() {
 			logger.info("🎉 Screenshot captured successfully.");
 		}, 8000);
 	} catch (err) {
-		logger.error("❌ Error: ", err.message);
+		logger.error(`❌ Error: ${err.message}`);
 	}
 }
 
