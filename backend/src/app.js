@@ -35,8 +35,7 @@ const start = async () => {
 
 const apiRoutes = (app, io, mqtt) => {
 	app.get("/", async (req, res) => {
-		await captureScreenshot();
-
+		// await captureScreenshot();
 		res.status(200).json({ data: "oke" });
 	});
 
