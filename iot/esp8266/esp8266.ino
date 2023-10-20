@@ -2,9 +2,11 @@
 #include <PubSubClient.h>
 #include <SoftwareSerial.h>
 #include <ArduinoJson.h>
+#include <DNSServer.h>
+#include "WiFiManager.h"
 
-const char* ssid = "ANHKIET";         // Enter SSID
-const char* password = "family@123";  // Enter Password
+const char *ssid = "ANHKIET";        // Enter SSID
+const char *password = "family@123"; // Enter Password
 
 #define mqtt_host "airchecker.online"
 #define mqtt_topic "/airchecker"
@@ -16,36 +18,41 @@ const uint16_t mqtt_port = 1883;
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-void connectWifi() {
-  WiFi.mode(WIFI_STA);
-
-  // Connect to WiFi
-  WiFi.begin(ssid, password);
-
-
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print("*");
-  }
-
-  Serial.println("");
-  Serial.println("WiFi connection Successful");
-  Serial.print("The IP Address of ESP8266 Module is: ");
-  Serial.print(WiFi.localIP());  // Print the IP address
+void configModeCallback(WiFiManager *myWiFiManager)
+{
+  Serial.println("Entered config mode");
+  Serial.println(WiFi.softAPIP());
+  Serial.println(myWiFiManager->getConfigPortalSSID());
 }
 
-void connectMQTT() {
+void connectWifi()
+{
+  WiFiManager wifiManager;
+  wifiManager.setAPCallback(configModeCallback);
+
+  if (!wifiManager.autoConnect())
+  {
+    Serial.println("Failed to connect and hit timeout");
+    ESP.reset();
+    delay(1000);
+  }
+}
+
+void connectMQTT()
+{
   client.setServer(mqtt_host, mqtt_port);
   client.setCallback(callback);
 }
 
 // Hàm call back để nhận dữ liệu
-void callback(char* topic, byte* payload, unsigned int length) {
+void callback(char *topic, byte *payload, unsigned int length)
+{
   Serial.print("Message arrived [");
   Serial.print(topic);
   Serial.print("] ");
 
-  for (int i = 0; i < length; i++) {
+  for (int i = 0; i < length; i++)
+  {
     Serial.print((char)payload[i]);
   }
 
@@ -53,18 +60,22 @@ void callback(char* topic, byte* payload, unsigned int length) {
 }
 
 // Hàm reconnect thực hiện kết nối lại khi mất kết nối với MQTT Broker
-void reconnect() {
+void reconnect()
+{
   // Chờ tới khi kết nối
-  while (!client.connected()) {
+  while (!client.connected())
+  {
     Serial.print("Attempting MQTT connection...");
 
     // Thực hiện kết nối với mqtt user và pass
-    if (client.connect("ESP8266Client", mqtt_user, mqtt_pwd)) {
+    if (client.connect("ESP8266Client", mqtt_user, mqtt_pwd))
+    {
       Serial.println("connected");
       client.publish(mqtt_topic_noti, "ESP_reconnected");
       client.subscribe(mqtt_topic_noti);
-
-    } else {
+    }
+    else
+    {
       Serial.print("failed, rc=");
       Serial.print(client.state());
       Serial.println(" try again in 5 seconds");
@@ -74,36 +85,42 @@ void reconnect() {
   }
 }
 
-void setup() {
-  delay(1000);  // Wait for Arduino to initialize
+void setup()
+{
+  delay(1000); // Wait for Arduino to initialize
   Serial.begin(9600);
 
   connectWifi();
   connectMQTT();
 
-  while (!Serial) {
+  while (!Serial)
+  {
     continue;
   }
 
   Serial.println();
 }
 
-void loop() {
+void loop()
+{
   // Kiểm tra kết nối
-  if (!client.connected()) {
+  if (!client.connected())
+  {
     reconnect();
   }
 
   client.loop();
 
-  if (Serial.available()) {
+  if (Serial.available())
+  {
     DynamicJsonDocument doc(1024);
 
     // Deserialize the JSON document
     DeserializationError error = deserializeJson(doc, Serial);
 
     // Test if parsing succeeds.
-    if (error) {
+    if (error)
+    {
       Serial.print(F("deserializeJson() failed: "));
       Serial.println(error.f_str());
       return;
@@ -113,11 +130,9 @@ void loop() {
     Serial.print("Humidity = ");
     Serial.println(humidity);
 
-
     float temperature = doc["temp"];
     Serial.print("Temperature = ");
     Serial.println(temperature);
-
 
     float aqi = doc["aqi"];
     Serial.print("AQI = ");
@@ -131,12 +146,15 @@ void loop() {
     serializeJson(doc, buffer);
     bool result = client.publish(mqtt_topic, buffer); // client.publish_P(topic, payload, payload_size, retain)
 
-    if (result) {
+    if (result)
+    {
       Serial.println("Publish message to MQTT broker success: ");
-    } else {
+    }
+    else
+    {
       Serial.println("Failed to publish message to MQTT broker success: ");
     }
 
-    Serial.println();  // Xuong dong
+    Serial.println(); // Xuong dong
   }
 }
