@@ -9,9 +9,9 @@ const initChart = () => {
 			return "#38BC5B"; // GREEN
 		} else if (value < 0) {
 			return "rgb(192,75,75)"; // RED
+		} else {
+			return "#E0BB4B"; // YELLOW
 		}
-
-		return "#E0BB4B"; // YELLOW
 	};
 
 	const chart = new Chart(myChartCanvas, {
