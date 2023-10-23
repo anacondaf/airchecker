@@ -18,10 +18,19 @@ const getData = async () => {
 
 	logger.info(`offsetNextDay | ${offsetNextDay}`);
 
+	const gmt7Offset = 7 * 60 * 60 * 1000;
 	const docs = await AirQualityModel.aggregate([
 		{
+			$addFields: {
+				// Convert the createdAt field to GMT+7 by adding the offset
+				createdAtGMT7: {
+					$add: ["$createdAt", gmt7Offset],
+				},
+			},
+		},
+		{
 			$match: {
-				createdAt: {
+				createdAtGMT7: {
 					$gte: new Date(
 						offsetToday.toISOString().replace(/T(.+)/g, "T00:00:00.000Z")
 					),
@@ -38,7 +47,7 @@ const getData = async () => {
 				humidity: 1,
 				temperature: 1,
 				co: 1,
-				createdAt: 1,
+				createdAt: "$createdAtGMT7",
 			},
 		},
 		{
