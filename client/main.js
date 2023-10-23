@@ -1,4 +1,4 @@
-const API_URL = "";
+const API_URL = "https://api.airchecker.online";
 const socket = io(API_URL);
 
 const initChart = () => {
