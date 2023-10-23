@@ -71,10 +71,10 @@ const getData = async () => {
 		const co = docs[0]["co"][0];
 
 		docs[0]["createdAt"] = docs[0]["createdAt"].reverse().map((x) => {
-			const d = new Date(x);
-			var offsetTime = new Date(d.getTime() - tzDifference * 60 * 1000);
+			// const d = new Date(x);
+			// var offsetTime = new Date(d.getTime() - tzDifference * 60 * 1000);
 
-			return offsetTime.getHours() + ":" + offsetTime.getMinutes();
+			return x.getHours() + ":" + x.getMinutes();
 		});
 
 		docs[0]["createdAt"].pop();
