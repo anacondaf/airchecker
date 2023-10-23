@@ -14,10 +14,11 @@ const socketio = (httpServer) => {
 		io.on("connection", async (socket) => {
 			console.log(socket.id);
 
-			const today = moment().format("L");
+			const serverToday = new Date(Date.now());
+			var today = new Date(serverToday.getTime() - -420 * 60 * 1000);
 
 			socket.emit("new-date", {
-				today,
+				today: moment(today).format("DD/MM/YYYY"),
 			});
 
 			const { labels, aqi, datas, humidity, temperature, co } = await getData();
