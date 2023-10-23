@@ -1,15 +1,22 @@
-const { reverse } = require("dns");
 const AirQualityModel = require("../models/AirQuality");
+const logger = require("../config/logger");
 
 const getData = async () => {
 	const tzDifference = -420; //region vn timeoffset
 
 	const serverToday = new Date(Date.now());
+
+	logger.info(`serverToday | ${serverToday}`);
+
 	var offsetToday = new Date(serverToday.getTime() - tzDifference * 60 * 1000);
+
+	logger.info(`offsetToday | ${offsetToday}`);
 
 	var offsetNextDay = new Date(offsetToday.getTime() + 24 * 3600 * 1000)
 		.toISOString()
 		.replace(/T(.+)/g, "T00:00:00.000Z");
+
+	logger.info(`offsetNextDay | ${offsetNextDay}`);
 
 	const docs = await AirQualityModel.aggregate([
 		{
