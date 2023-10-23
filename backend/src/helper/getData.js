@@ -1,5 +1,6 @@
 const AirQualityModel = require("../models/AirQuality");
 const logger = require("../config/logger");
+const moment = require("moment");
 
 const getData = async () => {
 	const tzDifference = -420; //region vn timeoffset
@@ -74,7 +75,7 @@ const getData = async () => {
 			// const d = new Date(x);
 			// var offsetTime = new Date(d.getTime() - tzDifference * 60 * 1000);
 
-			return x.getHours() + ":" + x.getMinutes();
+			return moment(x).format("HH:mm");
 		});
 
 		docs[0]["createdAt"].pop();
