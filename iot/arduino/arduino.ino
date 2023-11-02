@@ -2,7 +2,7 @@
 #include <ArduinoJson.h>
 #include "DHT.h"
 #include "MQ135.h"
-
+#include "MQ131.h"
 
 // CAM BIEN DHT11
 const int DHTPIN = 2;       //Đọc dữ liệu từ DHT11 ở chân 2 trên mạch Arduino
@@ -12,6 +12,8 @@ DHT dht(DHTPIN, DHTTYPE);
 
 // CAM BIEN MQ135
 #define PIN_MQ135 A0
+#define PIN_MQ131 A2
+
 MQ135 mq135_sensor = MQ135(PIN_MQ135);
 
 // CAM BIEN MQ7
@@ -20,8 +22,38 @@ const int DPIN_MQ7 = 3;
 
 SoftwareSerial espSerial(10, 11);  // RX, TX
 
+void warmUpSensor() {
+  digitalWrite(6, HIGH); // Ozone sensor
+  delay(20000); //20s for warm heater
+  digitalWrite(6, LOW);
+}
+
+void MQ131Calibrate() {
+  Serial.println("Calibration in progress...");
+  
+  MQ131.calibrate();
+  
+  Serial.println("Calibration done!");
+  Serial.print("R0 = ");
+  Serial.print(MQ131.getR0());
+  Serial.println(" Ohms");
+  Serial.print("Time to heat = ");
+  Serial.print(MQ131.getTimeToRead());
+  Serial.println(" s");
+}
+
+void setupMQ131() {
+  MQ131.begin(6, PIN_MQ131, LOW_CONCENTRATION, 1000000, (Stream *)&Serial);
+  MQ131.setTimeToRead(1);
+  MQ131.setR0(7000000);
+
+  // MQ131Calibrate();
+}
+
 void setup() {
-  delay(1000);  // Wait for ESP8266 to initialize
+  pinMode(6, OUTPUT);
+
+  warmUpSensor();
 
   dht.begin();
 
@@ -29,11 +61,11 @@ void setup() {
   espSerial.begin(9600);
 
   pinMode(DPIN_MQ7, INPUT);
+  setupMQ131();
 }
 
 void loop() {
-
-  // DO NHIET DO & DO AM
+  // ĐO NHIET DO & DO AM
   float humidity = dht.readHumidity();        //Đọc độ ẩm
   float temperature = dht.readTemperature();  //Đọc nhiệt độ
 
@@ -43,7 +75,7 @@ void loop() {
   Serial.print("Do am: ");
   Serial.println(humidity);  //Xuất độ ẩm
 
-  // DO PPM
+  // ĐO AQI
   float ppm = mq135_sensor.getPPM();
   float correctedPPM = mq135_sensor.getCorrectedPPM(temperature, humidity);
   Serial.print("PPM: ");
@@ -54,7 +86,7 @@ void loop() {
   Serial.print(correctedPPM);
   Serial.println("ppm");
 
-  // DO CO
+  // ĐO CO
   int d_co = digitalRead(DPIN_MQ7);
 
   if (d_co == LOW) {
@@ -65,6 +97,14 @@ void loop() {
   float a_co = analogRead(PIN_MQ7);
   Serial.print("CO Analog: ");
   Serial.print(a_co);
+  Serial.println(" ppm");
+
+  // ĐO O3
+  MQ131.setEnv(temperature, humidity);
+  MQ131.sample();
+  float o3 = MQ131.getO3(PPB);
+  Serial.print("O3: ");
+  Serial.print(o3);
   Serial.println(" ppm");
 
   Serial.println();  // Xuong dong
