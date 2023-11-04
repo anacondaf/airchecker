@@ -9,6 +9,7 @@ const AirQualitySchema = new mongoose.Schema(
 		co2: Number,
 		tvoc: Number,
 		o3: mongoose.Types.Decimal128,
+		calc_aqi: Number,
 	},
 	{
 		timestamps: true,

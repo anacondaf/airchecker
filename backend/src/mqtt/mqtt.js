@@ -58,7 +58,7 @@ const mqttClient = (io) => {
 
 			client.on("message", async (topic, message) => {
 				message = JSON.parse(message);
-				console.log(message);
+				logger.info(`Message from MQTT Broker: ${message}`);
 
 				var savedDocumentResult = await AirQualityModel.create({
 					aqi: message["aqi"],
@@ -70,9 +70,7 @@ const mqttClient = (io) => {
 					o3: message["o3"],
 				});
 
-				logger.info(
-					`Result after create new document: \n ${savedDocumentResult}`
-				);
+				logger.info(`Result after create new document: ${savedDocumentResult}`);
 
 				const { labels, aqi, datas, humidity, temperature, co } =
 					await getData();
