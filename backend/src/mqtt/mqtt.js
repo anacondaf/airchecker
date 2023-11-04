@@ -65,6 +65,9 @@ const mqttClient = (io) => {
 					humidity: message["humidity"],
 					temperature: message["temp"],
 					co: message["co"],
+					co2: message["co2"],
+					tvoc: message["tvoc"],
+					o3: message["o3"],
 				});
 
 				logger.info(

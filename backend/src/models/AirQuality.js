@@ -6,6 +6,9 @@ const AirQualitySchema = new mongoose.Schema(
 		humidity: Number,
 		temperature: Number,
 		co: Number,
+		co2: Number,
+		tvoc: Number,
+		o3: mongoose.Types.Decimal128,
 	},
 	{
 		timestamps: true,

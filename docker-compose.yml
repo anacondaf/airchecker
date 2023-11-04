@@ -67,6 +67,22 @@ services:
     networks:
       - node-network
 
+  mongo:
+    image: mongo:6
+    restart: always
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping').ok"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - ./airchecker/mongodata:/data/db
+    networks:
+      - node-network
+
 networks:
   node-network:
     driver: bridge
