@@ -16,6 +16,11 @@ const AirQualitySchema = new mongoose.Schema(
 	}
 );
 
-var AirQualityModel = mongoose.model("AirQuality", AirQualitySchema);
+const MONGO_ATLAS_COLLECTION_NAME = "airquality_new";
+var AirQualityModel = mongoose.model(
+	"AirQuality",
+	AirQualitySchema,
+	MONGO_ATLAS_COLLECTION_NAME
+);
 
 module.exports = AirQualityModel;
