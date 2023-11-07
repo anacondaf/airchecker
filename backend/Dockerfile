@@ -6,7 +6,6 @@ WORKDIR /app
 
 # Copy package.json and package-lock.json to the container
 COPY package*.json ./
-COPY md-seed-config.js ./
 
 # Install pm2
 RUN npm install pm2 -g
@@ -17,11 +16,11 @@ RUN npm ci
 # Install mongoose-data-seed for seeding data
 RUN npm i -g mongoose-data-seed
 
-# Install run seed command
-RUN md-seed run
-
 # Copy the rest of the app source code to the container
 COPY . .
+
+# Install run seed command
+RUN md-seed run
 
 # Expose the port that the app listens on
 EXPOSE 80
