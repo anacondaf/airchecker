@@ -17,7 +17,7 @@ RUN npm ci
 RUN npm i -g mongoose-data-seed
 
 # Install run seed command
-RUN make run-seeders
+RUN md-seed run
 
 # Copy the rest of the app source code to the container
 COPY . .
