@@ -1,15 +1,15 @@
 const mongoose = require("mongoose");
-
-const pollutantSchema = new mongoose.Schema({
-	name: String,
-	unit: String,
-	min: mongoose.Types.Decimal128,
-	max: mongoose.Types.Decimal128,
-});
+const logger = require("../config/logger");
 
 const PollutantScaleSchema = new mongoose.Schema(
 	{
-		pollutant: pollutantSchema,
+		name: String,
+		unit: {
+			type: String,
+			required: false,
+		},
+		min: mongoose.Types.Decimal128,
+		max: mongoose.Types.Decimal128,
 	},
 	{
 		timestamps: true,
@@ -22,5 +22,9 @@ var PollutantScaleModel = mongoose.model(
 	PollutantScaleSchema,
 	MONGO_ATLAS_COLLECTION_NAME
 );
+
+PollutantScaleModel.createCollection().then(function (collection) {
+	logger.info(`Collection [${MONGO_ATLAS_COLLECTION_NAME}] is created!`);
+});
 
 module.exports = PollutantScaleModel;
