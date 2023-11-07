@@ -20,6 +20,7 @@
 		"moment": "^2.29.4",
 		"moment-timezone": "^0.5.43",
 		"mongoose": "^7.5.3",
+		"mongoose-data-seed": "^2.1.6",
 		"mqtt": "^5.0.5",
 		"mysql2": "^3.6.1",
 		"nodemon": "^3.0.1",
@@ -36,5 +37,8 @@
 		"@types/node": "^20.8.2",
 		"ts-node": "^10.9.1",
 		"typescript": "^5.2.2"
+	},
+	"mdSeed": {
+		"seedersFolder": "./src/seeders"
 	}
 }
