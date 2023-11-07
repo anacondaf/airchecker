@@ -61,7 +61,7 @@ const initChart = () => {
 	return chart;
 };
 
-var accordion = () => {
+var accordion = (e) => {
 	var accIcon = document.getElementById("acc-icon");
 	var accTitle = document.getElementById("accordion-title");
 	var panel = document.getElementsByClassName("panel");
@@ -81,6 +81,8 @@ var accordion = () => {
 	} else {
 		panel.style.display = "grid";
 	}
+
+	e.preventDefault();
 };
 
 var aqiInfoLanguage = {
