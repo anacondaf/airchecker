@@ -13,9 +13,10 @@ RUN npm install pm2 -g
 # Install app dependencies
 RUN npm ci
 
-# Install make and other essential packages
-RUN apt install build-essential -y --no-install-recommends
+# Install mongoose-data-seed for seeding data
+RUN npm i -g mongoose-data-seed
 
+# Install run seed command
 RUN make run-seeders
 
 # Copy the rest of the app source code to the container
