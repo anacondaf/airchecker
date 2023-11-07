@@ -6,6 +6,7 @@ WORKDIR /app
 
 # Copy package.json and package-lock.json to the container
 COPY package*.json ./
+COPY md-seed-config.js ./
 
 # Install pm2
 RUN npm install pm2 -g
