@@ -62,29 +62,24 @@ const initChart = () => {
 };
 
 var accordion = () => {
-	var acc = document.getElementsByClassName("accordion");
 	var accIcon = document.getElementById("acc-icon");
 	var accTitle = document.getElementById("accordion-title");
-	var i;
+	var panel = document.getElementsByClassName("panel");
 
-	for (i = 0; i < acc.length; i++) {
-		acc[i].addEventListener("click", function () {
-			if (accIcon.classList.contains("fa-caret-down")) {
-				accIcon.classList.remove("fa-caret-down");
-				accIcon.classList.add("fa-caret-up");
-			} else {
-				accIcon.classList.remove("fa-caret-up");
-				accIcon.classList.add("fa-caret-down");
-			}
+	if (accIcon.classList.contains("fa-caret-down")) {
+		accIcon.classList.remove("fa-caret-down");
+		accIcon.classList.add("fa-caret-up");
+	} else {
+		accIcon.classList.remove("fa-caret-up");
+		accIcon.classList.add("fa-caret-down");
+	}
 
-			/* Toggle between hiding and showing the active panel */
-			var panel = this.nextElementSibling;
-			if (panel.style.display === "grid") {
-				panel.style.display = "none";
-			} else {
-				panel.style.display = "grid";
-			}
-		});
+	/* Toggle between hiding and showing the active panel */
+	panel = panel[0];
+	if (panel.style.display === "grid") {
+		panel.style.display = "none";
+	} else {
+		panel.style.display = "grid";
 	}
 };
 
@@ -293,6 +288,19 @@ var requestNotificationPermission = () => {
 	});
 };
 
+/**
+ * Check if PWA is open:
+ * Reference Document: https://web.dev/learn/pwa/detection
+ */
+window.addEventListener("DOMContentLoaded", () => {
+	let displayMode = "browser tab";
+	if (window.matchMedia("(display-mode: standalone)").matches) {
+		displayMode = "standalone";
+	}
+	// Log launch display mode to analytics
+	console.log("DISPLAY_MODE_LAUNCH:", displayMode);
+});
+
 window.onload = (event) => {
 	var isWelcomed = sessionStorage.getItem("isWelcomed");
 	console.log("isWelcomed: ", isWelcomed);
@@ -390,8 +398,6 @@ window.onload = (event) => {
 	i18next.changeLanguage(chosenLng, () => {
 		rerender();
 	});
-
-	accordion();
 };
 
 const lngs = {
