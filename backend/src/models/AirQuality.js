@@ -8,8 +8,8 @@ const AirQualitySchema = new mongoose.Schema(
 		co: Number,
 		co2: Number,
 		tvoc: Number,
-		o3: mongoose.Types.Decimal128,
-		pm25: mongoose.Types.Decimal128,
+		o3: Number,
+		pm25: Number,
 		calc_aqi: Number,
 	},
 	{
