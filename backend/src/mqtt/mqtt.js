@@ -76,7 +76,7 @@ const mqttClient = (io) => {
 					co: message["co"],
 					co2: message["co2"],
 					tvoc: message["tvoc"],
-					o3: message["o3"],
+					o3: Math.round(message["o3"] * 1000) / 1000, // Truncate to 3 decimal places
 					calc_aqi: aqiIndex[0],
 				});
 

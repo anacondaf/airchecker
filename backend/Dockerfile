@@ -14,13 +14,13 @@ RUN npm install pm2 -g
 RUN npm ci
 
 # Install mongoose-data-seed for seeding data
-RUN npm i -g mongoose-data-seed
+# RUN npm i -g mongoose-data-seed
 
 # Copy the rest of the app source code to the container
 COPY . .
 
 # Install run seed command
-RUN md-seed run
+# RUN md-seed run
 
 # Expose the port that the app listens on
 EXPOSE 80

@@ -1,4 +1,5 @@
 const API_URL = "https://api.airchecker.online";
+// const API_URL = "http://localhost";
 const socket = io(API_URL);
 
 const initChart = () => {
@@ -356,10 +357,11 @@ window.onload = (event) => {
 		chart.update();
 
 		// Update current AQI
+		const aqi = msg["aqi"];
 		const aqiText = document.getElementById("aqi");
-		aqiText.innerHTML = msg.aqi;
+		aqiText.innerHTML = aqi;
 
-		const { levels, levelsOfConcern, description } = getAQIInfo(msg.aqi);
+		const { levels, levelsOfConcern, description } = getAQIInfo(aqi);
 		aqiLevel.innerHTML = levelsOfConcern;
 		aqiDescription.innerHTML = description;
 
@@ -376,6 +378,12 @@ window.onload = (event) => {
 		humidity.innerHTML = msg["humidity"];
 		const co = document.getElementById("co");
 		co.innerHTML = msg["co"];
+		const co2 = document.getElementById("co2");
+		co2.innerHTML = msg["co2"];
+		const tvoc = document.getElementById("tvoc");
+		tvoc.innerHTML = msg["tvoc"];
+		const o3 = document.getElementById("o3");
+		o3.innerHTML = Math.round(msg["o3"] * 10) / 10;
 
 		// Push Notification
 		if (levels >= 1) {
@@ -435,6 +443,9 @@ $(function () {
 								temp: "Temperature",
 								humid: "Humidity",
 								co: "Cacbon Monoxide",
+								co2: "CO2",
+								tvoc: "TVOCs",
+								o3: "Ozone (O3)",
 							},
 							accordion: {
 								title: "View detail pollutants",
@@ -450,7 +461,10 @@ $(function () {
 							pollutant: {
 								temp: "Nhiệt độ",
 								humid: "Độ ẩm",
-								co: "Cacbon Monoxide",
+								co: "Khí Cacbon Monoxide",
+								co2: "Khí CO2",
+								tvoc: "Các chất hữu cơ độc hại",
+								o3: "Khí Ozone (O3)",
 							},
 							accordion: {
 								title: "Xem chi tiết chất ô nhiễm",
