@@ -1,0 +1,13 @@
+[
+	{ "name": "aqi", "min": 0, "max": 50, "category": "good" },
+	{ "name": "aqi", "min": 51, "max": 100, "category": "moderate" },
+	{
+		"name": "aqi",
+		"min": 101,
+		"max": 150,
+		"category": "unhealthy for sensitive groups"
+	},
+	{ "name": "aqi", "min": 151, "max": 200, "category": "unhealthy" },
+	{ "name": "aqi", "min": 201, "max": 300, "category": "very unhealthy" },
+	{ "name": "aqi", "min": 301, "max": 500, "category": "hazardous" }
+]

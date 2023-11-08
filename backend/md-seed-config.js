@@ -3,6 +3,7 @@ const config = require("./src/config/config");
 
 // Import seeders list
 const PollutantSeeder = require("./src/seeders/pollutants.seeder");
+const AQISeeder = require("./src/seeders/aqi.seeder");
 
 const mongoURL = config.mongoose.url;
 
@@ -13,6 +14,7 @@ const mongoURL = config.mongoose.url;
  */
 const seedersList = {
 	PollutantSeeder,
+	AQISeeder,
 };
 /**
  * Connect to mongodb implementation

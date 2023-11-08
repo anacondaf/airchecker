@@ -2,13 +2,9 @@ const mongoose = require("mongoose");
 const logger = require("../config/logger");
 const { aqiScaleMongooseEnumType } = require("../enums/aqi_level");
 
-const PollutantScaleSchema = new mongoose.Schema(
+const AQIScaleSchema = new mongoose.Schema(
 	{
 		name: String,
-		unit: {
-			type: String,
-			required: false,
-		},
 		min: mongoose.Types.Decimal128,
 		max: mongoose.Types.Decimal128,
 		category: {
@@ -21,15 +17,15 @@ const PollutantScaleSchema = new mongoose.Schema(
 	}
 );
 
-const MONGO_ATLAS_COLLECTION_NAME = "pollutant_scale";
-var PollutantScaleModel = mongoose.model(
-	"PollutantScale",
-	PollutantScaleSchema,
+const MONGO_ATLAS_COLLECTION_NAME = "aqi_scale";
+var AQIScaleModel = mongoose.model(
+	"AQIScale",
+	AQIScaleSchema,
 	MONGO_ATLAS_COLLECTION_NAME
 );
 
-PollutantScaleModel.createCollection().then(function (collection) {
+AQIScaleModel.createCollection().then(function (collection) {
 	logger.info(`\n Collection [${MONGO_ATLAS_COLLECTION_NAME}] is created!`);
 });
 
-module.exports = PollutantScaleModel;
+module.exports = AQIScaleModel;

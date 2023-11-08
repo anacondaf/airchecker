@@ -1,152 +1,170 @@
 [
-	{ "name": "aqi", "unit": null, "min": 0, "max": 50 },
-	{ "name": "aqi", "unit": null, "min": 51, "max": 100 },
-	{ "name": "aqi", "unit": null, "min": 101, "max": 150 },
-	{ "name": "aqi", "unit": null, "min": 151, "max": 200 },
-	{ "name": "aqi", "unit": null, "min": 201, "max": 300 },
-	{ "name": "aqi", "unit": null, "min": 301, "max": 500 },
 	{
 		"name": "tvoc",
 		"unit": "ppb",
 		"min": 0,
-		"max": 220
+		"max": 220,
+		"category": "good"
 	},
 	{
 		"name": "tvoc",
 		"unit": "ppb",
-		"min": 220,
-		"max": 660
+		"min": 221,
+		"max": 660,
+		"category": "moderate"
 	},
 	{
 		"name": "tvoc",
 		"unit": "ppb",
-		"min": 660,
-		"max": 1430
+		"min": 661,
+		"max": 1430,
+		"category": "unhealthy for sensitive groups"
 	},
 	{
 		"name": "tvoc",
 		"unit": "ppb",
-		"min": 1430,
-		"max": 2200
+		"min": 1431,
+		"max": 2200,
+		"category": "unhealthy"
 	},
 	{
 		"name": "tvoc",
 		"unit": "ppb",
-		"min": 2200,
-		"max": 3300
+		"min": 2201,
+		"max": 3300,
+		"category": "very unhealthy"
 	},
 	{
 		"name": "tvoc",
 		"unit": "ppb",
-		"min": 3300,
-		"max": 5500
+		"min": 3301,
+		"max": 5500,
+		"category": "hazardous"
 	},
 	{
 		"name": "o3",
 		"unit": "ppm",
 		"min": 0,
-		"max": 62.5
+		"max": 62.4,
+		"category": "good"
 	},
 	{
 		"name": "o3",
 		"unit": "ppm",
 		"min": 62.5,
-		"max": 101.5
+		"max": 101.4,
+		"category": "moderate"
 	},
 	{
 		"name": "o3",
 		"unit": "ppm",
 		"min": 101.5,
-		"max": 152.5
+		"max": 152.4,
+		"category": "unhealthy for sensitive groups"
 	},
 	{
 		"name": "o3",
 		"unit": "ppm",
 		"min": 152.5,
-		"max": 205
+		"max": 204,
+		"category": "unhealthy"
 	},
 	{
 		"name": "o3",
 		"unit": "ppm",
 		"min": 205,
-		"max": 405
+		"max": 404,
+		"category": "very unhealthy"
 	},
 	{
 		"name": "o3",
 		"unit": "ppm",
 		"min": 405,
-		"max": 605
+		"max": 604,
+		"category": "hazardous"
 	},
 	{
 		"name": "co",
 		"unit": "ppm",
 		"min": 0,
-		"max": 4.5
+		"max": 4.4,
+		"category": "good"
 	},
 	{
 		"name": "co",
 		"unit": "ppm",
 		"min": 4.5,
-		"max": 9.5
+		"max": 9.4,
+		"category": "moderate"
 	},
 	{
 		"name": "co",
 		"unit": "ppm",
 		"min": 9.5,
-		"max": 12.5
+		"max": 12.4,
+		"category": "unhealthy for sensitive groups"
 	},
 	{
 		"name": "co",
 		"unit": "ppm",
 		"min": 12.5,
-		"max": 15.5
+		"max": 15.4,
+		"category": "unhealthy"
 	},
 	{
 		"name": "co",
 		"unit": "ppm",
 		"min": 15.5,
-		"max": 30.5
+		"max": 30.4,
+		"category": "very unhealthy"
 	},
 	{
 		"name": "co",
 		"unit": "ppm",
 		"min": 30.5,
-		"max": 50.5
+		"max": 50.4,
+		"category": "hazardous"
 	},
 	{
 		"name": "pm25",
 		"unit": "microMeter",
 		"min": 0,
-		"max": 12
+		"max": 12.0,
+		"category": "good"
 	},
 	{
 		"name": "pm25",
 		"unit": "microMeter",
-		"min": 12,
-		"max": 35.5
+		"min": 12.1,
+		"max": 35.4,
+		"category": "moderate"
 	},
 	{
 		"name": "pm25",
 		"unit": "microMeter",
 		"min": 35.5,
-		"max": 55.5
+		"max": 55.4,
+		"category": "unhealthy for sensitive groups"
 	},
 	{
 		"name": "pm25",
 		"unit": "microMeter",
 		"min": 55.5,
-		"max": 150.5
+		"max": 150.4,
+		"category": "unhealthy"
 	},
 	{
 		"name": "pm25",
 		"unit": "microMeter",
 		"min": 150.5,
-		"max": 250.5
+		"max": 250.4,
+		"category": "very unhealthy"
 	},
 	{
 		"name": "pm25",
 		"unit": "microMeter",
 		"min": 250.5,
-		"max": 500.5
+		"max": 500.4,
+		"category": "hazardous"
 	}
 ]
