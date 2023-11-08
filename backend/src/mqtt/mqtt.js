@@ -3,6 +3,7 @@ const config = require("../config/config");
 const logger = require("../config/logger");
 const { getData } = require("../helper/getData");
 const AirQualityModel = require("../models/AirQuality");
+const { calcAQI } = require("../helper/calculateTotalAQI");
 
 const mqttClient = (io) => {
 	return new Promise((resolve) => {
@@ -60,6 +61,14 @@ const mqttClient = (io) => {
 				message = JSON.parse(message);
 				logger.info(`Message from MQTT Broker: ${message}`);
 
+				var aqiIndex = await calcAQI([
+					{
+						co: message["co"],
+						tvoc: message["tvoc"],
+						o3: message["o3"],
+					},
+				]);
+
 				var savedDocumentResult = await AirQualityModel.create({
 					aqi: message["aqi"],
 					humidity: message["humidity"],
@@ -68,12 +77,23 @@ const mqttClient = (io) => {
 					co2: message["co2"],
 					tvoc: message["tvoc"],
 					o3: message["o3"],
+					calc_aqi: aqiIndex,
 				});
 
 				logger.info(`Result after create new document: ${savedDocumentResult}`);
 
-				const { labels, aqi, datas, humidity, temperature, co } =
-					await getData();
+				const {
+					labels,
+					aqi,
+					datas,
+					humidity,
+					temperature,
+					co,
+					o3,
+					co2,
+					tvoc,
+					calc_aqi,
+				} = await getData();
 
 				io.emit("update-chart", {
 					labels,
@@ -82,6 +102,10 @@ const mqttClient = (io) => {
 					humidity,
 					temperature,
 					co,
+					o3,
+					co2,
+					tvoc,
+					calc_aqi,
 				});
 			});
 		});

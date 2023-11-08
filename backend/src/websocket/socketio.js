@@ -21,7 +21,18 @@ const socketio = (httpServer) => {
 				today: moment(today).format("DD/MM/YYYY"),
 			});
 
-			const { labels, aqi, datas, humidity, temperature, co } = await getData();
+			const {
+				labels,
+				aqi,
+				datas,
+				humidity,
+				temperature,
+				co,
+				o3,
+				co2,
+				tvoc,
+				calc_aqi,
+			} = await getData();
 
 			socket.emit("update-chart", {
 				labels,
@@ -30,6 +41,10 @@ const socketio = (httpServer) => {
 				humidity,
 				temperature,
 				co,
+				o3,
+				co2,
+				tvoc,
+				calc_aqi,
 			});
 		});
 

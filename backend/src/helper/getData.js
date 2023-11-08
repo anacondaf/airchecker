@@ -71,7 +71,7 @@ const getData = async () => {
 		},
 	]).exec();
 
-	logger.info(`Data queried from database: \n 🚀${docs}`);
+	logger.info(`Data queried from database: \n 🚀${JSON.stringify(docs)}`);
 
 	if (docs.length > 0) {
 		const aqis = docs[0]["aqi"].reverse();

@@ -8,6 +8,7 @@ const { getData } = require("./helper/getData");
 const webpush = require("web-push");
 const config = require("./config/config");
 const { captureScreenshot } = require("./puppeteer/puppeteer");
+const { calcAQI } = require("./helper/calculateTotalAQI");
 
 const start = async () => {
 	const app = express();
@@ -39,9 +40,32 @@ const apiRoutes = (app, io, mqtt) => {
 		res.status(200).json({ data: "oke" });
 	});
 
-	app.get("/aqi", async (req, res) => {
-		var results = await getData();
-		res.status(200).json({ data: results });
+	app.post("/aqi", async (req, res) => {
+		/**
+		 	req.body: [
+				{
+					co:,
+					o3:,
+					tvoc:
+					pm25:
+					pm10:
+					so2:
+					no2:
+				}, 
+				{
+					co:,
+					o3:,
+					tvoc:
+					pm25:
+					pm10:
+					so2:
+					no2:
+				}
+			]
+		*/
+
+		var aqiIndex = await calcAQI(req.body);
+		await res.status(200).json({ data: aqiIndex });
 	});
 
 	app.post("/", (req, res) => {

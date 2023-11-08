@@ -9,8 +9,8 @@ const PollutantScaleSchema = new mongoose.Schema(
 			type: String,
 			required: false,
 		},
-		min: mongoose.Types.Decimal128,
-		max: mongoose.Types.Decimal128,
+		min: Number,
+		max: Number,
 		category: {
 			type: String,
 			enum: aqiScaleMongooseEnumType,
@@ -28,8 +28,8 @@ var PollutantScaleModel = mongoose.model(
 	MONGO_ATLAS_COLLECTION_NAME
 );
 
-PollutantScaleModel.createCollection().then(function (collection) {
-	logger.info(`\n Collection [${MONGO_ATLAS_COLLECTION_NAME}] is created!`);
-});
+// PollutantScaleModel.createCollection().then(function (collection) {
+// 	logger.info(`\n Collection [${MONGO_ATLAS_COLLECTION_NAME}] is created!`);
+// });
 
 module.exports = PollutantScaleModel;

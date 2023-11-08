@@ -5,8 +5,8 @@ const { aqiScaleMongooseEnumType } = require("../enums/aqi_level");
 const AQIScaleSchema = new mongoose.Schema(
 	{
 		name: String,
-		min: mongoose.Types.Decimal128,
-		max: mongoose.Types.Decimal128,
+		min: Number,
+		max: Number,
 		category: {
 			type: String,
 			enum: aqiScaleMongooseEnumType,
@@ -24,8 +24,8 @@ var AQIScaleModel = mongoose.model(
 	MONGO_ATLAS_COLLECTION_NAME
 );
 
-AQIScaleModel.createCollection().then(function (collection) {
-	logger.info(`\n Collection [${MONGO_ATLAS_COLLECTION_NAME}] is created!`);
-});
+// AQIScaleModel.createCollection().then(function (collection) {
+// 	logger.info(`\n Collection [${MONGO_ATLAS_COLLECTION_NAME}] is created!`);
+// });
 
 module.exports = AQIScaleModel;
