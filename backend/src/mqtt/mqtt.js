@@ -77,7 +77,7 @@ const mqttClient = (io) => {
 					co2: message["co2"],
 					tvoc: message["tvoc"],
 					o3: message["o3"],
-					calc_aqi: aqiIndex,
+					calc_aqi: aqiIndex[0],
 				});
 
 				logger.info(`Result after create new document: ${savedDocumentResult}`);
