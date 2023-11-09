@@ -51,6 +51,7 @@ const getData = async () => {
 				co2: 1,
 				tvoc: 1,
 				o3: 1,
+				pm25: 1,
 				calc_aqi: 1,
 				createdAt: "$createdAtGMT7",
 			},
@@ -65,6 +66,7 @@ const getData = async () => {
 				co2: { $push: "$co2" },
 				tvoc: { $push: "$tvoc" },
 				o3: { $push: "$o3" },
+				pm25: { $push: "$pm25" },
 				calc_aqi: { $push: "$calc_aqi" },
 				createdAt: { $push: "$createdAt" },
 			},
@@ -81,6 +83,7 @@ const getData = async () => {
 		const co2 = docs[0]["co2"][0];
 		const tvoc = docs[0]["tvoc"][0];
 		const o3 = docs[0]["o3"][0];
+		const pm25 = docs[0]["pm25"][0];
 		const calc_aqi = docs[0]["calc_aqi"][0];
 
 		docs[0]["createdAt"] = docs[0]["createdAt"].reverse().map((x) => {
@@ -99,6 +102,7 @@ const getData = async () => {
 			co2,
 			tvoc,
 			o3,
+			pm25,
 			calc_aqi,
 		};
 	}
@@ -113,6 +117,7 @@ const getData = async () => {
 		co2: null,
 		tvoc: null,
 		o3: null,
+		pm25: null,
 		calc_aqi: null,
 	};
 };

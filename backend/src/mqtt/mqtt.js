@@ -66,6 +66,7 @@ const mqttClient = (io) => {
 						co: message["co"],
 						tvoc: message["tvoc"],
 						o3: message["o3"],
+						pm25: message["pm25"],
 					},
 				]);
 
@@ -76,6 +77,7 @@ const mqttClient = (io) => {
 					co: message["co"],
 					co2: message["co2"],
 					tvoc: message["tvoc"],
+					pm25: message["pm25"],
 					o3: Math.round(message["o3"] * 1000) / 1000, // Truncate to 3 decimal places
 					calc_aqi: aqiIndex[0],
 				});
@@ -91,6 +93,7 @@ const mqttClient = (io) => {
 					co,
 					o3,
 					co2,
+					pm25,
 					tvoc,
 					calc_aqi,
 				} = await getData();
@@ -104,6 +107,7 @@ const mqttClient = (io) => {
 					co,
 					o3,
 					co2,
+					pm25,
 					tvoc,
 					calc_aqi,
 				});

@@ -30,6 +30,7 @@ const socketio = (httpServer) => {
 				co,
 				o3,
 				co2,
+				pm25,
 				tvoc,
 				calc_aqi,
 			} = await getData();
@@ -43,6 +44,7 @@ const socketio = (httpServer) => {
 				co,
 				o3,
 				co2,
+				pm25,
 				tvoc,
 				calc_aqi,
 			});
