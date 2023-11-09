@@ -384,6 +384,8 @@ window.onload = (event) => {
 		tvoc.innerHTML = msg["tvoc"];
 		const o3 = document.getElementById("o3");
 		o3.innerHTML = Math.round(msg["o3"] * 10) / 10;
+		const pm25 = document.getElementById("pm25");
+		pm25.innerHTML = msg["pm25"].toFixed(1);
 
 		// Push Notification
 		if (levels >= 1) {
@@ -446,6 +448,7 @@ $(function () {
 								co2: "CO2",
 								tvoc: "TVOCs",
 								o3: "Ozone (O3)",
+								pm25: "PM 2.5",
 							},
 							accordion: {
 								title: "View detail pollutants",
@@ -465,6 +468,7 @@ $(function () {
 								co2: "Khí CO2",
 								tvoc: "Các chất hữu cơ độc hại",
 								o3: "Khí Ozone (O3)",
+								pm25: "Bụi mịn 2.5",
 							},
 							accordion: {
 								title: "Xem chi tiết chất ô nhiễm",
