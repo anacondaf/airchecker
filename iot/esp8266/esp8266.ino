@@ -34,7 +34,8 @@ void ccs811_init() {
 
   if (!ccs811.begin()) {
     Serial.println("Failed to start sensor! Please check your wiring.");
-    while (1);
+    while (1)
+      ;
   }
 
   // Print CCS811 versions
@@ -46,7 +47,7 @@ void ccs811_init() {
   Serial.println(ccs811.application_version(), HEX);
 
   // Start measuring
-  while(!ccs811.start(CCS811_MODE_1SEC)) {
+  while (!ccs811.start(CCS811_MODE_1SEC)) {
     Serial.println("setup: CCS811 start FAILED");
   }
 }
@@ -183,6 +184,10 @@ void loop() {
     float o3 = doc["o3"];
     Serial.print("O3 = ");
     Serial.println(o3);
+
+    float pm25 = doc["pm25"];
+    Serial.print("PM25 = ");
+    Serial.println(pm25);
 
     ccs811_read();
 
