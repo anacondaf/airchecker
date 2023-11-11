@@ -85,13 +85,19 @@ services:
 
   grafana:
     image: grafana/grafana-enterprise
-    container_name: grafana
+    container_name: grafana_air_checker
     restart: unless-stopped
+    environment:
+      - GF_LOG_LEVEL=debug
+      - GF_INSTALL_PLUGINS=grafana-clock-panel
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ORG_ROLE=viewer
+      - GF_AUTH_DISABLE_LOGIN_FORM=tru
     ports:
-      - '9001:3000'
+      - "9001:3000"
     volumes:
-      - grafana-storage:/var/lib/grafana
-  
+      - ./airchecker/grafana-storage:/var/lib/grafana
+
 networks:
   node-network:
     driver: bridge
