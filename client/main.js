@@ -56,6 +56,8 @@ const initChart = () => {
 					display: false,
 				},
 			},
+			responsive: true,
+			maintainAspectRatio: false,
 		},
 	});
 
@@ -304,7 +306,54 @@ window.addEventListener("DOMContentLoaded", () => {
 	console.log("DISPLAY_MODE_LAUNCH:", displayMode);
 });
 
+function floatingActionButtonAnimate() {
+	var floatingButton = document.getElementById("floating-button");
+	var floatingButtonIcon = document.getElementById("floating-button-icon");
+	var nds = document.getElementsByClassName("nds");
+
+	var plus = document.getElementById("plus");
+
+	floatingButton.addEventListener("touchstart", () => {
+		console.log(plus);
+
+		plus.animate(
+			[
+				{ opacity: 1, transform: "rotateZ(0deg)" },
+				{ opacity: 0, transform: "rotateZ(180deg)" },
+			],
+			{
+				fill: "forwards",
+				easing: "linear",
+				duration: 0.15,
+			}
+		);
+
+		floatingButtonIcon.animate(
+			[
+				{ opacity: 0, transform: "rotateZ(-70deg)" },
+				{ opacity: 1, transform: "rotateZ(0deg)" },
+			],
+			{
+				fill: "forwards",
+				easing: "linear",
+				duration: 0.2,
+				delay: 0.1,
+			}
+		);
+
+		for (const n of nds) {
+			n.animate([{ opacity: 0 }, { opacity: 1, transform: "scale(1)" }], {
+				fill: "forwards",
+				easing: "linear",
+				duration: 0.1,
+			});
+		}
+	});
+}
+
 window.onload = (event) => {
+	// floatingActionButtonAnimate();
+
 	var isWelcomed = sessionStorage.getItem("isWelcomed");
 	console.log("isWelcomed: ", isWelcomed);
 

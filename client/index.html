@@ -57,135 +57,144 @@
 
 <body>
     <div class="container">
-        <section class="top section">
-            <div class="top-left">
-                <h1 data-i18n="intro.title"></h1>
-                <p><span id="today"></span> - <span data-i18n="intro.location"></span> </p>
-            </div>
-
-            <div class="dropdown">
-                <div class="language-button" id="language-button" onclick="langDropdownClick()">
-                    <img src="assets/flags/uk.png" class="lang en">
+        <div class="left-panel">
+            <section class="top section">
+                <div class="top-left">
+                    <h1 data-i18n="intro.title"></h1>
+                    <p><span id="today"></span> - <span data-i18n="intro.location"></span> </p>
                 </div>
 
-                <div id="lang-drop-down" class="dropdown-content">
-                    <div class="lang-box" id="lang-box" onclick="langBoxOnClick(this)">
-                        <p>Tiếng Việt</p>
-                        <img src="assets/flags/vn.png" class="lang vn">
-                    </div>
-
-                    <div class="lang-box" id="lang-box" onclick="langBoxOnClick(this)">
-                        <p>English</p>
+                <div class="dropdown">
+                    <div class="language-button" id="language-button" onclick="langDropdownClick()">
                         <img src="assets/flags/uk.png" class="lang en">
                     </div>
-                </div>
-            </div>
-        </section>
 
-        <div class="divider"></div>
+                    <div id="lang-drop-down" class="dropdown-content">
+                        <div class="lang-box" id="lang-box" onclick="langBoxOnClick(this)">
+                            <p>Tiếng Việt</p>
+                            <img src="assets/flags/vn.png" class="lang vn">
+                        </div>
 
-        <section class="time-seriers-db">
-            <div class="air-info">
-                <div class="index-circle">
-                    <div class="index">
-                        <span id="aqi"></span>
+                        <div class="lang-box" id="lang-box" onclick="langBoxOnClick(this)">
+                            <p>English</p>
+                            <img src="assets/flags/uk.png" class="lang en">
+                        </div>
                     </div>
                 </div>
 
-                <div class="text">
-                    <h4 id="aqi-level">Moderate</h4>
-                    <p id="aqi-desc">Air quality is acceptable. However, for some pollutants there may be a moderate
-                        health concern
-                        for a very small number of people who are unusually sensitive to air pollution.</p>
-                </div>
-            </div>
+                <div class="top-divider"></div>
+            </section>
 
-            <canvas id="myChart"></canvas>
-        </section>
+            <div class="divider"></div>
 
-        <div class="divider"></div>
-
-        <div class="detail-pollutants">
-            <div class="accordion" onmousedown="accordion(event)" ontouchstart="accordion(event)">
-                <p data-i18n="accordion.title" id="accordion-title">View detail pollutants</p>
-                <i class=" fa-solid fa-caret-down" id="acc-icon"></i>
-            </div>
-
-            <div class="panel">
-                <div class="pollutant-card">
-                    <div class="info">
-                        <p data-i18n="pollutant.temp"></p>
-                        <p>(&deg;C)</p>
+            <section class="time-seriers-db">
+                <div class="air-info">
+                    <div class="index-circle">
+                        <div class="index">
+                            <span id="aqi"></span>
+                        </div>
                     </div>
 
-                    <div class="index-pollutant">
-                        <span id="temp">nan</span>
+                    <div class="text">
+                        <h4 id="aqi-level">Moderate</h4>
+                        <p id="aqi-desc">Air quality is acceptable. However, for some pollutants there may be a moderate
+                            health concern
+                            for a very small number of people who are unusually sensitive to air pollution.</p>
                     </div>
                 </div>
 
-                <div class="pollutant-card">
-                    <div class="info">
-                        <p data-i18n="pollutant.humid"></p>
-                        <p>(%)</p>
-                    </div>
 
-                    <div class="index-pollutant">
-                        <span id="humidity"></span>
-                    </div>
+                <div class="chart-container">
+                    <canvas id="myChart"></canvas>
+                </div>
+            </section>
+
+            <div class="divider"></div>
+        </div>
+
+        <div class="right-panel">
+            <div class="detail-pollutants">
+                <div class="accordion" onmousedown="accordion(event)" ontouchstart="accordion(event)">
+                    <p data-i18n="accordion.title" id="accordion-title">View detail pollutants</p>
+                    <i class=" fa-solid fa-caret-down" id="acc-icon"></i>
                 </div>
 
-                <div class="pollutant-card">
-                    <div class="info">
-                        <p data-i18n="pollutant.co"></p>
-                        <p>(ppm)</p>
+                <div class="panel">
+                    <div class="pollutant-card">
+                        <div class="info">
+                            <p data-i18n="pollutant.temp"></p>
+                            <p>(&deg;C)</p>
+                        </div>
+
+                        <div class="index-pollutant">
+                            <span id="temp">nan</span>
+                        </div>
                     </div>
 
-                    <div class="index-pollutant">
-                        <span id="co"></span>
-                    </div>
-                </div>
+                    <div class="pollutant-card">
+                        <div class="info">
+                            <p data-i18n="pollutant.humid"></p>
+                            <p>(%)</p>
+                        </div>
 
-                <div class="pollutant-card">
-                    <div class="info">
-                        <p data-i18n="pollutant.co2"></p>
-                        <p>(ppm)</p>
-                    </div>
-
-                    <div class="index-pollutant">
-                        <span id="co2"></span>
-                    </div>
-                </div>
-
-                <div class="pollutant-card">
-                    <div class="info">
-                        <p data-i18n="pollutant.tvoc"></p>
-                        <p>(ppb)</p>
+                        <div class="index-pollutant">
+                            <span id="humidity"></span>
+                        </div>
                     </div>
 
-                    <div class="index-pollutant">
-                        <span id="tvoc"></span>
-                    </div>
-                </div>
+                    <div class="pollutant-card">
+                        <div class="info">
+                            <p data-i18n="pollutant.co"></p>
+                            <p>(ppm)</p>
+                        </div>
 
-                <div class="pollutant-card">
-                    <div class="info">
-                        <p data-i18n="pollutant.o3"></p>
-                        <p>(ppm)</p>
-                    </div>
-
-                    <div class="index-pollutant">
-                        <span id="o3"></span>
-                    </div>
-                </div>
-
-                <div class="pollutant-card">
-                    <div class="info">
-                        <p data-i18n="pollutant.pm25"></p>
-                        <p>(ug/m3)</p>
+                        <div class="index-pollutant">
+                            <span id="co"></span>
+                        </div>
                     </div>
 
-                    <div class="index-pollutant">
-                        <span id="pm25"></span>
+                    <div class="pollutant-card">
+                        <div class="info">
+                            <p data-i18n="pollutant.co2"></p>
+                            <p>(ppm)</p>
+                        </div>
+
+                        <div class="index-pollutant">
+                            <span id="co2"></span>
+                        </div>
+                    </div>
+
+                    <div class="pollutant-card">
+                        <div class="info">
+                            <p data-i18n="pollutant.tvoc"></p>
+                            <p>(ppb)</p>
+                        </div>
+
+                        <div class="index-pollutant">
+                            <span id="tvoc"></span>
+                        </div>
+                    </div>
+
+                    <div class="pollutant-card">
+                        <div class="info">
+                            <p data-i18n="pollutant.o3"></p>
+                            <p>(ppm)</p>
+                        </div>
+
+                        <div class="index-pollutant">
+                            <span id="o3"></span>
+                        </div>
+                    </div>
+
+                    <div class="pollutant-card">
+                        <div class="info">
+                            <p data-i18n="pollutant.pm25"></p>
+                            <p>(ug/m3)</p>
+                        </div>
+
+                        <div class="index-pollutant">
+                            <span id="pm25"></span>
+                        </div>
                     </div>
                 </div>
             </div>
