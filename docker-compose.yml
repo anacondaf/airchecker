@@ -38,6 +38,17 @@ services:
     networks:
       - node-network
 
+  prediction_service:
+    build:
+      context: ./prediction-service
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    container_name: prediction_service
+    ports:
+      - "8081:5000"
+    networks:
+      - node-network
+
   nginx:
     image: nginx:latest
     container_name: nginx
