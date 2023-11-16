@@ -63,6 +63,8 @@ services:
     depends_on:
       api:
         condition: service_started
+      prediction_service:
+        condition: service_started
     networks:
       - node-network
 
