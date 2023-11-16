@@ -44,8 +44,7 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     container_name: prediction_service
-    ports:
-      - "8081:5000"
+    command: gunicorn --bind 0.0.0.0:8081 --workers 4 "app:app"
     networks:
       - node-network
 
