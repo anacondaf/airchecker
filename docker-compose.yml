@@ -42,9 +42,9 @@ services:
     build:
       context: ./prediction-service
       dockerfile: Dockerfile
-    restart: unless-stopped
+    restart: always
     container_name: prediction_service
-    command: gunicorn --bind 0.0.0.0:8081 --workers 4 "app:app"
+    command: gunicorn -w 1 -b 0.0.0.0:8081 wsgi:app
     ports:
       - "8081:8081"
     networks:
