@@ -10,7 +10,7 @@
 const char *ssid = "ANHKIET";         // Enter SSID
 const char *password = "family@123";  // Enter Password
 
-#define mqtt_host "airchecker.online"
+#define mqtt_host "66.42.63.123"
 #define mqtt_topic "/airchecker"
 #define mqtt_topic_noti "/airchecker/noti"
 #define mqtt_user "admin"
@@ -23,7 +23,8 @@ PubSubClient client(espClient);
 // Wiring for ESP8266 NodeMCU boards: VDD to 3V3, GND to GND, SDA to D2, SCL to D1, nWAKE to D3 (or GND)
 CCS811 ccs811(D3);  // nWAKE on D3
 
-float co2, tvoc;
+float co2 = 0;
+float tvoc = 0;
 
 void ccs811_init() {
   Serial.print("Setup: ccs811 lib version: ");
@@ -68,6 +69,12 @@ void ccs811_read() {
     Serial.print("TVOC: ");
     Serial.print(tvoc);
     Serial.println("ppb");
+
+  } else {
+    Serial.print("CCS811: errstat=");
+    Serial.print(errstat, HEX);
+    Serial.print("=");
+    Serial.println(ccs811.errstat_str(errstat));
   }
 }
 

@@ -4,6 +4,8 @@
 #include "MQ135.h"
 #include "MQ131.h"
 #include "Adafruit_CCS811.h"
+#include "SharpGP2Y10.h"
+#include <math.h>
 
 // CAM BIEN DHT11
 const int DHTPIN = 2;       //Đọc dữ liệu từ DHT11 ở chân 2 trên mạch Arduino
@@ -33,9 +35,50 @@ int tvoc;
 // ESP Serial
 SoftwareSerial espSerial(10, 11);  // RX, TX
 
+// Optical Dust Sensor (Sharp GP2Y10)
+int voPin = A5;
+int dustSensorLedPin = 13;
+
+int samplingTime = 280;
+int deltaTime = 40;
+int sleepTime = 9680;
+float voMeasured = 0;
+float voltage = 0;
+
+float pm25 = 0;
+
+// SharpGP2Y10 dustSensor(voPin, ledPin);
+
+void measureOpticalDustSensor() {
+  digitalWrite(dustSensorLedPin,LOW); // Bật IR LED
+
+  delayMicroseconds(samplingTime); //Delay 0.28ms
+
+  voMeasured = analogRead(voPin); // Đọc giá trị ADC V0
+
+  delayMicroseconds(deltaTime); //Delay 0.04ms
+
+  digitalWrite(dustSensorLedPin,HIGH); // Tắt LED
+
+  delayMicroseconds(sleepTime); //Delay 9.68ms
+
+  // Tính điện áp từ giá trị ADC Vo
+  voltage = voMeasured * (5.0 / 1024.0);
+  Serial.print("PM2.5 voltage: ");
+  Serial.println(voltage);
+
+  pm25 = 170 * voltage - 0.1; // unit: ug/m3
+
+  Serial.print("PM2.5: ");
+  Serial.print(pm25);
+  Serial.println(" ug/m3");
+}
+
 void warmUpSensor() {
+  Serial.println(".....Warm up.....");
+  
   digitalWrite(6, HIGH);  // Ozone sensor
-  delay(60000);           //1min for warm heater
+  delay(1 * 30 * 1000);           // 5 min for warm heater
   digitalWrite(6, LOW);
 }
 
@@ -97,6 +140,9 @@ void setup() {
   espSerial.begin(9600);
   pinMode(DPIN_MQ7, INPUT);
 
+  // dust sensor
+  pinMode(dustSensorLedPin, OUTPUT);
+
   pinMode(6, OUTPUT);
   dht.begin();
 
@@ -157,7 +203,10 @@ void loop() {
   Serial.print(o3);
   Serial.println(" ppm");
 
-  Serial.println("==========================");  // Xuong dong
+  // Đo PM2.5
+  measureOpticalDustSensor();
+
+  Serial.println("=============================");  // Xuong dong
 
   // SERIAL JSON
   DynamicJsonDocument doc(1024);
@@ -169,6 +218,7 @@ void loop() {
   doc["co2"] = co2;
   doc["tvoc"] = tvoc;
   doc["o3"] = o3;
+  doc["pm25"] = round(pm25 * 10.0) / 10.0; // round to 2 decimal places
 
   serializeJson(doc, espSerial);
 
