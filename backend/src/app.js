@@ -2,15 +2,13 @@ const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
 const logger = require("./config/logger");
-const AirQualityModel = require("./models/AirQuality");
-const moment = require("moment-timezone");
-const { getData } = require("./helper/getData");
 const webpush = require("web-push");
 const config = require("./config/config");
-const { captureScreenshot } = require("./puppeteer/puppeteer");
+// const { captureScreenshot } = require("./puppeteer/puppeteer");
 const { calcAQI } = require("./helper/calculateTotalAQI");
+const Agendash = require("agendash");
 
-const start = async () => {
+const start = async (agenda) => {
 	const app = express();
 
 	webpush.setVapidDetails(
@@ -30,6 +28,9 @@ const start = async () => {
 
 	app.use(cors());
 	app.options("*", cors());
+
+	// Agenda jobs dashboard
+	app.use("/jobs", Agendash(agenda));
 
 	return app;
 };
@@ -51,16 +52,7 @@ const apiRoutes = (app, io, mqtt) => {
 					pm10:
 					so2:
 					no2:
-				}, 
-				{
-					co:,
-					o3:,
-					tvoc:
-					pm25:
-					pm10:
-					so2:
-					no2:
-				}
+				},
 			]
 		*/
 

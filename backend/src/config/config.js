@@ -24,6 +24,8 @@ const envVarsSchema = Joi.object()
 		MQTT_PASSWORD: Joi.string(),
 		VAPID_PUBLIC_KEY: Joi.string(),
 		VAPID_PRIVATE_KEY: Joi.string(),
+		AQI_API_TOKEN: Joi.string(),
+		PREDICTION_SERVICE_URL: Joi.string(),
 	})
 	.unknown();
 
@@ -58,4 +60,6 @@ module.exports = {
 	},
 	vapidPublicKey: envVars.VAPID_PUBLIC_KEY,
 	vapidPrivateKey: envVars.VAPID_PRIVATE_KEY,
+	aqiApiToken: envVars.AQI_API_TOKEN,
+	predictionServiceUrl: envVars.PREDICTION_SERVICE_URL,
 };

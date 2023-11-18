@@ -5,8 +5,23 @@ const config = require("./config/config");
 const logger = require("./config/logger");
 const socketio = require("./websocket/socketio");
 const mqtt = require("./mqtt/mqtt");
+const { agenda } = require("./jobs");
+const { CronTime } = require("cron-time-generator");
 
 let server;
+
+const startAgenda = async () => {
+	await agenda.start();
+
+	/** For testing
+	 *  every 5 minutes: cronTime.every(5).minutes()
+	 *  every 5 seconds: cronTime.everyMinute()
+	 *  every sunday at 00:00 : cronTime.everySundayAt(0, 0)
+	 * */
+
+	await agenda.every(CronTime.everyDayAt(16, 28), "retrieveDailyAqi");
+	// agenda.now("retrieveDailyAqi");
+};
 
 mongoose
 	.connect(config.mongoose.url, config.mongoose.options)
@@ -17,7 +32,7 @@ mongoose
 			// migration
 			// await migrate();
 
-			app = await start();
+			app = await start(agenda);
 			const httpServer = http.createServer(app);
 
 			var { message, io } = await socketio(httpServer);
@@ -27,6 +42,7 @@ mongoose
 			logger.info(message);
 
 			apiRoutes(app, io, client);
+			await startAgenda();
 
 			server = httpServer.listen(config.port, () => {
 				logger.info(`Listening to port ${config.port}`);

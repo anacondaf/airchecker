@@ -7,7 +7,7 @@ const { calcAQI } = require("../helper/calculateTotalAQI");
 
 const mqttClient = (io) => {
 	return new Promise((resolve) => {
-		const clientId = "mqtt_nodejs";
+		const clientId = "mqtt_nodejs_local";
 		const connectUrl = `${config.mqttProtocol}://${config.mqttHost}:${config.mqttPort}`;
 
 		const client = mqtt.connect(connectUrl, {

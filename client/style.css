@@ -32,7 +32,7 @@ h6 {
 	/* margin-top: 24px; */
 	background-color: #171b1c;
 	width: 100%;
-	height: 100%;
+	height: fit-content;
 	padding: 32px 0px;
 	border-radius: 16px;
 }
@@ -137,15 +137,24 @@ section {
 	width: 100%;
 }
 
-.time-seriers-db > .air-info > .index-circle {
+.index-circle,
+.forecast-index-circle {
 	flex: 1;
 }
 
-.time-seriers-db > .air-info > .index-circle > .index {
+.index-circle > .index {
+	background: conic-gradient(#e0bb4b 3.6deg, #383838 0deg);
+}
+
+.forecast-index-circle > .forecast-index {
+	background: conic-gradient(#8f3f97 360deg, #383838 0deg);
+}
+
+.index-circle > .index,
+.forecast-index-circle > .forecast-index {
 	position: relative;
 	height: 65px;
 	width: 65px;
-	background: conic-gradient(#e0bb4b 3.6deg, #383838 0deg);
 	border-radius: 50%;
 	display: flex;
 	/* margin-right: 10px; */
@@ -156,16 +165,25 @@ section {
 	font-weight: 900;
 }
 
-.time-seriers-db > .air-info > .index-circle > .index::before {
+.index-circle > .index::before {
+	background-color: #18191c;
+}
+
+.forecast-index-circle > .forecast-index::before {
+	background-color: rgb(0, 20, 62);
+}
+
+.index-circle > .index::before,
+.forecast-index-circle > .forecast-index::before {
 	content: "";
 	position: absolute;
 	height: 55px;
 	width: 55px;
-	background-color: #18191c;
 	border-radius: 50%;
 }
 
-.time-seriers-db > .air-info > .index-circle > .index > span {
+.index-circle > .index > span,
+.forecast-index-circle > .forecast-index > span {
 	position: relative;
 }
 
@@ -193,6 +211,79 @@ section {
 	position: relative;
 	height: 20vh;
 	width: 95vw;
+}
+
+/* FORECAST */
+
+.forecast {
+	flex-direction: column;
+	align-items: center;
+	padding: 0 16px;
+}
+
+.forecast h4,
+h1 {
+	font-weight: bold;
+}
+
+.forecast > .inner-wrap {
+	width: 100%;
+	margin-bottom: 2em;
+}
+
+.forecast-box {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 16px 20px;
+	background-color: #fcf3e0;
+	color: #000000;
+	border-radius: 10px;
+}
+
+.forecast-left {
+	flex: 2;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+.forecast-right {
+	flex: 1;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	justify-content: center;
+}
+
+.forecast-level {
+	background-color: #f5daa1;
+	padding: 5px 12px;
+	border-radius: 5px;
+	text-align: center;
+	margin-bottom: 16px;
+	width: fit-content;
+}
+
+.forecast-aqi {
+	width: fit-content;
+}
+
+.forecast-right-wrapper {
+	width: 85px;
+	height: 85px;
+	background-color: #f3ce7f;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 8px;
+	border: 1px solid #ffffff;
+}
+
+#forecast-aqi-icon {
+	width: 64px;
+	height: 64px;
 }
 
 /* Style pollutants accordion */
@@ -292,7 +383,6 @@ section {
 		margin-top: 24px;
 		background-color: #171b1c;
 		width: 500px;
-		height: 950px;
 		padding: 32px 24px;
 		border-radius: 16px;
 	}

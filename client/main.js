@@ -1,5 +1,8 @@
-const API_URL = "https://api.airchecker.online";
-// const API_URL = "http://localhost";
+// const API_URL = "https://api.airchecker.online";
+// const PREDICT_URL = "http://localhost:8081";
+
+const API_URL = "http://localhost";
+const PREDICT_URL = "http://localhost:8081";
 const socket = io(API_URL);
 
 const initChart = () => {
@@ -182,6 +185,7 @@ function getAQIInfo(currentAQI) {
 
 		return {
 			levels: 0,
+			hexColor: "#00E400",
 			...obj[lang],
 		};
 	} else if (currentAQI <= 100) {
@@ -200,6 +204,7 @@ function getAQIInfo(currentAQI) {
 
 		return {
 			levels: 1,
+			hexColor: "#FFFF00",
 			...obj[lang],
 		};
 	} else if (currentAQI <= 150) {
@@ -212,12 +217,13 @@ function getAQIInfo(currentAQI) {
 			vn: {
 				levelsOfConcern: "Không lành mạnh cho các nhóm nhạy cảm",
 				description:
-					"Thành viên của các nhóm nhạy cảm có thể bị ảnh hưởng sức khỏe. Công chúng ít có khả năng bị ảnh hưởng.",
+					"Những người thuộc nhóm nhạy cảm bị ảnh hưởng sức khỏe. Công chúng ít có khả năng bị ảnh hưởng.",
 			},
 		};
 
 		return {
 			levels: 2,
+			hexColor: "#FF7E00",
 			...obj[lang],
 		};
 	} else if (currentAQI <= 200) {
@@ -236,6 +242,7 @@ function getAQIInfo(currentAQI) {
 
 		return {
 			levels: 3,
+			hexColor: "#FF0000",
 			...obj[lang],
 		};
 	} else if (currentAQI <= 300) {
@@ -254,6 +261,7 @@ function getAQIInfo(currentAQI) {
 
 		return {
 			levels: 4,
+			hexColor: "#8F3F97",
 			...obj[lang],
 		};
 	} else {
@@ -272,10 +280,32 @@ function getAQIInfo(currentAQI) {
 
 		return {
 			levels: 5,
+			hexColor: "#7E0023",
 			...obj[lang],
 		};
 	}
 }
+
+var forecastAqiLevelIconMapping = {
+	0: {
+		url: "1.png",
+	},
+	1: {
+		url: "2.png",
+	},
+	2: {
+		url: "3.png",
+	},
+	3: {
+		url: "4.png",
+	},
+	4: {
+		url: "5.png",
+	},
+	5: {
+		url: "6.png",
+	},
+};
 
 var requestNotificationPermission = () => {
 	Notification.requestPermission().then((result) => {
@@ -297,108 +327,160 @@ var requestNotificationPermission = () => {
  * Check if PWA is open:
  * Reference Document: https://web.dev/learn/pwa/detection
  */
-window.addEventListener("DOMContentLoaded", () => {
-	let displayMode = "browser tab";
-	if (window.matchMedia("(display-mode: standalone)").matches) {
-		displayMode = "standalone";
-	}
-	// Log launch display mode to analytics
-	console.log("DISPLAY_MODE_LAUNCH:", displayMode);
-});
+// window.addEventListener("DOMContentLoaded", () => {
+// 	let displayMode = "browser tab";
+// 	if (window.matchMedia("(display-mode: standalone)").matches) {
+// 		displayMode = "standalone";
+// 	}
+// 	// Log launch display mode to analytics
+// 	console.log("DISPLAY_MODE_LAUNCH:", displayMode);
+// });
 
-function floatingActionButtonAnimate() {
-	var floatingButton = document.getElementById("floating-button");
-	var floatingButtonIcon = document.getElementById("floating-button-icon");
-	var nds = document.getElementsByClassName("nds");
+// target_date must be in format of YYYY-MM-DD (ex: 2023-11-1)
+const fetchPredictDatas = (target_date) => {
+	var predictValues = JSON.parse(localStorage.getItem("predictValues"));
 
-	var plus = document.getElementById("plus");
+	if (!predictValues) {
+		fetch(`${PREDICT_URL}/predict/aqi?target_date=${target_date}`, {
+			method: "GET",
+		})
+			.then((response) => {
+				if (!response.ok) {
+					throw new Error(`HTTP error! Status: ${response.status}`);
+				}
+				return response.json(); // Parse the response body as JSON
+			})
+			.then((data) => {
+				predictValues = data;
+				localStorage.setItem("predictValues", JSON.stringify(data));
 
-	floatingButton.addEventListener("touchstart", () => {
-		console.log(plus);
-
-		plus.animate(
-			[
-				{ opacity: 1, transform: "rotateZ(0deg)" },
-				{ opacity: 0, transform: "rotateZ(180deg)" },
-			],
-			{
-				fill: "forwards",
-				easing: "linear",
-				duration: 0.15,
-			}
-		);
-
-		floatingButtonIcon.animate(
-			[
-				{ opacity: 0, transform: "rotateZ(-70deg)" },
-				{ opacity: 1, transform: "rotateZ(0deg)" },
-			],
-			{
-				fill: "forwards",
-				easing: "linear",
-				duration: 0.2,
-				delay: 0.1,
-			}
-		);
-
-		for (const n of nds) {
-			n.animate([{ opacity: 0 }, { opacity: 1, transform: "scale(1)" }], {
-				fill: "forwards",
-				easing: "linear",
-				duration: 0.1,
+				continueWithRestOfCode(predictValues);
+			})
+			.catch((error) => {
+				console.error("Fetch error:", error);
 			});
+	} else {
+		var firstDate = predictValues["predictedDates"][0];
+
+		if (firstDate < target_date) {
+			fetch(`${PREDICT_URL}/predict/aqi?target_date=${target_date}`, {
+				method: "GET",
+			})
+				.then((response) => {
+					if (!response.ok) {
+						throw new Error(`HTTP error! Status: ${response.status}`);
+					}
+					return response.json(); // Parse the response body as JSON
+				})
+				.then((data) => {
+					predictValues = data;
+					localStorage.setItem("predictValues", JSON.stringify(data));
+
+					continueWithRestOfCode(predictValues);
+				})
+				.catch((error) => {
+					console.error("Fetch error:", error);
+				});
 		}
-	});
-}
+
+		continueWithRestOfCode(predictValues);
+	}
+
+	function continueWithRestOfCode(predictValues) {
+		console.log(predictValues);
+
+		const forecastBoxes = document.getElementsByClassName("forecast-box");
+		const predicts = predictValues["predictedAqis"];
+
+		const forecaseLeft = (forecastBox, aqiInfo, predictAQI) => {
+			var forecastBoxLeftChildNodes = forecastBox.children[0].childNodes;
+
+			var forecastLevel = forecastBoxLeftChildNodes[1];
+
+			// Add class of AQI levels for changing language
+			forecastLevel.classList.remove(
+				forecastLevel.classList.item(forecastLevel.classList.length)
+			);
+			forecastLevel.classList.add(aqiInfo["levels"]);
+
+			// Add levelsOfConcern for forecase-level h5
+			forecastLevel.children[0].innerHTML = aqiInfo["levelsOfConcern"];
+
+			// Get value of forecast-aqi h1
+			var forecastAQI = forecastBoxLeftChildNodes[3];
+			forecastAQI.children[1].innerHTML = predictAQI;
+		};
+
+		const forecaseRight = (forecastBox, levels) => {
+			var forecastBoxRightChildNodes = forecastBox.children[1].childNodes;
+
+			var forecastAqiIcon = forecastBoxRightChildNodes[1].children[0];
+			forecastAqiIcon.src = `assets/aqi_icon/${forecastAqiLevelIconMapping[levels]["url"]}`;
+		};
+
+		for (let i = 0; i < predicts.length; i++) {
+			var forecastBox = forecastBoxes[i];
+
+			const aqiInfo = getAQIInfo(predicts[i]);
+
+			forecaseLeft(forecastBox, aqiInfo, Math.round(predicts[i]));
+			forecaseRight(forecastBox, aqiInfo["levels"]);
+		}
+	}
+};
 
 window.onload = (event) => {
-	// floatingActionButtonAnimate();
+	// var isWelcomed = sessionStorage.getItem("isWelcomed");
+	// console.log("isWelcomed: ", isWelcomed);
 
-	var isWelcomed = sessionStorage.getItem("isWelcomed");
-	console.log("isWelcomed: ", isWelcomed);
-
-	if (!isWelcomed) requestNotificationPermission();
-
+	// if (!isWelcomed) requestNotificationPermission();
 	var chart = initChart();
 
+	var todayLabel = document.getElementById("today");
 	socket.on("new-date", (msg) => {
 		console.log(msg);
 
-		const todayLabel = document.getElementById("today");
 		todayLabel.innerHTML = msg.today;
 	});
+
+	console.log();
+
+	// FORECAST--------------
+	fetchPredictDatas(new Date().toISOString().split("T")[0]);
+
+	// ---------------FORECAST
 
 	socket.on("update-chart", async (msg) => {
 		console.log(msg);
 
+		// frenchkiss.set("en", {
+		// 	title: "Not grab data for today yet! Wait for next hour",
+		// });
+
+		// frenchkiss.set("vn", {
+		// 	title: "Chưa lấy dữ liệu cho ngày hôm nay! Đợi 1 tiếng sau bạn nhé",
+		// });
+
+		// if (msg.labels.length == 0 && msg.aqi == null) {
+		// 	Swal.fire({
+		// 		position: "center",
+		// 		title: frenchkiss.t("title", {}, sessionStorage.getItem("lang")),
+		// 		icon: "info",
+		// 		showCloseButton: true,
+		// 		timer: 2000,
+		// 		width: "25em",
+		// 		timerProgressBar: true,
+		// 		showConfirmButton: false,
+		// 		toast: true,
+		// 		didOpen: (toast) => {
+		// 			toast.addEventListener("mouseenter", Swal.stopTimer);
+		// 			toast.addEventListener("mouseleave", Swal.resumeTimer);
+		// 		},
+		// 	});
+		// }
+
 		var aqiLevel = document.getElementById("aqi-level");
 		var aqiDescription = document.getElementById("aqi-desc");
-
-		frenchkiss.set("en", {
-			title: "Not grab data for today yet! Wait for next hour",
-		});
-
-		frenchkiss.set("vn", {
-			title: "Chưa lấy dữ liệu cho ngày hôm nay! Đợi 1 tiếng sau bạn nhé",
-		});
-
-		if (msg.labels.length == 0 && msg.aqi == null) {
-			Swal.fire({
-				position: "center",
-				title: frenchkiss.t("title", {}, sessionStorage.getItem("lang")),
-				icon: "info",
-				showCloseButton: true,
-				timer: 2000,
-				width: "25em",
-				timerProgressBar: true,
-				showConfirmButton: false,
-				toast: true,
-				didOpen: (toast) => {
-					toast.addEventListener("mouseenter", Swal.stopTimer);
-					toast.addEventListener("mouseleave", Swal.resumeTimer);
-				},
-			});
-		}
 
 		// Update chart
 		chart.data.labels = msg.labels;
@@ -434,20 +516,20 @@ window.onload = (event) => {
 		const o3 = document.getElementById("o3");
 		o3.innerHTML = Math.round(msg["o3"] * 10) / 10;
 		const pm25 = document.getElementById("pm25");
-		pm25.innerHTML = msg["pm25"].toFixed(1);
+		pm25.innerHTML = msg["pm25"] != null ? msg["pm25"].toFixed(1) : null;
 
-		// Push Notification
-		if (levels >= 1) {
-			const subscription = sessionStorage.getItem("sw-subscription");
+		// // Push Notification
+		// if (levels >= 1) {
+		// 	const subscription = sessionStorage.getItem("sw-subscription");
 
-			await fetch(`${API_URL}/webpush/subscribe`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ subscription }),
-			});
-		}
+		// 	await fetch(`${API_URL}/webpush/subscribe`, {
+		// 		method: "POST",
+		// 		headers: {
+		// 			"Content-Type": "application/json",
+		// 		},
+		// 		body: JSON.stringify({ subscription }),
+		// 	});
+		// }
 	});
 
 	var lang =
@@ -502,6 +584,10 @@ $(function () {
 							accordion: {
 								title: "View detail pollutants",
 							},
+							forecast: {
+								title: "Next 2 days forecast",
+								aqi: "Air Quality Index",
+							},
 						},
 					},
 					vn: {
@@ -521,6 +607,10 @@ $(function () {
 							},
 							accordion: {
 								title: "Xem chi tiết chất ô nhiễm",
+							},
+							forecast: {
+								title: "Dự báo 2 ngày tới",
+								aqi: "Chỉ số chất lượng không khí",
 							},
 						},
 					},
@@ -582,4 +672,11 @@ function langBoxOnClick(event) {
 
 	aqiDescription.innerHTML =
 		aqiInfoLanguage[aqiLevel.classList[0]][chosenLng]["description"];
+
+	var forecastAqiLevel = document.getElementById("forecast-level");
+
+	forecastAqiLevel.innerHTML =
+		aqiInfoLanguage[forecastAqiLevel.classList[0]][chosenLng][
+			"levelsOfConcern"
+		];
 }

@@ -110,6 +110,78 @@
             </section>
 
             <div class="divider"></div>
+
+            <section class="forecast section">
+                <p data-i18n="forecast.title" style="margin-bottom: 1.5em;">Daily forecast</p>
+
+                <div class="inner-wrap">
+                    <div class="forecast-box">
+                        <div class="forecast-left">
+                            <div class="forecast-level">
+                                <h5>Good</h5>
+                            </div>
+
+                            <div class="forecast-aqi">
+                                <h5 data-i18n="forecast.aqi">Air Quality Index</h5>
+                                <h1 id="forecast-aqi">99</h1>
+                            </div>
+                        </div>
+
+                        <div class="forecast-right">
+                            <div class="forecast-right-wrapper">
+                                <img src="assets/aqi_icon/1.png" id="forecast-aqi-icon">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inner-wrap">
+                    <div class="forecast-box">
+                        <div class="forecast-left">
+                            <div class="forecast-level">
+                                <h5>Hazardous</h5>
+                            </div>
+
+                            <div class="forecast-aqi">
+                                <h5 data-i18n="forecast.aqi">Air Quality Index</h5>
+                                <h1 id="forecast-aqi">99</h1>
+                            </div>
+                        </div>
+
+                        <div class="forecast-right">
+                            <div class="forecast-right-wrapper">
+                                <img src="assets/aqi_icon/1.png" id="forecast-aqi-icon">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- <div class="inner-wrap">
+                    <div class="forecast-box">
+                        <div class="forecast-left">
+                            <div id="forecast-level">
+                                <h5>Good</h5>
+                            </div>
+
+                            <div class="forecast-aqi">
+                                <h5 data-i18n="forecast.aqi">Air Quality Index</h5>
+                                <h1 id="forecast-aqi">99</h1>
+                            </div>
+                        </div>
+
+                        <div class="forecast-right">
+                            <div class="forecast-right-wrapper">
+                                <img src="assets/aqi_icon/1.png" id="forecast-aqi-icon">
+                            </div>
+                        </div>
+
+                    </div>
+                </div> -->
+            </section>
+
+            <div class="divider"></div>
+
         </div>
 
         <div class="right-panel">
@@ -148,7 +220,7 @@
                             <p>(ppm)</p>
                         </div>
 
-                        <div class="index-pollutant">
+                        <div class="index-pollutant" id="co-index">
                             <span id="co"></span>
                         </div>
                     </div>
@@ -170,7 +242,7 @@
                             <p>(ppb)</p>
                         </div>
 
-                        <div class="index-pollutant">
+                        <div class="index-pollutant" id="tvoc-index">
                             <span id="tvoc"></span>
                         </div>
                     </div>
@@ -181,7 +253,7 @@
                             <p>(ppm)</p>
                         </div>
 
-                        <div class="index-pollutant">
+                        <div class="index-pollutant" id="o3-index">
                             <span id="o3"></span>
                         </div>
                     </div>
@@ -192,7 +264,7 @@
                             <p>(ug/m3)</p>
                         </div>
 
-                        <div class="index-pollutant">
+                        <div class="index-pollutant" id="pm25-index">
                             <span id="pm25"></span>
                         </div>
                     </div>
@@ -202,8 +274,8 @@
     </div>
 
     <script src="main.js"></script>
-    <script src="scripts/pwa_handler.js"></script>
-    <script src="service-worker.js"></script>
+    <!-- <script src="scripts/pwa_handler.js"></script>
+    <script src="service-worker.js"></script> -->
 </body>
 
 </html>
