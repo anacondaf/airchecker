@@ -9,6 +9,4 @@ COPY . /app
 # Install app dependencies
 # COPY requirements.txt ./
 
-RUN pip3 install tensorflow
-
-RUN pip3 install -r requirements.txt
+RUN pip3 install Flask Flask-CORS keras joblib pandas pymongo numpy scikit-learn python-dateutil
