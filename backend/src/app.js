@@ -37,8 +37,13 @@ const start = async (agenda) => {
 
 const apiRoutes = (app, io, mqtt) => {
 	app.get("/", async (req, res) => {
-		// await captureScreenshot();
-		res.status(200).json({ data: "oke" });
+		res.set("Content-Type", "text/html");
+		res.send(
+			Buffer.from(
+				"<h1>AirChecker API</h1> \
+                <p>A nodejs api implementation for air quality monitoring realtime."
+			)
+		);
 	});
 
 	app.post("/aqi", async (req, res) => {

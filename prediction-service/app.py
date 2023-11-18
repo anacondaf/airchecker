@@ -74,34 +74,11 @@ def update_new_aqi():
         # Convert the date string to a datetime object
         new_date = pd.to_datetime(new_date_str, format='%Y-%m-%d', errors='raise')
 
-        # Check if new_date is not in the DataFrame index
-        # if new_date not in df.index:
-        #     # Append the newAqi value to the DataFrame
-        #     df.loc[new_date] = new_aqi
-
-        #     # Log the DataFrame after appending
-        #     print("DataFrame after appending new value:")
-        #     print(df)
-
-        #     # Return success response
-        #     response_data = {
-        #         'status': 'success',
-        #         'message': f'New AQI value {new_aqi} appended to DataFrame.'
-        #     }
-
-        #     return jsonify({'error': 'OK'}), 200
-
         # Check if new_date is not in the MongoDB collection
         if mongo_collection.find_one({'date': new_date}) is None:
             # Insert the new data into the MongoDB collection
             new_data = {'date': new_date, 'aqi': new_aqi}
             mongo_collection.insert_one(new_data)
-
-            # Log the MongoDB collection after inserting new value
-            print("MongoDB collection after inserting new value:")
-            cursor = mongo_collection.find({})
-            for document in cursor:
-                print(document)
 
         # Return success response
         response_data = {
