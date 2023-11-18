@@ -1,5 +1,5 @@
-const API_URL = "http://api.airqual.tech";
-const PREDICT_URL = "http://predict.airqual.tech";
+const API_URL = "https://api.airqual.tech";
+const PREDICT_URL = "https://predict.airqual.tech";
 
 // const API_URL = "http://localhost";
 // const PREDICT_URL = "http://localhost:8081";
