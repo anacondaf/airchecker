@@ -1,8 +1,8 @@
-// const API_URL = "https://api.airchecker.online";
-// const PREDICT_URL = "http://localhost:8081";
-
-const API_URL = "http://localhost";
+const API_URL = "https://api.airchecker.online";
 const PREDICT_URL = "http://localhost:8081";
+
+// const API_URL = "http://localhost";
+// const PREDICT_URL = "http://localhost:8081";
 const socket = io(API_URL);
 
 const initChart = () => {
@@ -518,18 +518,18 @@ window.onload = (event) => {
 		const pm25 = document.getElementById("pm25");
 		pm25.innerHTML = msg["pm25"] != null ? msg["pm25"].toFixed(1) : null;
 
-		// // Push Notification
-		// if (levels >= 1) {
-		// 	const subscription = sessionStorage.getItem("sw-subscription");
+		// Push Notification
+		if (levels >= 1) {
+			const subscription = sessionStorage.getItem("sw-subscription");
 
-		// 	await fetch(`${API_URL}/webpush/subscribe`, {
-		// 		method: "POST",
-		// 		headers: {
-		// 			"Content-Type": "application/json",
-		// 		},
-		// 		body: JSON.stringify({ subscription }),
-		// 	});
-		// }
+			await fetch(`${API_URL}/webpush/subscribe`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ subscription }),
+			});
+		}
 	});
 
 	var lang =

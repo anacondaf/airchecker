@@ -19,7 +19,10 @@ const startAgenda = async () => {
 	 *  every sunday at 00:00 : cronTime.everySundayAt(0, 0)
 	 * */
 
-	await agenda.every(CronTime.everyDayAt(16, 28), "retrieveDailyAqi");
+	// Local
+	// await agenda.every(CronTime.everyDayAt(23), "retrieveDailyAqi");
+
+	await agenda.every(CronTime.everyDayAt(16), "retrieveDailyAqi");
 	// agenda.now("retrieveDailyAqi");
 };
 
