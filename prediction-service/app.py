@@ -49,7 +49,7 @@ def predict_aqi(target_date, previous_aqi=None):
 
     # If a previous_aqi value is provided, use it as input for the last day
     if previous_aqi is not None:
-        input_data[-1] = previous_aqi
+        input_data = np.append(input_data, previous_aqi)
 
     # Normalize the data using the best_scaler
     input_data = best_scaler.transform(input_data.reshape(-1, 1))
@@ -132,6 +132,8 @@ def predict_aqi_endpoint():
 
     # Predict AQI for target_date
     predicted_aqi_target_date = predict_aqi(target_date)
+
+    print(predicted_aqi_target_date)
 
     # Predict AQI for the day after target_date using the predicted_aqi_target_date as input
     next_day = target_date + timedelta(days=1)
