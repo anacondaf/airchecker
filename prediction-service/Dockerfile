@@ -9,4 +9,4 @@ COPY . /app
 # Install app dependencies
 # COPY requirements.txt ./
 
-RUN pip3 install Flask Flask-CORS keras joblib pandas pymongo numpy scikit-learn python-dateutil gunicorn
+RUN pip3 install Flask Flask-CORS keras joblib pandas pymongo numpy scikit-learn python-dateutil gunicorn tensorflow
