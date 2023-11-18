@@ -1,5 +1,5 @@
-const API_URL = "https://api.airchecker.online";
-const PREDICT_URL = "http://localhost:8081";
+const API_URL = "http://api.airqual.tech";
+const PREDICT_URL = "http://predict.airqual.tech";
 
 // const API_URL = "http://localhost";
 // const PREDICT_URL = "http://localhost:8081";
@@ -585,7 +585,7 @@ $(function () {
 								title: "View detail pollutants",
 							},
 							forecast: {
-								title: "Next 2 days forecast",
+								title: "Forecast today and tomorrow",
 								aqi: "Air Quality Index",
 							},
 						},
@@ -609,7 +609,7 @@ $(function () {
 								title: "Xem chi tiết chất ô nhiễm",
 							},
 							forecast: {
-								title: "Dự báo 2 ngày tới",
+								title: "Dự báo hôm nay và ngày mai",
 								aqi: "Chỉ số chất lượng không khí",
 							},
 						},
@@ -673,10 +673,15 @@ function langBoxOnClick(event) {
 	aqiDescription.innerHTML =
 		aqiInfoLanguage[aqiLevel.classList[0]][chosenLng]["description"];
 
-	var forecastAqiLevel = document.getElementById("forecast-level");
+	// FORECAST
+	var forecastAqiLevels = document.getElementsByClassName("forecast-level");
 
-	forecastAqiLevel.innerHTML =
-		aqiInfoLanguage[forecastAqiLevel.classList[0]][chosenLng][
-			"levelsOfConcern"
-		];
+	for (const forecastAqiLevel of forecastAqiLevels) {
+		let length = forecastAqiLevel.classList.length;
+
+		forecastAqiLevel.children[0].innerHTML =
+			aqiInfoLanguage[forecastAqiLevel.classList[length - 1]][chosenLng][
+				"levelsOfConcern"
+			];
+	}
 }
