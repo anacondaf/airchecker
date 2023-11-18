@@ -33,6 +33,7 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     container_name: api
+    env_file: ./backend/.env
     ports:
       - "8080:80"
     networks:
