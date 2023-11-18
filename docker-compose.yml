@@ -61,9 +61,6 @@ services:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       - ./client:/app/client
       - ./ssl:/ssl
-    depends_on:
-      api:
-        condition: service_started
     networks:
       - node-network
 
