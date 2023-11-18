@@ -23,7 +23,6 @@ const startAgenda = async () => {
 	// await agenda.every(CronTime.everyDayAt(23), "retrieveDailyAqi");
 
 	await agenda.every(CronTime.everyDayAt(16), "retrieveDailyAqi");
-	// agenda.now("retrieveDailyAqi");
 };
 
 mongoose
