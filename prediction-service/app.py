@@ -82,6 +82,8 @@ def update_new_aqi():
         # Convert the date string to a datetime object
         new_date = pd.to_datetime(new_date_str, format='%Y-%m-%d', errors='raise')
 
+        print('Get new aqi for date [' + str(new_date) + ']')
+
         # Check if new_date is not in the MongoDB collection
         if mongo_collection.find_one({'date': new_date}) is None:
             # Insert the new data into the MongoDB collection

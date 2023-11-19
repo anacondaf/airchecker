@@ -37,6 +37,8 @@ const retrieveDailyAqi = async (agenda) => {
 
 					done();
 				} catch (error) {
+					console.error(error);
+
 					logger.error(
 						"Failed to update new daily aqi in job [agenda.retrieveDailyAqi] : " +
 							error.message
