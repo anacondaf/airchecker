@@ -24,8 +24,8 @@ best_scaler_filename = "./best_scaler.pkl"
 best_model = load_model(best_model_filename)
 best_scaler = joblib.load(best_scaler_filename)
 
-MONGODB_URL="mongodb+srv://admin:Pa$$word!@aircheckercluster.yymawyw.mongodb.net/aircheckerdb?retryWrites=true&w=majority"
-# MONGODB_URL="mongodb://localhost:27017/aircheckerdb"
+# MONGODB_URL="mongodb+srv://admin:Pa$$word!@aircheckercluster.yymawyw.mongodb.net/aircheckerdb?retryWrites=true&w=majority"
+MONGODB_URL="mongodb://localhost:27017/aircheckerdb"
 
 # Connect to MongoDB
 mongo_client = MongoClient(MONGODB_URL)
@@ -40,6 +40,13 @@ def predict_aqi(target_date, previous_aqi=None):
     start_date = target_date - timedelta(days=n_input)
     end_date = target_date - timedelta(days=1)
 
+    # If a previous_aqi value is provided, use it as input for the last day
+    if previous_aqi is not None:
+        end_date = target_date - timedelta(days=2)
+
+    print('Get input date range for target_date [' + str(target_date) + ']')
+    print('[' + str(start_date) + ' - ' + str(end_date) + ']')
+
     # Query the previous 5 days data from MongoDB
     query = {'date': {'$gte': start_date, '$lte': end_date}}
     projection = {'_id': 0, 'date': 1, 'aqi': 1}
@@ -47,9 +54,10 @@ def predict_aqi(target_date, previous_aqi=None):
 
     input_data = np.array([entry['aqi'] for entry in data_from_mongo])
 
-    # If a previous_aqi value is provided, use it as input for the last day
     if previous_aqi is not None:
         input_data = np.append(input_data, previous_aqi)
+
+    print(input_data)
 
     # Normalize the data using the best_scaler
     input_data = best_scaler.transform(input_data.reshape(-1, 1))
@@ -110,11 +118,13 @@ def predict_aqi_endpoint():
     # Predict AQI for target_date
     predicted_aqi_target_date = predict_aqi(target_date)
 
-    print(predicted_aqi_target_date)
+    print('predicted_aqi for [' + str(target_date) + ']' 'is: ' + str(predicted_aqi_target_date) + '\n')
 
     # Predict AQI for the day after target_date using the predicted_aqi_target_date as input
     next_day = target_date + timedelta(days=1)
     predicted_aqi_next_day = predict_aqi(next_day, previous_aqi=predicted_aqi_target_date)
+
+    print('predicted_aqi for [' + str(target_date) + ']' 'is: ' + str(predicted_aqi_next_day) + '\n')
 
     response_data = {
         'predictedDates': [target_date.strftime('%Y-%m-%d'), next_day.strftime('%Y-%m-%d')],
