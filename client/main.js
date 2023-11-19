@@ -443,10 +443,19 @@ window.onload = (event) => {
 		todayLabel.innerHTML = msg.today;
 	});
 
-	console.log();
-
 	// FORECAST--------------
-	fetchPredictDatas(new Date().toISOString().split("T")[0]);
+	const today = new Date();
+	const todayInTimeZone = today.toLocaleDateString("en-US", {
+		timeZone: "Asia/Ho_Chi_Minh",
+	});
+
+	const [month, day, year] = todayInTimeZone.split("/");
+	const formattedDate = `${year}-${month.padStart(2, "0")}-${day.padStart(
+		2,
+		"0"
+	)}`;
+
+	fetchPredictDatas(formattedDate);
 
 	// ---------------FORECAST
 
