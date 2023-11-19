@@ -120,13 +120,13 @@ def predict_aqi_endpoint():
     # Predict AQI for target_date
     predicted_aqi_target_date = predict_aqi(target_date)
 
-    print('predicted_aqi for [' + str(target_date) + ']' 'is: ' + str(predicted_aqi_target_date) + '\n')
+    print('predicted_aqi for [' + str(target_date) + ']' ' is: ' + str(predicted_aqi_target_date) + '\n')
 
     # Predict AQI for the day after target_date using the predicted_aqi_target_date as input
     next_day = target_date + timedelta(days=1)
     predicted_aqi_next_day = predict_aqi(next_day, previous_aqi=predicted_aqi_target_date)
 
-    print('predicted_aqi for [' + str(next_day) + ']' 'is: ' + str(predicted_aqi_next_day) + '\n')
+    print('predicted_aqi for [' + str(next_day) + ']' ' is: ' + str(predicted_aqi_next_day) + '\n')
 
     response_data = {
         'predictedDates': [target_date.strftime('%Y-%m-%d'), next_day.strftime('%Y-%m-%d')],
