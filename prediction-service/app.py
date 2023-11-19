@@ -24,8 +24,8 @@ best_scaler_filename = "./best_scaler.pkl"
 best_model = load_model(best_model_filename)
 best_scaler = joblib.load(best_scaler_filename)
 
-# MONGODB_URL="mongodb+srv://admin:Pa$$word!@aircheckercluster.yymawyw.mongodb.net/aircheckerdb?retryWrites=true&w=majority"
-MONGODB_URL="mongodb://localhost:27017/aircheckerdb"
+MONGODB_URL="mongodb+srv://admin:Pa$$word!@aircheckercluster.yymawyw.mongodb.net/aircheckerdb?retryWrites=true&w=majority"
+# MONGODB_URL="mongodb://localhost:27017/aircheckerdb"
 
 # Connect to MongoDB
 mongo_client = MongoClient(MONGODB_URL)
@@ -126,7 +126,7 @@ def predict_aqi_endpoint():
     next_day = target_date + timedelta(days=1)
     predicted_aqi_next_day = predict_aqi(next_day, previous_aqi=predicted_aqi_target_date)
 
-    print('predicted_aqi for [' + str(target_date) + ']' 'is: ' + str(predicted_aqi_next_day) + '\n')
+    print('predicted_aqi for [' + str(next_day) + ']' 'is: ' + str(predicted_aqi_next_day) + '\n')
 
     response_data = {
         'predictedDates': [target_date.strftime('%Y-%m-%d'), next_day.strftime('%Y-%m-%d')],
