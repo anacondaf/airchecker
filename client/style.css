@@ -353,7 +353,6 @@ h1 {
 	background: conic-gradient(#e0bb4b 0deg, #646e70 0deg);
 	border-radius: 50%;
 	display: flex;
-	margin-right: 10px;
 	justify-content: center;
 	align-items: center;
 	color: #ffffff;
@@ -383,6 +382,7 @@ h1 {
 .pollutant-card p {
 	font-size: 11px;
 	color: #171b1c;
+	width: 60px;
 }
 
 @media only screen and (min-width: 768px) {

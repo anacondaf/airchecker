@@ -605,11 +605,11 @@ $(function () {
 							pollutant: {
 								temp: "Temperature",
 								humid: "Humidity",
-								co: "Cacbon Monoxide",
+								co: "Carbon Monoxide",
 								co2: "CO2",
 								tvoc: "TVOCs",
 								o3: "Ozone (O3)",
-								pm25: "PM 2.5",
+								pm25: "PM2.5",
 							},
 							accordion: {
 								title: "View detail pollutants",
