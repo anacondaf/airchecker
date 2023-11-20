@@ -128,8 +128,10 @@ def predict_aqi_endpoint():
 
     print('predicted_aqi for [' + str(next_day) + ']' ' is: ' + str(predicted_aqi_next_day) + '\n')
 
+    formatDatePattern = "%d/%m/%Y"
+
     response_data = {
-        'predictedDates': [target_date.strftime('%Y-%m-%d'), next_day.strftime('%Y-%m-%d')],
+        'predictedDates': [target_date.strftime(formatDatePattern), next_day.strftime(formatDatePattern)],
         'predictedAqis': [float(predicted_aqi_target_date), float(predicted_aqi_next_day)]
     }
 

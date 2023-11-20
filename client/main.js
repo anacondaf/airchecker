@@ -391,8 +391,9 @@ const fetchPredictDatas = (target_date) => {
 
 		const forecastBoxes = document.getElementsByClassName("forecast-box");
 		const predicts = predictValues["predictedAqis"];
+		const predictDates = predictValues["predictedDates"];
 
-		const forecaseLeft = (forecastBox, aqiInfo, predictAQI) => {
+		const forecaseLeft = (forecastBox, aqiInfo, predictAQI, predictDate) => {
 			var forecastBoxLeftChildNodes = forecastBox.children[0].childNodes;
 
 			var forecastLevel = forecastBoxLeftChildNodes[1];
@@ -407,8 +408,11 @@ const fetchPredictDatas = (target_date) => {
 			forecastLevel.children[0].innerHTML = aqiInfo["levelsOfConcern"];
 
 			// Get value of forecast-aqi h1
-			var forecastAQI = forecastBoxLeftChildNodes[3];
+			var forecastAQI = forecastBoxLeftChildNodes[5];
 			forecastAQI.children[1].innerHTML = predictAQI;
+
+			var forecastDate = forecastBoxLeftChildNodes[3];
+			forecastDate.innerHTML = predictDate;
 		};
 
 		const forecaseRight = (forecastBox, levels) => {
@@ -423,7 +427,12 @@ const fetchPredictDatas = (target_date) => {
 
 			const aqiInfo = getAQIInfo(predicts[i]);
 
-			forecaseLeft(forecastBox, aqiInfo, Math.round(predicts[i]));
+			forecaseLeft(
+				forecastBox,
+				aqiInfo,
+				Math.round(predicts[i]),
+				predictDates[i]
+			);
 			forecaseRight(forecastBox, aqiInfo["levels"]);
 		}
 	}

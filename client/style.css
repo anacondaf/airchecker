@@ -256,6 +256,10 @@ h1 {
 	justify-content: space-around;
 }
 
+.forecast-left > p {
+	margin-bottom: 8px;
+}
+
 .forecast-right {
 	flex: 1;
 	display: flex;
