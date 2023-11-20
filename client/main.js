@@ -438,6 +438,32 @@ const fetchPredictDatas = (target_date) => {
 	}
 };
 
+const sweetAlert = () => {
+	frenchkiss.set("en", {
+		title: "Not grab data for today yet! Wait for next hour",
+	});
+
+	frenchkiss.set("vn", {
+		title: "Chưa lấy dữ liệu cho ngày hôm nay! Đợi 1 tiếng sau bạn nhé",
+	});
+
+	Swal.fire({
+		position: "top",
+		title: frenchkiss.t("title", {}, sessionStorage.getItem("lang")),
+		icon: "info",
+		showCloseButton: true,
+		timer: 2000,
+		width: "25em",
+		timerProgressBar: true,
+		showConfirmButton: false,
+		toast: true,
+		didOpen: (toast) => {
+			toast.addEventListener("mouseenter", Swal.stopTimer);
+			toast.addEventListener("mouseleave", Swal.resumeTimer);
+		},
+	});
+};
+
 window.onload = (event) => {
 	// var isWelcomed = sessionStorage.getItem("isWelcomed");
 	// console.log("isWelcomed: ", isWelcomed);
@@ -453,9 +479,6 @@ window.onload = (event) => {
 	});
 
 	// FORECAST--------------
-	var offset = new Date().getTimezoneOffset();
-	console.log(offset);
-
 	const today = new Date();
 
 	console.log(today);
@@ -464,15 +487,11 @@ window.onload = (event) => {
 		timeZone: "Asia/Ho_Chi_Minh",
 	});
 
-	console.log(todayInTimeZone);
-
 	const [month, day, year] = todayInTimeZone.split("/");
 	const formattedDate = `${year}-${month.padStart(2, "0")}-${day.padStart(
 		2,
 		"0"
 	)}`;
-
-	console.log(formattedDate);
 
 	fetchPredictDatas(formattedDate);
 
@@ -480,32 +499,6 @@ window.onload = (event) => {
 
 	socket.on("update-chart", async (msg) => {
 		console.log(msg);
-
-		// frenchkiss.set("en", {
-		// 	title: "Not grab data for today yet! Wait for next hour",
-		// });
-
-		// frenchkiss.set("vn", {
-		// 	title: "Chưa lấy dữ liệu cho ngày hôm nay! Đợi 1 tiếng sau bạn nhé",
-		// });
-
-		// if (msg.labels.length == 0 && msg.aqi == null) {
-		// 	Swal.fire({
-		// 		position: "center",
-		// 		title: frenchkiss.t("title", {}, sessionStorage.getItem("lang")),
-		// 		icon: "info",
-		// 		showCloseButton: true,
-		// 		timer: 2000,
-		// 		width: "25em",
-		// 		timerProgressBar: true,
-		// 		showConfirmButton: false,
-		// 		toast: true,
-		// 		didOpen: (toast) => {
-		// 			toast.addEventListener("mouseenter", Swal.stopTimer);
-		// 			toast.addEventListener("mouseleave", Swal.resumeTimer);
-		// 		},
-		// 	});
-		// }
 
 		var aqiLevel = document.getElementById("aqi-level");
 		var aqiDescription = document.getElementById("aqi-desc");
@@ -518,17 +511,26 @@ window.onload = (event) => {
 		// Update current AQI
 		const aqi = msg["aqi"];
 		const aqiText = document.getElementById("aqi");
-		aqiText.innerHTML = aqi;
 
-		const { levels, levelsOfConcern, description } = getAQIInfo(aqi);
-		aqiLevel.innerHTML = levelsOfConcern;
-		aqiDescription.innerHTML = description;
+		if (msg.labels.length == 0 && aqi == null) {
+			aqiText.innerHTML = "-";
+			aqiLevel.innerHTML = "-";
+			aqiDescription.innerHTML = "-";
 
-		aqiLevel.classList.remove(
-			aqiLevel.classList.item(aqiLevel.classList.length - 1)
-		);
+			sweetAlert();
+		} else {
+			aqiText.innerHTML = aqi;
 
-		aqiLevel.classList.add(levels);
+			const { levels, levelsOfConcern, description } = getAQIInfo(aqi);
+			aqiLevel.innerHTML = levelsOfConcern;
+			aqiDescription.innerHTML = description;
+
+			aqiLevel.classList.remove(
+				aqiLevel.classList.item(aqiLevel.classList.length - 1)
+			);
+
+			aqiLevel.classList.add(levels);
+		}
 
 		// Update pollutant
 		const temp = document.getElementById("temp");
