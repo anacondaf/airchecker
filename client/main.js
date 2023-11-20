@@ -444,16 +444,26 @@ window.onload = (event) => {
 	});
 
 	// FORECAST--------------
+	var offset = new Date().getTimezoneOffset();
+	console.log(offset);
+
 	const today = new Date();
+
+	console.log(today);
+
 	const todayInTimeZone = today.toLocaleDateString("en-US", {
 		timeZone: "Asia/Ho_Chi_Minh",
 	});
+
+	console.log(todayInTimeZone);
 
 	const [month, day, year] = todayInTimeZone.split("/");
 	const formattedDate = `${year}-${month.padStart(2, "0")}-${day.padStart(
 		2,
 		"0"
 	)}`;
+
+	console.log(formattedDate);
 
 	fetchPredictDatas(formattedDate);
 
