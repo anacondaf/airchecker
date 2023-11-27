@@ -7,6 +7,11 @@ const config = require("./config/config");
 // const { captureScreenshot } = require("./puppeteer/puppeteer");
 const { calcAQI } = require("./helper/calculateTotalAQI");
 const Agendash = require("agendash");
+const v1Route = require("./routes/v1");
+const { errors } = require("celebrate");
+const { errorHandler } = require("./middlewares/errors");
+const ApiError = require("./utils/ApiError");
+const httpStatus = require("http-status");
 
 const start = async (agenda) => {
 	const app = express();
@@ -36,6 +41,8 @@ const start = async (agenda) => {
 };
 
 const apiRoutes = (app, io, mqtt) => {
+	app.use("/v1", v1Route);
+
 	app.get("/", async (req, res) => {
 		res.set("Content-Type", "text/html");
 		res.send(
@@ -105,6 +112,17 @@ const apiRoutes = (app, io, mqtt) => {
 			console.log(error);
 		}
 	});
+
+	// send back a 404 error for any unknown api request
+	app.use((req, res, next) => {
+		next(new ApiError(httpStatus.NOT_FOUND, "Not found"));
+	});
+
+	// handle error
+	app.use(errorHandler);
+
+	// celebrate error handler
+	app.use(errors());
 };
 
 module.exports = {
