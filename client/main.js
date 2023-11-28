@@ -505,68 +505,82 @@ window.onload = (event) => {
 	// ---------------FORECAST
 
 	socket.on("update-chart", async (msg) => {
-		console.log(msg);
+		try {
+			console.log(msg);
 
-		var aqiLevel = document.getElementById("aqi-level");
-		var aqiDescription = document.getElementById("aqi-desc");
+			var aqiLevel = document.getElementById("aqi-level");
+			var aqiDescription = document.getElementById("aqi-desc");
 
-		// Update chart
-		chart.data.labels = msg.labels;
-		chart.data.datasets[0].data = msg.datas;
-		chart.update();
+			// Update chart
+			chart.data.labels = msg.labels;
+			chart.data.datasets[0].data = msg.datas;
+			chart.update();
 
-		// Update current AQI
-		const aqi = msg["aqi"];
-		const aqiText = document.getElementById("aqi");
+			// Update current AQI
+			const aqi = msg["aqi"];
+			const aqiText = document.getElementById("aqi");
 
-		if (msg.labels.length == 0 && aqi == null) {
-			aqiText.innerHTML = "-";
-			aqiLevel.innerHTML = "-";
-			aqiDescription.innerHTML = "-";
+			// Query pollutant
+			const temp = document.getElementById("temp");
+			const humidity = document.getElementById("humidity");
+			const co = document.getElementById("co");
+			const co2 = document.getElementById("co2");
+			const tvoc = document.getElementById("tvoc");
+			const o3 = document.getElementById("o3");
+			const pm25 = document.getElementById("pm25");
 
-			sweetAlert();
-		} else {
-			aqiText.innerHTML = aqi;
+			if (msg.labels.length == 0 && aqi == null) {
+				aqiText.innerHTML = "-";
+				aqiLevel.innerHTML = "-";
+				aqiDescription.innerHTML = "-";
 
-			const { levels, levelsOfConcern, description } = getAQIInfo(aqi);
-			aqiLevel.innerHTML = levelsOfConcern;
-			aqiDescription.innerHTML = description;
+				temp.innerHTML = "-";
+				humidity.innerHTML = "-";
+				co.innerHTML = "-";
+				co2.innerHTML = "-";
+				tvoc.innerHTML = "-";
+				o3.innerHTML = "-";
+				pm25.innerHTML = "-";
 
-			aqiLevel.classList.remove(
-				aqiLevel.classList.item(aqiLevel.classList.length - 1)
-			);
+				sweetAlert();
+			} else {
+				aqiText.innerHTML = aqi;
 
-			aqiLevel.classList.add(levels);
+				const { levels, levelsOfConcern, description } = getAQIInfo(aqi);
+				aqiLevel.innerHTML = levelsOfConcern;
+				aqiDescription.innerHTML = description;
 
-			// Push Notification
-			if (levels >= 3) {
-				const subscription = sessionStorage.getItem("sw-subscription");
+				aqiLevel.classList.remove(
+					aqiLevel.classList.item(aqiLevel.classList.length - 1)
+				);
 
-				await fetch(`${API_URL}/webpush/subscribe`, {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({ subscription }),
-				});
+				aqiLevel.classList.add(levels);
+
+				// Update new sensor pollutant value
+				temp.innerHTML = msg["temperature"];
+				humidity.innerHTML = msg["humidity"];
+				co.innerHTML = msg["co"];
+				co2.innerHTML = msg["co2"];
+				tvoc.innerHTML = msg["tvoc"];
+				o3.innerHTML = Math.round(msg["o3"] * 10) / 10;
+				pm25.innerHTML = msg["pm25"] != null ? msg["pm25"].toFixed(1) : null;
+
+				// Push Notification
+				if (levels >= 3) {
+					const subscription = sessionStorage.getItem("sw-subscription");
+
+					await fetch(`${API_URL}/webpush/subscribe`, {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({ subscription }),
+					});
+				}
 			}
+		} catch (error) {
+			console.error(error);
 		}
-
-		// Update pollutant
-		const temp = document.getElementById("temp");
-		temp.innerHTML = msg["temperature"];
-		const humidity = document.getElementById("humidity");
-		humidity.innerHTML = msg["humidity"];
-		const co = document.getElementById("co");
-		co.innerHTML = msg["co"];
-		const co2 = document.getElementById("co2");
-		co2.innerHTML = msg["co2"];
-		const tvoc = document.getElementById("tvoc");
-		tvoc.innerHTML = msg["tvoc"];
-		const o3 = document.getElementById("o3");
-		o3.innerHTML = Math.round(msg["o3"] * 10) / 10;
-		const pm25 = document.getElementById("pm25");
-		pm25.innerHTML = msg["pm25"] != null ? msg["pm25"].toFixed(1) : null;
 	});
 
 	var lang =
