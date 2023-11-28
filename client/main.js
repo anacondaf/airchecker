@@ -336,6 +336,12 @@ var requestNotificationPermission = () => {
 // 	console.log("DISPLAY_MODE_LAUNCH:", displayMode);
 // });
 
+function parseDateString(dateString) {
+	var parts = dateString.split("/");
+	// Note: months are zero-based in JavaScript Date objects
+	return new Date(parts[2], parts[1] - 1, parts[0]);
+}
+
 // target_date must be in format of YYYY-MM-DD (ex: 2023-11-1)
 const fetchPredictDatas = (target_date) => {
 	var predictValues = JSON.parse(localStorage.getItem("predictValues"));
@@ -361,8 +367,9 @@ const fetchPredictDatas = (target_date) => {
 			});
 	} else {
 		var firstDate = predictValues["predictedDates"][0];
+		var firstDate = parseDateString(firstDate);
 
-		if (firstDate < target_date) {
+		if (new Date(firstDate) < new Date(target_date)) {
 			fetch(`${PREDICT_URL}/predict/aqi?target_date=${target_date}`, {
 				method: "GET",
 			})
@@ -530,6 +537,19 @@ window.onload = (event) => {
 			);
 
 			aqiLevel.classList.add(levels);
+
+			// Push Notification
+			if (levels >= 3) {
+				const subscription = sessionStorage.getItem("sw-subscription");
+
+				await fetch(`${API_URL}/webpush/subscribe`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({ subscription }),
+				});
+			}
 		}
 
 		// Update pollutant
@@ -547,19 +567,6 @@ window.onload = (event) => {
 		o3.innerHTML = Math.round(msg["o3"] * 10) / 10;
 		const pm25 = document.getElementById("pm25");
 		pm25.innerHTML = msg["pm25"] != null ? msg["pm25"].toFixed(1) : null;
-
-		// Push Notification
-		if (levels >= 1) {
-			const subscription = sessionStorage.getItem("sw-subscription");
-
-			await fetch(`${API_URL}/webpush/subscribe`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ subscription }),
-			});
-		}
 	});
 
 	var lang =
