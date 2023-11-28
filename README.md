@@ -18,7 +18,7 @@ This is my graduation thesis project which covers the application from IoT, Web 
 3. Communication Protocol:
     - MQTT with MQTT Broker provided by EMQX
     - RESTFul API
-    - Socket.IO
+    - Websocket using Socket.IO
 
 4. Database:
     - MongoDB
@@ -30,7 +30,7 @@ This is my graduation thesis project which covers the application from IoT, Web 
     - PWA
 
 6. Deployment:
-    - Server Provider: Vultr
+    - Server Provider: Vultr, Google Cloud Compute Engine
     - Docker
 
 ## About docker compose port
