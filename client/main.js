@@ -546,7 +546,8 @@ window.onload = (event) => {
 			} else {
 				aqiText.innerHTML = aqi;
 
-				const { levels, levelsOfConcern, description } = getAQIInfo(aqi);
+				const { levels, levelsOfConcern, description, hexColor } =
+					getAQIInfo(aqi);
 				aqiLevel.innerHTML = levelsOfConcern;
 				aqiDescription.innerHTML = description;
 
@@ -556,14 +557,55 @@ window.onload = (event) => {
 
 				aqiLevel.classList.add(levels);
 
+				// Update composite AQI index-circle color
+				const composeAQIIndexCircle = document.getElementsByClassName("index");
+				composeAQIIndexCircle[0].style.background = `conic-gradient(${hexColor} 360deg, #383838 0deg)`;
+
 				// Update new sensor pollutant value
 				temp.innerHTML = msg["temperature"];
 				humidity.innerHTML = msg["humidity"];
-				co.innerHTML = msg["co"];
 				co2.innerHTML = msg["co2"];
-				tvoc.innerHTML = msg["tvoc"];
-				o3.innerHTML = Math.round(msg["o3"] * 10) / 10;
-				pm25.innerHTML = msg["pm25"] != null ? msg["pm25"].toFixed(1) : null;
+
+				pm25.innerHTML =
+					msg["pm25"]["value"] != null ? msg["pm25"]["value"].toFixed(1) : null;
+				co.innerHTML = msg["co"]["value"];
+				tvoc.innerHTML = msg["tvoc"]["value"];
+				o3.innerHTML = Math.round(msg["o3"]["value"] * 10) / 10;
+
+				// Update co, o3, pm25, tvoc sub AQI index-circle color
+				const coAQIIndexCircle = document.getElementById("co-index");
+				const tvocAQIIndexCircle = document.getElementById("tvoc-index");
+				const o3AQIIndexCircle = document.getElementById("o3-index");
+				const pm25coAQIIndexCircle = document.getElementById("pm25-index");
+
+				const pollutantAQIInfo = new Map([
+					["co", msg["co"]["aqi"]],
+					["tvoc", msg["tvoc"]["aqi"]],
+					["o3", msg["o3"]["aqi"]],
+					["pm25", msg["pm25"]["aqi"]],
+				]);
+
+				for ([key, val] of pollutantAQIInfo.entries()) {
+					pollutantAQIInfo.set(key, getAQIInfo(val));
+				}
+
+				console.log("pollutantAQIInfo: \n", pollutantAQIInfo);
+
+				coAQIIndexCircle.style.background = `conic-gradient(${
+					pollutantAQIInfo.get("co")["hexColor"]
+				} 360deg, #383838 0deg)`;
+
+				tvocAQIIndexCircle.style.background = `conic-gradient(${
+					pollutantAQIInfo.get("tvoc")["hexColor"]
+				} 360deg, #383838 0deg)`;
+
+				o3AQIIndexCircle.style.background = `conic-gradient(${
+					pollutantAQIInfo.get("o3")["hexColor"]
+				} 360deg, #383838 0deg)`;
+
+				pm25coAQIIndexCircle.style.background = `conic-gradient(${
+					pollutantAQIInfo.get("pm25")["hexColor"]
+				} 360deg, #383838 0deg)`;
 
 				// Push Notification
 				if (levels >= 3) {

@@ -1,6 +1,7 @@
 const AirQualityModel = require("../models/AirQuality");
 const logger = require("../config/logger");
 const moment = require("moment");
+const { calcCompositeAQI } = require("./calculateTotalAQI");
 
 const getData = async () => {
 	const tzDifference = -420; //region vn timeoffset

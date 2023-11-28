@@ -79,7 +79,7 @@ const mqttClient = (io) => {
 					tvoc: message["tvoc"],
 					pm25: message["pm25"],
 					o3: Math.round(message["o3"] * 1000) / 1000, // Truncate to 3 decimal places
-					calc_aqi: aqiIndex[0],
+					calc_aqi: aqiIndex[0]["maxAqiValue"],
 				});
 
 				logger.info(`Result after create new document: ${savedDocumentResult}`);
@@ -98,18 +98,33 @@ const mqttClient = (io) => {
 					calc_aqi,
 				} = await getData();
 
+				const pollutantsAqi = aqiIndex[0]["pollutantsAqi"];
+
 				io.emit("update-chart", {
 					labels,
 					aqi: aqi != null ? Math.round(aqi * 100) / 100 : null,
 					datas,
 					humidity,
 					temperature,
-					co,
-					o3,
 					co2,
-					pm25,
-					tvoc,
 					calc_aqi,
+					co: {
+						value: co,
+						aqi: pollutantsAqi["co"],
+					},
+					o3: {
+						value: o3,
+						aqi: pollutantsAqi["o3"],
+					},
+
+					pm25: {
+						value: pm25,
+						aqi: pollutantsAqi["pm25"],
+					},
+					tvoc: {
+						value: tvoc,
+						aqi: pollutantsAqi["tvoc"],
+					},
 				});
 			});
 		});
