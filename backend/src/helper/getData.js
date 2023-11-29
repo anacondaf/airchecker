@@ -101,7 +101,7 @@ const getData = async () => {
 			o3,
 			pm25,
 			calc_aqi,
-			latestCreatedAt,
+			latestCreatedAt: latestCreatedAt.replace("Z", ""),
 		};
 	}
 
