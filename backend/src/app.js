@@ -35,7 +35,7 @@ const start = async (agenda) => {
 	app.options("*", cors());
 
 	// Agenda jobs dashboard
-	app.use("/jobs", Agendash(agenda));
+	// app.use("/jobs", Agendash(agenda));
 
 	return app;
 };

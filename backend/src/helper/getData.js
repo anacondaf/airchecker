@@ -83,7 +83,9 @@ const getData = async () => {
 		// CreatedAt is applied offset time
 		docs[0]["createdAt"] = docs[0]["createdAt"].reverse();
 
-		const latestCreatedAt = docs[0]["createdAt"].pop();
+		let latestCreatedAt = docs[0]["createdAt"].pop();
+
+		latestCreatedAt = moment(latestCreatedAt).subtract(420, "minutes");
 
 		docs[0]["createdAt"] = docs[0]["createdAt"].map((x) => {
 			return moment(x).format("HH:mm");
@@ -101,7 +103,7 @@ const getData = async () => {
 			o3,
 			pm25,
 			calc_aqi,
-			latestCreatedAt: latestCreatedAt.replace("Z", ""),
+			latestCreatedAt,
 		};
 	}
 
