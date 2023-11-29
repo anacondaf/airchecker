@@ -28,6 +28,12 @@ h6 {
 	margin: 40px 0px;
 }
 
+.updated-time {
+	font-size: 11px;
+	color: #ffffffaf;
+	text-align: right;
+}
+
 .container {
 	/* margin-top: 24px; */
 	background-color: #171b1c;
@@ -299,6 +305,12 @@ h1 {
 }
 
 /* Style pollutants accordion */
+.detail-pollutants {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+}
+
 .detail-pollutants > .accordion {
 	display: flex;
 	justify-content: flex-end;
@@ -318,21 +330,19 @@ h1 {
 	border: none;
 }
 
-.detail-pollutants > .panel {
-	margin-top: 16px;
-	padding: 0 18px;
+.detail-pollutants > .panel-wrapper {
 	display: none;
+	padding: 0 18px;
+}
+
+.detail-pollutants > .panel-wrapper > .panel {
+	display: grid;
+	margin-top: 16px;
 
 	grid-template-columns: 1fr 1fr;
 	grid-row: auto auto;
 	grid-column-gap: 20px;
 	grid-row-gap: 20px;
-}
-
-.detail-pollutants {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-evenly;
 }
 
 .pollutant-card {
@@ -356,7 +366,6 @@ h1 {
 	justify-content: center;
 	align-items: center;
 	color: #ffffff;
-	font-size: 20px;
 	font-weight: 900;
 }
 
@@ -371,7 +380,7 @@ h1 {
 
 .pollutant-card > .index-pollutant > span {
 	position: relative;
-	font-size: 14px;
+	font-size: 13px;
 }
 
 .pollutant-card h4 {
@@ -380,7 +389,7 @@ h1 {
 }
 
 .pollutant-card p {
-	font-size: 11px;
+	font-size: 12px;
 	color: #171b1c;
 	width: 60px;
 }
@@ -466,7 +475,12 @@ h1 {
 		width: 100%;
 	}
 
-	.detail-pollutants > .panel {
+	.detail-pollutants > .panel-wrapper {
+		display: flex !important;
+		flex-direction: column;
+	}
+
+	.detail-pollutants > .panel-wrapper > .panel {
 		display: grid !important;
 	}
 

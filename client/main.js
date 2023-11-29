@@ -70,7 +70,7 @@ const initChart = () => {
 var accordion = (e) => {
 	var accIcon = document.getElementById("acc-icon");
 	var accTitle = document.getElementById("accordion-title");
-	var panel = document.getElementsByClassName("panel");
+	var panel = document.getElementsByClassName("panel-wrapper");
 
 	if (accIcon.classList.contains("fa-caret-down")) {
 		accIcon.classList.remove("fa-caret-down");
@@ -529,6 +529,9 @@ window.onload = (event) => {
 			const o3 = document.getElementById("o3");
 			const pm25 = document.getElementById("pm25");
 
+			// Updated Time-Span
+			const updatedTimeSpan = document.getElementById("updated-time-span");
+
 			if (msg.labels.length == 0 && aqi == null) {
 				aqiText.innerHTML = "-";
 				aqiLevel.innerHTML = "-";
@@ -541,9 +544,12 @@ window.onload = (event) => {
 				tvoc.innerHTML = "-";
 				o3.innerHTML = "-";
 				pm25.innerHTML = "-";
+				updatedTimeSpan.innerHTML = "-";
 
 				sweetAlert();
 			} else {
+				updatedTimeSpan.innerHTML = moment(msg.latestCreatedAt).fromNow();
+
 				aqiText.innerHTML = aqi;
 
 				const { levels, levelsOfConcern, description, hexColor } =

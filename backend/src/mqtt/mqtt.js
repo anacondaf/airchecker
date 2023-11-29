@@ -96,6 +96,7 @@ const mqttClient = (io) => {
 					pm25,
 					tvoc,
 					calc_aqi,
+					latestCreatedAt,
 				} = await getData();
 
 				const pollutantsAqi = aqiIndex[0]["pollutantsAqi"];
@@ -125,6 +126,7 @@ const mqttClient = (io) => {
 						value: tvoc,
 						aqi: pollutantsAqi["tvoc"],
 					},
+					latestCreatedAt,
 				});
 			});
 		});

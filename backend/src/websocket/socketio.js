@@ -34,6 +34,7 @@ const socketio = (httpServer) => {
 				pm25,
 				tvoc,
 				calc_aqi,
+				latestCreatedAt,
 			} = await getData();
 
 			var aqiIndex = await calcPollutantAQI([
@@ -72,6 +73,7 @@ const socketio = (httpServer) => {
 					value: tvoc,
 					aqi: pollutantsAqi["tvoc"],
 				},
+				latestCreatedAt,
 			});
 		});
 

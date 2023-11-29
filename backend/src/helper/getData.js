@@ -2,17 +2,10 @@ const AirQualityModel = require("../models/AirQuality");
 const logger = require("../config/logger");
 const moment = require("moment");
 const { calcCompositeAQI } = require("./calculateTotalAQI");
+const { mapServerTimeToVnTime } = require("./serverDate");
 
 const getData = async () => {
-	const tzDifference = -420; //region vn timeoffset
-
-	const serverToday = new Date(Date.now());
-
-	logger.info(`serverToday | ${serverToday}`);
-
-	var offsetToday = new Date(serverToday.getTime() - tzDifference * 60 * 1000);
-
-	logger.info(`offsetToday | ${offsetToday}`);
+	const { offsetToday, serverToday } = mapServerTimeToVnTime();
 
 	var offsetNextDay = new Date(offsetToday.getTime() + 24 * 3600 * 1000)
 		.toISOString()
@@ -87,11 +80,14 @@ const getData = async () => {
 		const pm25 = docs[0]["pm25"][0];
 		const calc_aqi = docs[0]["calc_aqi"][0];
 
-		docs[0]["createdAt"] = docs[0]["createdAt"].reverse().map((x) => {
+		// CreatedAt is applied offset time
+		docs[0]["createdAt"] = docs[0]["createdAt"].reverse();
+
+		const latestCreatedAt = docs[0]["createdAt"].pop();
+
+		docs[0]["createdAt"] = docs[0]["createdAt"].map((x) => {
 			return moment(x).format("HH:mm");
 		});
-
-		docs[0]["createdAt"].pop();
 
 		return {
 			labels: docs[0]["createdAt"],
@@ -105,6 +101,7 @@ const getData = async () => {
 			o3,
 			pm25,
 			calc_aqi,
+			latestCreatedAt,
 		};
 	}
 

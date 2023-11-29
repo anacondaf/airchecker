@@ -52,6 +52,9 @@
     <!-- jQuery -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 
+    <!-- MomentJS -->
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+
     <title>AirChecker</title>
 </head>
 
@@ -193,84 +196,92 @@
                     <i class=" fa-solid fa-caret-down" id="acc-icon"></i>
                 </div>
 
-                <div class="panel">
-                    <div class="pollutant-card">
-                        <div class="info">
-                            <p data-i18n="pollutant.temp"></p>
-                            <p>(&deg;C)</p>
+                <div class="panel-wrapper">
+                    <div class="panel">
+                        <div class="pollutant-card">
+                            <div class="info">
+                                <p data-i18n="pollutant.co"></p>
+                                <p>(ppm)</p>
+                            </div>
+
+                            <div class="index-pollutant" id="co-index">
+                                <span id="co"></span>
+                            </div>
                         </div>
 
-                        <div class="index-pollutant">
-                            <span id="temp">nan</span>
+                        <div class="pollutant-card">
+                            <div class="info">
+                                <p data-i18n="pollutant.tvoc"></p>
+                                <p>(ppb)</p>
+                            </div>
+
+                            <div class="index-pollutant" id="tvoc-index">
+                                <span id="tvoc"></span>
+                            </div>
+                        </div>
+
+                        <div class="pollutant-card">
+                            <div class="info">
+                                <p data-i18n="pollutant.o3"></p>
+                                <p>(ppm)</p>
+                            </div>
+
+                            <div class="index-pollutant" id="o3-index">
+                                <span id="o3"></span>
+                            </div>
+                        </div>
+
+                        <div class="pollutant-card">
+                            <div class="info">
+                                <p data-i18n="pollutant.pm25"></p>
+                                <p>(ug/m3)</p>
+                            </div>
+
+                            <div class="index-pollutant" id="pm25-index">
+                                <span id="pm25"></span>
+                            </div>
+                        </div>
+
+                        <div class="pollutant-card">
+                            <div class="info">
+                                <p data-i18n="pollutant.temp"></p>
+                                <p>(&deg;C)</p>
+                            </div>
+
+                            <div class="index-pollutant">
+                                <span id="temp">nan</span>
+                            </div>
+                        </div>
+
+                        <div class="pollutant-card">
+                            <div class="info">
+                                <p data-i18n="pollutant.humid"></p>
+                                <p>(%)</p>
+                            </div>
+
+                            <div class="index-pollutant">
+                                <span id="humidity"></span>
+                            </div>
+                        </div>
+
+                        <div class="pollutant-card">
+                            <div class="info">
+                                <p data-i18n="pollutant.co2"></p>
+                                <p>(ppm)</p>
+                            </div>
+
+                            <div class="index-pollutant">
+                                <span id="co2"></span>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="pollutant-card">
-                        <div class="info">
-                            <p data-i18n="pollutant.humid"></p>
-                            <p>(%)</p>
-                        </div>
-
-                        <div class="index-pollutant">
-                            <span id="humidity"></span>
-                        </div>
-                    </div>
-
-                    <div class="pollutant-card">
-                        <div class="info">
-                            <p data-i18n="pollutant.co"></p>
-                            <p>(ppm)</p>
-                        </div>
-
-                        <div class="index-pollutant" id="co-index">
-                            <span id="co"></span>
-                        </div>
-                    </div>
-
-                    <div class="pollutant-card">
-                        <div class="info">
-                            <p data-i18n="pollutant.co2"></p>
-                            <p>(ppm)</p>
-                        </div>
-
-                        <div class="index-pollutant">
-                            <span id="co2"></span>
-                        </div>
-                    </div>
-
-                    <div class="pollutant-card">
-                        <div class="info">
-                            <p data-i18n="pollutant.tvoc"></p>
-                            <p>(ppb)</p>
-                        </div>
-
-                        <div class="index-pollutant" id="tvoc-index">
-                            <span id="tvoc"></span>
-                        </div>
-                    </div>
-
-                    <div class="pollutant-card">
-                        <div class="info">
-                            <p data-i18n="pollutant.o3"></p>
-                            <p>(ppm)</p>
-                        </div>
-
-                        <div class="index-pollutant" id="o3-index">
-                            <span id="o3"></span>
-                        </div>
-                    </div>
-
-                    <div class="pollutant-card">
-                        <div class="info">
-                            <p data-i18n="pollutant.pm25"></p>
-                            <p>(ug/m3)</p>
-                        </div>
-
-                        <div class="index-pollutant" id="pm25-index">
-                            <span id="pm25"></span>
-                        </div>
-                    </div>
+                    <p class="updated-time">
+                        Last updated: <span id="updated-time-span">1 min ago</span>
+                    </p>
                 </div>
+
+
             </div>
         </div>
     </div>
