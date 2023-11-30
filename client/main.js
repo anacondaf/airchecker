@@ -471,40 +471,29 @@ const sweetAlert = () => {
 	});
 };
 
+// Floating action button handler
 const fabHandler = (e) => {
 	const guideBook = document.getElementById("guide-book");
 
-	const fab = document.getElementById("fab");
-	fab.addEventListener("click", (e) => {
-		guideBook.style.display = "flex";
-
-		e.preventDefault();
-	});
-
-	fab.addEventListener("touchstart", (e) => {
-		guideBook.style.display = "flex";
-
-		e.preventDefault();
-	});
+	guideBook.style.display = "flex";
+	e.preventDefault();
 };
 
 window.onload = (event) => {
 	// var isWelcomed = sessionStorage.getItem("isWelcomed");
 	// console.log("isWelcomed: ", isWelcomed);
-
 	// if (!isWelcomed) requestNotificationPermission();
-	var chart = initChart();
 
+	var chart = initChart();
 	var todayLabel = document.getElementById("today");
+
 	socket.on("new-date", (msg) => {
 		console.log(msg);
-
 		todayLabel.innerHTML = msg.today;
 	});
 
 	// FORECAST--------------
 	const today = new Date();
-
 	console.log(today);
 
 	const todayInTimeZone = today.toLocaleDateString("en-US", {
@@ -518,13 +507,11 @@ window.onload = (event) => {
 	)}`;
 
 	fetchPredictDatas(formattedDate);
-
 	// ---------------FORECAST
 
 	socket.on("update-chart", async (msg) => {
 		try {
 			console.log(msg);
-
 			var aqiLevel = document.getElementById("aqi-level");
 			var aqiDescription = document.getElementById("aqi-desc");
 
@@ -556,6 +543,7 @@ window.onload = (event) => {
 
 				temp.innerHTML = "-";
 				humidity.innerHTML = "-";
+
 				co.innerHTML = "-";
 				co2.innerHTML = "-";
 				tvoc.innerHTML = "-";
@@ -566,11 +554,11 @@ window.onload = (event) => {
 				sweetAlert();
 			} else {
 				updatedTimeSpan.innerHTML = moment(msg.latestCreatedAt).fromNow();
-
 				aqiText.innerHTML = aqi;
 
 				const { levels, levelsOfConcern, description, hexColor } =
 					getAQIInfo(aqi);
+
 				aqiLevel.innerHTML = levelsOfConcern;
 				aqiDescription.innerHTML = description;
 
@@ -617,15 +605,12 @@ window.onload = (event) => {
 				coAQIIndexCircle.style.background = `conic-gradient(${
 					pollutantAQIInfo.get("co")["hexColor"]
 				} 360deg, #383838 0deg)`;
-
 				tvocAQIIndexCircle.style.background = `conic-gradient(${
 					pollutantAQIInfo.get("tvoc")["hexColor"]
 				} 360deg, #383838 0deg)`;
-
 				o3AQIIndexCircle.style.background = `conic-gradient(${
 					pollutantAQIInfo.get("o3")["hexColor"]
 				} 360deg, #383838 0deg)`;
-
 				pm25coAQIIndexCircle.style.background = `conic-gradient(${
 					pollutantAQIInfo.get("pm25")["hexColor"]
 				} 360deg, #383838 0deg)`;
@@ -633,7 +618,6 @@ window.onload = (event) => {
 				// Push Notification
 				if (levels >= 3) {
 					const subscription = sessionStorage.getItem("sw-subscription");
-
 					await fetch(`${API_URL}/webpush/subscribe`, {
 						method: "POST",
 						headers: {
@@ -648,20 +632,17 @@ window.onload = (event) => {
 		}
 	});
 
+	userTourGuideHandler();
+
 	var lang =
 		document.getElementById("language-button").children[0].classList[1];
-
 	sessionStorage.setItem("lang", lang);
 
 	var chosenLng = sessionStorage.getItem("lang");
+
 	i18next.changeLanguage(chosenLng, () => {
 		rerender();
 	});
-
-	// Floating action button handler
-	fabHandler();
-
-	userTourGuideHandler();
 };
 
 const userTourGuideHandler = () => {
