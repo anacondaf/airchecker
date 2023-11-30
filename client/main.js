@@ -654,6 +654,219 @@ window.onload = (event) => {
 
 	// Floating action button handler
 	fabHandler();
+
+	userTourGuideHandler();
+};
+
+const userTourGuideHandler = () => {
+	const tour = new Shepherd.Tour({
+		defaultStepOptions: {
+			cancelIcon: {
+				enabled: true,
+			},
+			classes: "shepherd-theme-custom",
+			scrollTo: { behavior: "smooth", block: "center" },
+			exitOnEsc: true,
+		},
+	});
+
+	tour.addStep({
+		title: "Welcome to Airqual ",
+		text: "Let's start with a quick product tour",
+		buttons: [
+			{
+				action() {
+					return this.cancel();
+				},
+				classes: "shepherd-button-secondary",
+				text: "Exit",
+			},
+			{
+				action() {
+					return this.next();
+				},
+				text: "Next",
+			},
+		],
+		id: "creating",
+	});
+
+	tour.addStep({
+		title: "Location and Current Time",
+		text: "Your current location and date time",
+		attachTo: {
+			element: ".left-panel .top .top-left p",
+			on: "bottom",
+		},
+		buttons: [
+			{
+				action() {
+					return this.back();
+				},
+				classes: "shepherd-button-secondary",
+				text: "Back",
+			},
+			{
+				action() {
+					return this.next();
+				},
+				text: "Next",
+			},
+		],
+		id: "location-currTime",
+	});
+
+	tour.addStep({
+		title: "Language settings",
+		text: "Using English or Vietnamese",
+		attachTo: {
+			element: ".left-panel .top .dropdown",
+			on: "bottom",
+		},
+		buttons: [
+			{
+				action() {
+					return this.back();
+				},
+				classes: "shepherd-button-secondary",
+				text: "Back",
+			},
+			{
+				action() {
+					return this.next();
+				},
+				text: "Next",
+			},
+		],
+		id: "language",
+	});
+
+	tour.addStep({
+		title: "Composite AQI",
+		text: "The latest overall AQI",
+		attachTo: {
+			element: ".time-seriers-db .air-info .index-circle .index",
+			on: "bottom",
+		},
+		buttons: [
+			{
+				action() {
+					return this.back();
+				},
+				classes: "shepherd-button-secondary",
+				text: "Back",
+			},
+			{
+				action() {
+					return this.next();
+				},
+				text: "Next",
+			},
+		],
+		id: "composite-aqi",
+	});
+
+	tour.addStep({
+		title: "Historical data chart",
+		text: "View historical data over hours",
+		attachTo: {
+			element: ".time-seriers-db .chart-container",
+			on: "top",
+		},
+		buttons: [
+			{
+				action() {
+					return this.back();
+				},
+				classes: "shepherd-button-secondary",
+				text: "Back",
+			},
+			{
+				action() {
+					return this.next();
+				},
+				text: "Next",
+			},
+		],
+		id: "chart",
+	});
+
+	tour.addStep({
+		title: "Predict 2-days data",
+		text: "View the next 2 days predicted AQI",
+		attachTo: {
+			element: ".forecast",
+			on: "top",
+		},
+		buttons: [
+			{
+				action() {
+					return this.back();
+				},
+				classes: "shepherd-button-secondary",
+				text: "Back",
+			},
+			{
+				action() {
+					return this.next();
+				},
+				text: "Next",
+			},
+		],
+		id: "chart",
+	});
+
+	tour.addStep({
+		title: "Pollutants detail",
+		text: "View more pollutants in detail",
+		attachTo: {
+			element: ".right-panel .detail-pollutants",
+			on: "top",
+		},
+		buttons: [
+			{
+				action() {
+					return this.back();
+				},
+				classes: "shepherd-button-secondary",
+				text: "Back",
+			},
+			{
+				action() {
+					return this.next();
+				},
+				text: "Next",
+			},
+		],
+		id: "chart",
+	});
+
+	tour.addStep({
+		title: "Guide book",
+		text: "Get to know about AQI, color, pollutants and more",
+		attachTo: {
+			element: ".floating-action-button",
+			on: "top",
+		},
+		buttons: [
+			{
+				action() {
+					return this.back();
+				},
+				classes: "shepherd-button-secondary",
+				text: "Back",
+			},
+			{
+				action() {
+					return this.complete();
+				},
+				text: "Ok! I got it",
+			},
+		],
+		id: "chart",
+	});
+
+	tour.start();
 };
 
 const lngs = {
