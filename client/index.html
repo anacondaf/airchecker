@@ -285,6 +285,10 @@
             </div>
         </div>
 
+        <div class="floating-action-button" id="fab">
+            <img alt="fab-book" class="fab-book" src="assets/fabtn_icons/icons8-book-48.png">
+        </div>
+
         <div class="guide-book" id="guide-book">
             <canvas id="guid-book-canvas"></canvas>
         </div>
@@ -292,8 +296,8 @@
 
     <script src="swiped-events.js"></script>
     <script src="main.js"></script>
-    <script src="scripts/pwa_handler.js"></script>
-    <script src="service-worker.js"></script>
+    <!-- <script src="scripts/pwa_handler.js"></script>
+    <script src="service-worker.js"></script> -->
 
     <script type="module">
         let guideBook = document.getElementById('guide-book');
@@ -365,8 +369,6 @@
         }
 
         function onNextPage() {
-            console.log(pageNum);
-
             if (pageNum >= pdfDoc.numPages) {
                 return;
             }

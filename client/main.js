@@ -1,8 +1,8 @@
-const API_URL = "https://api.airqual.tech";
-const PREDICT_URL = "https://predict.airqual.tech";
+// const API_URL = "https://api.airqual.tech";
+// const PREDICT_URL = "https://predict.airqual.tech";
 
-// const API_URL = "http://localhost";
-// const PREDICT_URL = "http://localhost:8081";
+const API_URL = "http://localhost";
+const PREDICT_URL = "http://localhost:8081";
 const socket = io(API_URL);
 
 const initChart = () => {
@@ -471,6 +471,17 @@ const sweetAlert = () => {
 	});
 };
 
+const fabHandler = (e) => {
+	const guideBook = document.getElementById("guide-book");
+
+	const fab = document.getElementById("fab");
+	fab.addEventListener("click", (e) => {
+		guideBook.style.display = "flex";
+
+		e.preventDefault();
+	});
+};
+
 window.onload = (event) => {
 	// var isWelcomed = sessionStorage.getItem("isWelcomed");
 	// console.log("isWelcomed: ", isWelcomed);
@@ -640,6 +651,9 @@ window.onload = (event) => {
 	i18next.changeLanguage(chosenLng, () => {
 		rerender();
 	});
+
+	// Floating action button handler
+	fabHandler();
 };
 
 const lngs = {
@@ -784,7 +798,3 @@ function langBoxOnClick(event) {
 			];
 	}
 }
-
-// function offGuideBook(event) {
-
-// }
