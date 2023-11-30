@@ -784,3 +784,7 @@ function langBoxOnClick(event) {
 			];
 	}
 }
+
+// function offGuideBook(event) {
+
+// }

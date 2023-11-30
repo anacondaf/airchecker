@@ -285,17 +285,9 @@
             </div>
         </div>
 
-        <!-- <div class="guide-book">
-            <div class="guide-overlay">
-                
-            </div>
-        </div> -->
-
-        <div class="guide-book-section">
+        <div class="guide-book" id="guide-book">
             <canvas id="guid-book-canvas"></canvas>
         </div>
-
-
     </div>
 
     <script src="swiped-events.js"></script>
@@ -304,6 +296,8 @@
     <script src="service-worker.js"></script>
 
     <script type="module">
+        let guideBook = document.getElementById('guide-book');
+
         import { getDocument, GlobalWorkerOptions } from 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.269/pdf.min.mjs';
 
         GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.269/pdf.worker.min.mjs';
@@ -371,6 +365,8 @@
         }
 
         function onNextPage() {
+            console.log(pageNum);
+
             if (pageNum >= pdfDoc.numPages) {
                 return;
             }
@@ -391,6 +387,45 @@
             pdfDoc = pdfDoc_;
             renderPage(pageNum);
         });
+
+        let isDown = false;
+        let startX;
+        let endX;
+
+        canvas.addEventListener('mousedown', (e) => {
+            isDown = true;
+            startX = e.pageX;
+        });
+
+        canvas.addEventListener('mouseup', (e) => {
+            if (isDown) {
+                endX = e.pageX;
+                let distance = Math.abs(endX - startX);
+
+                if (distance < 10) {
+                    guideBook.style.display = "none";
+                } else {
+                    if (endX > startX) {
+                        onPrevPage();
+                    } else if (endX < startX) {
+                        onNextPage();
+                    }
+                }
+            }
+            isDown = false;
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            endX = e.pageX;
+        });
+
+
+        guideBook.addEventListener('click', (e) => {
+            if (e.target == guideBook) {
+                guideBook.style.display = "none";
+            }
+        })
     </script>
 </body>
 
