@@ -480,6 +480,12 @@ const fabHandler = (e) => {
 
 		e.preventDefault();
 	});
+
+	fab.addEventListener("touchstart", (e) => {
+		guideBook.style.display = "flex";
+
+		e.preventDefault();
+	});
 };
 
 window.onload = (event) => {
