@@ -25,9 +25,11 @@ This is my graduation thesis project which covers the application from IoT, Web 
 
 5. UI:
     - HTML, CSS and vanilla JS
-    - ChartJS
-    - i18n for english and vietnames translation
+    - ChartJS. Library website: https://www.chartjs.org/
+    - i18n for english and vietnamese translation. Library website: https://www.i18next.com/
     - PWA
+    - PDFjs for viewing guide book. Library website: https://mozilla.github.io/pdf.js/
+    - Shepherd for user app tour. Library website: https://shepherdjs.dev/
 
 6. Deployment:
     - Server Provider: Vultr, Google Cloud Compute Engine
