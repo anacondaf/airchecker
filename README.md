@@ -34,6 +34,11 @@ This is my graduation thesis project which covers the application from IoT, Web 
 6. Deployment:
     - Server Provider: Vultr, Google Cloud Compute Engine
     - Docker
+  
+7. Prediction:
+    - Python
+    - Flask
+    - LSTM model
 
 ## About docker compose port
 
