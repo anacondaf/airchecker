@@ -6,6 +6,7 @@
 #include "Adafruit_CCS811.h"
 #include "SharpGP2Y10.h"
 #include <math.h>
+#include "MQ7.h"
 
 // CAM BIEN DHT11
 const int DHTPIN = 2;       //Đọc dữ liệu từ DHT11 ở chân 2 trên mạch Arduino
@@ -25,12 +26,10 @@ MQ135 mq135_sensor = MQ135(PIN_MQ135, RZERO, RLOAD);
 
 // CAM BIEN MQ7
 #define PIN_MQ7 A1
-const int DPIN_MQ7 = 3;
+#define VOLTAGE 5
 
-// CO2 & TVOC SENSOR
-Adafruit_CCS811 ccs; //SCL: A5, SDA: A4
-int co2;
-int tvoc;
+// init MQ7 device
+MQ7 mq7(PIN_MQ7);
 
 // ESP Serial
 SoftwareSerial espSerial(10, 11);  // RX, TX
@@ -48,7 +47,6 @@ float voltage = 0;
 float pm25 = 0;
 
 // SharpGP2Y10 dustSensor(voPin, ledPin);
-
 void measureOpticalDustSensor() {
   digitalWrite(dustSensorLedPin,LOW); // Bật IR LED
 
@@ -78,7 +76,7 @@ void warmUpSensor() {
   Serial.println(".....Warm up.....");
   
   digitalWrite(6, HIGH);  // Ozone sensor
-  delay(1 * 30 * 1000);           // 5 min for warm heater
+  delay(1 * 30 * 1000);   // 1 min for warm heater
   digitalWrite(6, LOW);
 }
 
@@ -104,41 +102,15 @@ void setupMQ131() {
   // MQ131Calibrate();
 }
 
-void ccs811_init() {
-  Serial.println("CCS811 test");
-
-  if (!ccs.begin()) {
-    Serial.println("Failed to start sensor! Please check your wiring.");
-    while (1);
-  }
-
-  // Wait for the sensor to be ready
-  while (!ccs.available());
-}
-
-void ccs811_read() {
-  if (ccs.available()) {
-    if (!ccs.readData()) {
-      co2 = ccs.geteCO2();
-      Serial.print("CO2: ");
-      Serial.print(co2);
-      Serial.println("ppm");
-
-      tvoc = ccs.getTVOC();
-      Serial.print("TVOC: ");
-      Serial.print(tvoc);
-      Serial.println("ppb");
-    } else {
-      Serial.println("ERROR!");
-      while (1);
-    }
-  }
+void calibrateMQ7() {
+  Serial.println("Calibrating MQ7");
+	mq7.calibrate();		// calculates R0
+	Serial.println("Calibration done!");
 }
 
 void setup() {
   Serial.begin(115200);
   espSerial.begin(9600);
-  pinMode(DPIN_MQ7, INPUT);
 
   // dust sensor
   pinMode(dustSensorLedPin, OUTPUT);
@@ -150,6 +122,9 @@ void setup() {
 
   // run setup code for sensors
   setupMQ131();
+
+  // calibrate MQ7
+  calibrateMQ7();
 }
 
 void loop() {
@@ -163,36 +138,10 @@ void loop() {
   Serial.print("Do am: ");
   Serial.println(humidity);  //Xuất độ ẩm
 
-  // ĐO AQI
-  float ppm = mq135_sensor.getPPM();
-  float correctedPPM = mq135_sensor.getCorrectedPPM(temperature, humidity);
-  Serial.print("PPM: ");
-  Serial.print(ppm);
-  Serial.println("ppm");
-
-  Serial.print("Corrected PPM: ");
-  Serial.print(correctedPPM);
-  Serial.println("ppm");
-
-  float rzero = mq135_sensor.getRZero();
-  Serial.print("RZero: ");
-  Serial.println(rzero);
-
-  float raw = analogRead(A0);
-  Serial.print("Raw: ");
-  Serial.println(raw);
-
   // ĐO CO
-  int d_co = digitalRead(DPIN_MQ7);
-
-  if (d_co == LOW) {
-    Serial.print("CO Digital: ");
-    Serial.println(d_co);
-  }
-
-  float a_co = analogRead(PIN_MQ7);
-  Serial.print("CO Analog: ");
-  Serial.print(a_co);
+  float co = mq7.readPpm();
+  Serial.print("CO: ");
+  Serial.print(co);
   Serial.println(" ppm");
 
   // ĐO O3
@@ -213,10 +162,7 @@ void loop() {
 
   doc["humidity"] = humidity;
   doc["temp"] = temperature;
-  doc["aqi"] = correctedPPM;
-  doc["co"] = a_co;
-  doc["co2"] = co2;
-  doc["tvoc"] = tvoc;
+  doc["co"] = co;
   doc["o3"] = o3;
   doc["pm25"] = round(pm25 * 10.0) / 10.0; // round to 2 decimal places
 
