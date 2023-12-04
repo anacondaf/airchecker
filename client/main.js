@@ -579,7 +579,7 @@ window.onload = (event) => {
 
 				pm25.innerHTML =
 					msg["pm25"]["value"] != null ? msg["pm25"]["value"].toFixed(1) : null;
-				co.innerHTML = msg["co"]["value"];
+				co.innerHTML = Math.round(msg["co"]["value"] * 100) / 100;
 				tvoc.innerHTML = msg["tvoc"]["value"];
 				o3.innerHTML = Math.round(msg["o3"]["value"] * 10) / 10;
 
@@ -605,12 +605,15 @@ window.onload = (event) => {
 				coAQIIndexCircle.style.background = `conic-gradient(${
 					pollutantAQIInfo.get("co")["hexColor"]
 				} 360deg, #383838 0deg)`;
+
 				tvocAQIIndexCircle.style.background = `conic-gradient(${
 					pollutantAQIInfo.get("tvoc")["hexColor"]
 				} 360deg, #383838 0deg)`;
+
 				o3AQIIndexCircle.style.background = `conic-gradient(${
 					pollutantAQIInfo.get("o3")["hexColor"]
 				} 360deg, #383838 0deg)`;
+
 				pm25coAQIIndexCircle.style.background = `conic-gradient(${
 					pollutantAQIInfo.get("pm25")["hexColor"]
 				} 360deg, #383838 0deg)`;

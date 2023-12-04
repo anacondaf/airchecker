@@ -309,7 +309,7 @@
 
         GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.269/pdf.worker.min.mjs';
 
-        const url = 'https://res.cloudinary.com/dv1jbd8mq/image/upload/v1701285468/sample_uqagrq.pdf';
+        const url = 'https://res.cloudinary.com/dv1jbd8mq/image/upload/v1701714215/Air_Quality_Index_Technical_Document_ti9jpa.pdf';
 
         let pdfDoc = null,
             pageNum = 1,
@@ -322,7 +322,7 @@
             pageRendering = true;
 
             pdfDoc.getPage(num).then(function (page) {
-                var viewport = page.getViewport({ scale: 1 });
+                var viewport = page.getViewport({ scale: 0.7 });
 
                 let windowWidth = window.innerWidth;
                 let windowHeight = window.innerHeight;
