@@ -1,0 +1,50 @@
+.chart {
+	display: flex;
+	flex-direction: column;
+}
+
+.chart .top {
+	margin-bottom: 32px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-left: 24px;
+}
+
+.chart .category {
+	display: flex;
+	margin: 0;
+	padding: 0;
+}
+
+.chart .category > li {
+	list-style-type: none;
+	color: #171b1c;
+	font-weight: 600;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+.chart .category > li:not(:first-child):not(:last-child) {
+	margin: 0 8px;
+}
+
+.chart .category > li:first-child {
+	margin-right: 8px;
+}
+
+.chart .category > li:last-child {
+	margin-left: 8px;
+}
+
+.chart .category > li.active {
+	border-bottom: 3px solid #0097bc;
+}
+
+.chart .category > li:not(.active) {
+	color: #171b1c4c;
+}
+
+.chart .category > li:hover {
+	color: #171b1c;
+}

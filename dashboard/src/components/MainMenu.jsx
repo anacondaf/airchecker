@@ -5,6 +5,7 @@ import {
 	StyledMainMenuItemText,
 	StyledMainMenuText,
 } from "../style_components/StyledText";
+import { Link } from "react-router-dom";
 
 function MainMenu() {
 	return (
@@ -12,20 +13,12 @@ function MainMenu() {
 			<StyledMainMenuText>Main Menu</StyledMainMenuText>
 
 			<div className="main_menu_container">
-				<div className="menu_item active">
-					<FontAwesomeIcon icon={faHouse} />
-					<StyledMainMenuItemText>Dashboard</StyledMainMenuItemText>
-				</div>
-
-				<div className="menu_item">
-					<FontAwesomeIcon icon={faDownload} />
-					<StyledMainMenuItemText>Download reports</StyledMainMenuItemText>
-				</div>
-
-				<div className="menu_item">
-					<FontAwesomeIcon icon={faGear} />
-					<StyledMainMenuItemText>Settings</StyledMainMenuItemText>
-				</div>
+				<Link to="/dashboard">
+					<div className="menu_item active">
+						<FontAwesomeIcon icon={faHouse} />
+						<StyledMainMenuItemText>Dashboard</StyledMainMenuItemText>
+					</div>
+				</Link>
 			</div>
 		</div>
 	);
