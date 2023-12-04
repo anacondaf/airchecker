@@ -297,7 +297,7 @@
         </div>
     </div>
 
-    <script src="swiped-events.js"></script>
+    <script src="lib/swiped-events.js"></script>
     <script src="main.js"></script>
     <script src="scripts/pwa_handler.js"></script>
     <script src="service-worker.js"></script>
@@ -318,18 +318,21 @@
             canvas = document.getElementById('guid-book-canvas'),
             ctx = canvas.getContext('2d');
 
+        let scaleDefault = 1;
+
         function renderPage(num) {
             pageRendering = true;
 
             pdfDoc.getPage(num).then(function (page) {
-                var viewport = page.getViewport({ scale: 0.7 });
-
                 let windowWidth = window.innerWidth;
                 let windowHeight = window.innerHeight;
 
                 if (windowWidth > 500) {
                     windowWidth = 500;
+                    scaleDefault = 0.7;
                 }
+
+                var viewport = page.getViewport({ scale: scaleDefault });
 
                 var scale = Math.min((windowWidth - 32) / viewport.width, windowHeight / viewport.height);
 
