@@ -13,7 +13,7 @@ function MainMenu() {
 			<StyledMainMenuText>Main Menu</StyledMainMenuText>
 
 			<div className="main_menu_container">
-				<Link to="/dashboard">
+				<Link to="/dashboard" style={{ width: "100%" }}>
 					<div className="menu_item active">
 						<FontAwesomeIcon icon={faHouse} />
 						<StyledMainMenuItemText>Dashboard</StyledMainMenuItemText>

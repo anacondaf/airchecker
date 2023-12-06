@@ -7,9 +7,14 @@ const findPollutantWithTypeAndDateRange = async (type, from, to) => {
 
 	var toDate = new Date(to).toISOString().replace(/T(.+)/g, "T23:59:59.000Z");
 
-	const pollutantTypeInDateRage = await AirQualityModel.find({
+	let query = {
 		createdAt: { $gte: fromDate, $lte: toDate },
-	}).select(`${type} createdAt`);
+	};
+	query[type] = { $exists: true };
+
+	const pollutantTypeInDateRage = await AirQualityModel.find(query).select(
+		`${type} createdAt`
+	);
 	return pollutantTypeInDateRage;
 };
 

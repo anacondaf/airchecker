@@ -1,78 +1,80 @@
-import React, { PureComponent, useState, useEffect } from "react";
-import {
-	LineChart,
-	Line,
-	XAxis,
-	YAxis,
-	CartesianGrid,
-	Tooltip,
-	Legend,
-	ResponsiveContainer,
-} from "recharts";
-
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Line } from "react-chartjs-2";
 import { Dropdown } from "semantic-ui-react";
-
 import "../../styles/chart.style.css";
-
-const data = [
-	{
-		name: "Page A",
-		uv: 4000,
-		pv: 2400,
-		amt: 2400,
-	},
-	{
-		name: "Page B",
-		uv: 3000,
-		pv: 1398,
-		amt: 2210,
-	},
-	{
-		name: "Page C",
-		uv: 2000,
-		pv: 9800,
-		amt: 2290,
-	},
-	{
-		name: "Page D",
-		uv: 2780,
-		pv: 3908,
-		amt: 2000,
-	},
-	{
-		name: "Page E",
-		uv: 1890,
-		pv: 4800,
-		amt: 2181,
-	},
-	{
-		name: "Page F",
-		uv: 2390,
-		pv: 3800,
-		amt: 2500,
-	},
-	{
-		name: "Page G",
-		uv: 3490,
-		pv: 4300,
-		amt: 2100,
-	},
-];
+import pollutant_enum from "../../enums/pollutant_enum";
+import "chart.js/auto";
+import zoomPlugin from "chartjs-plugin-zoom";
+import { Chart as ChartJS } from "chart.js";
+ChartJS.register(zoomPlugin);
 
 const filterByCategories = [
 	"Last 12 hours",
 	"Last 24 hours",
 	"Today",
 	"Last 7 days",
-	"Week",
-	"Month",
 ];
 
 const pollutantTypes = ["PM 2.5", "CO", "TVOC", "O3", "CO2", "Temp", "Humid"];
 
+const mapping = {
+	"PM 2.5": pollutant_enum.pm25,
+	CO: pollutant_enum.co,
+	TVOC: pollutant_enum.tvoc,
+	O3: pollutant_enum.o3,
+	CO2: pollutant_enum.co2,
+	Temp: pollutant_enum.temp,
+	Humid: pollutant_enum.humid,
+};
+
+const options = {
+	responsive: true,
+	plugins: {
+		title: {
+			display: true,
+		},
+		zoom: {
+			pan: {
+				enabled: true,
+				mode: "x",
+			},
+			zoom: {
+				pinch: {
+					enabled: true,
+				},
+				wheel: {
+					enabled: true,
+				},
+				mode: "x",
+			},
+		},
+	},
+	scales: {},
+};
+
+const itemsPerPage = 15;
+
 function Chart() {
 	const [filterBy, setFilterBy] = useState(filterByCategories[0]);
-	const [pollutantType, setPollutantType] = useState();
+	const [pollutantType, setPollutantType] = useState(
+		mapping[pollutantTypes[0]]
+	);
+	const [page, setPage] = useState(0);
+	const [allData, setAllData] = useState(null);
+	const [data, setData] = useState({
+		labels: [],
+		datasets: [
+			{
+				label: pollutantType,
+				data: [],
+				tension: 0.5,
+				fill: false,
+				backgroundColor: "rgb(21, 105, 105)",
+				borderColor: "rgb(75, 200, 192)",
+			},
+		],
+	});
 
 	const handleFilterByChange = (e, data) => {
 		setFilterBy(data.children);
@@ -85,7 +87,54 @@ function Chart() {
 
 		currentActiveType.classList.remove("active");
 		e.target.classList.add("active");
+
+		setPollutantType(mapping[e.target.innerHTML]);
+		setPage(0);
 	};
+
+	useEffect(() => {
+		async function fetchAllData() {
+			let response = await axios.get(
+				`${
+					import.meta.env.VITE_API_URL
+				}/v1/analytics?type=${pollutantType}&from=2023-11-05T00:00:00Z&to=2023-12-05T01:24:19.940Z`
+			);
+
+			console.log(response);
+
+			const labels = response.data.map((x) => x.createdAt);
+			const chartData = response.data.map((x) => {
+				return x[pollutantType];
+			});
+
+			setAllData({ labels, data: chartData });
+		}
+
+		fetchAllData();
+	}, [pollutantType]);
+
+	useEffect(() => {
+		if (allData) {
+			const labels = allData.labels.slice(
+				page * itemsPerPage,
+				(page + 1) * itemsPerPage
+			);
+			const chartData = allData.data.slice(
+				page * itemsPerPage,
+				(page + 1) * itemsPerPage
+			);
+
+			setData((prevState) => ({
+				...prevState,
+				labels: labels,
+				datasets: prevState.datasets.map((dataset, i) =>
+					i === 0
+						? { ...dataset, data: chartData, label: pollutantType }
+						: dataset
+				),
+			}));
+		}
+	}, [page, allData, pollutantType]);
 
 	return (
 		<>
@@ -136,32 +185,23 @@ function Chart() {
 					</Dropdown>
 				</div>
 
-				<ResponsiveContainer width="100%" height={500}>
-					<LineChart
-						width={500}
-						height={300}
-						data={data}
-						margin={{
-							top: 5,
-							right: 30,
-							left: 20,
-							bottom: 5,
-						}}
+				<div className="buttons">
+					<button onClick={() => setPage(page - 1)} disabled={page === 0}>
+						Previous
+					</button>
+					<button
+						onClick={() => setPage(page + 1)}
+						disabled={
+							!allData || (page + 1) * itemsPerPage >= allData.labels.length
+						}
 					>
-						<CartesianGrid strokeDasharray="3 3" />
-						<XAxis dataKey="name" />
-						<YAxis />
-						<Tooltip />
-						<Legend />
-						<Line
-							type="monotone"
-							dataKey="pv"
-							stroke="#8884d8"
-							activeDot={{ r: 8 }}
-						/>
-						<Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-					</LineChart>
-				</ResponsiveContainer>
+						Next
+					</button>
+				</div>
+
+				<div className="chart-container">
+					<Line data={data} options={options} />
+				</div>
 			</div>
 		</>
 	);

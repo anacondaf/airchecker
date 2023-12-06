@@ -48,3 +48,13 @@
 .chart .category > li:hover {
 	color: #171b1c;
 }
+
+.chart-container {
+	width: 100%;
+	margin: 24px 0;
+	border: 1px solid #000000;
+}
+
+.chart > .buttons > button:first-child {
+	margin-right: 8px;
+}
