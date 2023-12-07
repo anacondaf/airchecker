@@ -6,15 +6,9 @@ import "../../styles/chart.style.css";
 import pollutant_enum from "../../enums/pollutant_enum";
 import "chart.js/auto";
 import zoomPlugin from "chartjs-plugin-zoom";
+import { format } from "date-fns";
 import { Chart as ChartJS } from "chart.js";
 ChartJS.register(zoomPlugin);
-
-const filterByCategories = [
-	"Last 12 hours",
-	"Last 24 hours",
-	"Today",
-	"Last 7 days",
-];
 
 const pollutantTypes = ["PM 2.5", "CO", "TVOC", "O3", "CO2", "Temp", "Humid"];
 
@@ -31,8 +25,15 @@ const mapping = {
 const options = {
 	responsive: true,
 	plugins: {
+		chartAreaBorder: {
+			borderColor: "red",
+			borderWidth: 2,
+			borderDash: [5, 5],
+			borderDashOffset: 2,
+		},
 		title: {
 			display: true,
+			text: "Chart with Tick Configuration",
 		},
 		zoom: {
 			pan: {
@@ -50,10 +51,132 @@ const options = {
 			},
 		},
 	},
-	scales: {},
+	scales: {
+		x: {
+			display: true,
+			title: {
+				display: true,
+				text: "DateTime",
+				color: "#911",
+				font: {
+					family: "Comic Sans MS",
+					size: 15,
+					weight: "bold",
+					lineHeight: 1.2,
+				},
+				padding: { top: 10, left: 0, right: 0, bottom: 10 },
+			},
+			ticks: {
+				callback: function (val, index) {
+					// Hide every 2nd tick label
+					return index % 2 === 0 ? this.getLabelForValue(val) : "";
+				},
+			},
+			border: {
+				display: true,
+			},
+			grid: {
+				display: true,
+				drawOnChartArea: true,
+				drawTicks: true,
+			},
+		},
+		y: {
+			display: true,
+			title: {
+				display: true,
+				text: "Value",
+				color: "#000000",
+				font: {
+					family: "Comic Sans MS",
+					size: 15,
+					weight: "bold",
+					lineHeight: 1.5,
+				},
+				padding: { top: 8, left: 0, right: 0, bottom: 0 },
+			},
+		},
+	},
 };
 
 const itemsPerPage = 15;
+
+const filterByCategories = [
+	"Last 6 hours",
+	"Last hour",
+	"Last 12 hours",
+	"Last 24 hours",
+	"Today",
+	"Last 7 days",
+];
+
+const filterByDateTime = (filterByIndex) => {
+	// Get current date and time in GMT+0 (UTC)
+	let now = new Date();
+	let to = now.toISOString();
+
+	switch (filterByIndex) {
+		case 0: {
+			// Last 6 hours
+			var from = new Date(now.getTime() - 6 * 60 * 60 * 1000).toISOString();
+			break;
+		}
+
+		case 1: {
+			// Last hour
+			var from = new Date(now.getTime() - 1 * 60 * 60 * 1000).toISOString();
+			break;
+		}
+
+		case 2: {
+			// Last 12 hours
+			var from = new Date(now.getTime() - 12 * 60 * 60 * 1000).toISOString();
+			break;
+		}
+
+		case 3: {
+			// Last 24 hours
+			var from = new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
+			break;
+		}
+
+		case 4: {
+			// Today
+			var from = new Date(
+				now.getUTCFullYear(),
+				now.getUTCMonth(),
+				now.getUTCDate()
+			).toISOString();
+			break;
+		}
+
+		// case 5: {
+		// 	// Yesterday
+		// 	var from = new Date(now.getTime() -  * 60 * 60 * 1000).toISOString();
+		// 	break;
+		// }
+
+		case 5: {
+			// Last 7 days
+			var from = new Date(
+				now.getTime() - 7 * 24 * 60 * 60 * 1000
+			).toISOString();
+			break;
+		}
+
+		default: {
+		}
+	}
+
+	console.log(
+		`Filter by [${filterByCategories[filterByIndex]}]: from [${from}] to [${to}]`
+	);
+
+	return {
+		from,
+		to,
+	};
+};
 
 function Chart() {
 	const [filterBy, setFilterBy] = useState(filterByCategories[0]);
@@ -72,12 +195,29 @@ function Chart() {
 				fill: false,
 				backgroundColor: "rgb(21, 105, 105)",
 				borderColor: "rgb(75, 200, 192)",
+				pointStyle: "circle",
+				pointRadius: 5,
+				pointHoverRadius: 8,
 			},
 		],
 	});
 
+	const { from, to } = filterByDateTime(filterByCategories.indexOf(filterBy));
+	const [queryDate, setQueryDate] = useState({
+		from: from,
+		to: to,
+	});
+
 	const handleFilterByChange = (e, data) => {
 		setFilterBy(data.children);
+		const { from, to } = filterByDateTime(
+			filterByCategories.indexOf(data.children)
+		);
+
+		setQueryDate({
+			from,
+			to,
+		});
 	};
 
 	const handlePollutantTypeSelect = (e) => {
@@ -97,12 +237,16 @@ function Chart() {
 			let response = await axios.get(
 				`${
 					import.meta.env.VITE_API_URL
-				}/v1/analytics?type=${pollutantType}&from=2023-11-05T00:00:00Z&to=2023-12-05T01:24:19.940Z`
+				}/v1/analytics?type=${pollutantType}&from=${queryDate.from}&to=${
+					queryDate.to
+				}`
 			);
 
-			console.log(response);
+			const labels = response.data.map((x) => {
+				const date = new Date(x.createdAt);
+				return format(date, "dd-MMM-yyyy HH:mm:ss").split(" ");
+			});
 
-			const labels = response.data.map((x) => x.createdAt);
 			const chartData = response.data.map((x) => {
 				return x[pollutantType];
 			});
@@ -111,7 +255,7 @@ function Chart() {
 		}
 
 		fetchAllData();
-	}, [pollutantType]);
+	}, [pollutantType, queryDate]);
 
 	useEffect(() => {
 		if (allData) {

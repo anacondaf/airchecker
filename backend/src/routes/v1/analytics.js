@@ -19,8 +19,6 @@ const {
 var getAnalyticsValidationSchema = {
 	[Segments.BODY]: Joi.object().keys({
 		type: Joi.string().required().valid(co, o3, pm25, tvoc, co2, humid, temp),
-		from: Joi.date().required(),
-		to: Joi.date().required(),
 	}),
 };
 
