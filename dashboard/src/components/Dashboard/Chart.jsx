@@ -234,6 +234,8 @@ function Chart() {
 
 	useEffect(() => {
 		async function fetchAllData() {
+			console.log(`Fetch... ${import.meta.env.VITE_API_URL}`);
+
 			let response = await axios.get(
 				`${
 					import.meta.env.VITE_API_URL

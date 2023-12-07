@@ -64,6 +64,17 @@ services:
     networks:
       - node-network
 
+  dashboard:
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    container_name: dashboard_air_checker
+    ports:
+      - "3002:3002"
+    networks:
+      - node-network
+
   portainer:
     image: portainer/portainer-ce:latest
     container_name: portainer_air_checker
