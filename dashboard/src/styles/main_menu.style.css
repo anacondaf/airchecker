@@ -1,4 +1,4 @@
-a {
+.main_menu a {
 	text-decoration: none;
 	color: #ffffff;
 }
@@ -36,10 +36,16 @@ a {
 	width: 100%;
 	padding: 16px 22px;
 	cursor: pointer;
+	font-weight: 600;
+	font-size: 15px;
 }
 
 .main_menu_container .active {
 	background-color: #4653568a;
+}
+
+.main_menu_container .active > svg{
+	color: #4289ff;
 }
 
 .menu_item:hover {

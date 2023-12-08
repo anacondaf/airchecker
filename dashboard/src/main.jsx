@@ -10,6 +10,7 @@ import {
 
 import Root from "./pages/Root";
 import Dashboard from "./pages/Dashboard";
+import Settings from "./pages/Settings";
 
 const router = createBrowserRouter([
 	{
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
 			{
 				path: "dashboard",
 				element: <Dashboard />,
+			},
+			{
+				path: "settings",
+				element: <Settings />,
 			},
 		],
 	},

@@ -363,7 +363,7 @@ function Chart() {
 				</div>
 
 				<div className="chart-container">
-					<Line data={data} options={options} />
+					<Line data={data} options={options} height="100px"/>
 				</div>
 			</div>
 		</>

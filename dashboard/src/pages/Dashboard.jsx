@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "../styles/dashboard.style.css";
 import Chart from "../components/Dashboard/Chart";
 
