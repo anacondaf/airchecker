@@ -55,6 +55,16 @@
 	border: 1px solid #000000;
 }
 
+.chart > .buttons {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+}
+
 .chart > .buttons > button:first-child {
 	margin-right: 8px;
+}
+
+.chart > .buttons > button:last-child {
+	margin-left: 8px;
 }

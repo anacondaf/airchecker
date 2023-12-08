@@ -183,7 +183,7 @@ function Chart() {
 	const [pollutantType, setPollutantType] = useState(
 		mapping[pollutantTypes[0]]
 	);
-	const [page, setPage] = useState(0);
+	const [page, setPage] = useState(1);
 	const [allData, setAllData] = useState(null);
 	const [data, setData] = useState({
 		labels: [],
@@ -229,7 +229,7 @@ function Chart() {
 		e.target.classList.add("active");
 
 		setPollutantType(mapping[e.target.innerHTML]);
-		setPage(0);
+		setPage(1);
 	};
 
 	useEffect(() => {
@@ -262,13 +262,20 @@ function Chart() {
 	useEffect(() => {
 		if (allData) {
 			const labels = allData.labels.slice(
-				page * itemsPerPage,
-				(page + 1) * itemsPerPage
+				(page - 1) * itemsPerPage,
+				page * itemsPerPage
 			);
+
 			const chartData = allData.data.slice(
-				page * itemsPerPage,
-				(page + 1) * itemsPerPage
+				(page - 1) * itemsPerPage,
+				page * itemsPerPage
 			);
+
+			console.log(allData);
+
+			console.log(labels);
+
+			console.log(chartData);
 
 			setData((prevState) => ({
 				...prevState,
@@ -335,11 +342,21 @@ function Chart() {
 					<button onClick={() => setPage(page - 1)} disabled={page === 0}>
 						Previous
 					</button>
+
+					<p className="page">
+						{page} /
+						<span className="totalCount">
+							{allData
+								? allData.labels.length % itemsPerPage == 0
+									? allData.labels.length / itemsPerPage
+									: Math.trunc(allData.labels.length / itemsPerPage) + 1
+								: undefined}
+						</span>
+					</p>
+
 					<button
 						onClick={() => setPage(page + 1)}
-						disabled={
-							!allData || (page + 1) * itemsPerPage >= allData.labels.length
-						}
+						disabled={!allData || page * itemsPerPage >= allData.labels.length}
 					>
 						Next
 					</button>
