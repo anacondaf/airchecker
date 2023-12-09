@@ -118,6 +118,21 @@ services:
     volumes:
       - ./airchecker/grafana-storage:/var/lib/grafana
 
+  rabbitmq:
+    image: rabbitmq:3.11-management
+    container_name: rabbitmq_air_checker
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./airchecker/rabbitmq:/var/lib/rabbitmq
+      - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+    networks:
+      - node-network
+
 networks:
   node-network:
     driver: bridge

@@ -1,9 +1,11 @@
 {
-  "amqp": "amqp://localhost",
-  "queue": "nodemailer-amqp",
+	"amqp": "amqp://localhost",
+	"queue": "nodemailer-amqp",
 
-  "server": {
-    "port": 12345,
-    "host": "localhost"
-  }
+	"smtp_server": {
+		"port": 465,
+		"host": "smtp.gmail.com",
+		"username": "kainguyen.business@gmail.com",
+		"password": "zrsc qmoy xozd aror"
+	}
 }
