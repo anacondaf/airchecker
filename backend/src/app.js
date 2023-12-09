@@ -13,6 +13,9 @@ const { errorHandler } = require("./middlewares/errors");
 const ApiError = require("./utils/ApiError");
 const httpStatus = require("http-status");
 
+const Producer = require("./rabbitmq/producer");
+const producer = new Producer();
+
 const start = async (agenda) => {
 	const app = express();
 
@@ -42,6 +45,11 @@ const start = async (agenda) => {
 
 const apiRoutes = (app, io, mqtt) => {
 	app.use("/v1", v1Route);
+
+	app.post("/amqp", async (req, res, next) => {
+		await producer.publishEmailMessage(req.body.mailList);
+		res.send("Sent");
+	});
 
 	app.get("/", async (req, res) => {
 		res.set("Content-Type", "text/html");

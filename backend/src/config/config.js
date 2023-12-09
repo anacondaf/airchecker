@@ -26,6 +26,9 @@ const envVarsSchema = Joi.object()
 		VAPID_PRIVATE_KEY: Joi.string(),
 		AQI_API_TOKEN: Joi.string(),
 		PREDICTION_SERVICE_URL: Joi.string(),
+		RABBITMQ: Joi.string(),
+		RABBITMQ_MAILSERVICE_EXCHANGE_NAME: Joi.string(),
+		RABBITMQ_MAILSERVICE_QUEUE_NAME: Joi.string(),
 	})
 	.unknown();
 
@@ -62,4 +65,9 @@ module.exports = {
 	vapidPrivateKey: envVars.VAPID_PRIVATE_KEY,
 	aqiApiToken: envVars.AQI_API_TOKEN,
 	predictionServiceUrl: envVars.PREDICTION_SERVICE_URL,
+	rabbitmq: {
+		url: envVars.RABBITMQ,
+		mailServiceExchangeName: envVars.RABBITMQ_MAILSERVICE_EXCHANGE_NAME,
+		mailServiceQueueName: envVars.RABBITMQ_MAILSERVICE_QUEUE_NAME,
+	},
 };

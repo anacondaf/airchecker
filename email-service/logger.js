@@ -18,7 +18,7 @@ const logger = winston.createLogger({
 		winston.format.errors({ stack: true }),
 		winston.format.json()
 	),
-	defaultMeta: { application: "mail_service" },
+	defaultMeta: { application: "email_service" },
 	transports: [
 		new winston.transports.Console({
 			format: winston.format.simple(),

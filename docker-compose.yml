@@ -129,7 +129,6 @@ services:
       - "15672:15672"
     volumes:
       - ./airchecker/rabbitmq:/var/lib/rabbitmq
-      - ./rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
     networks:
       - node-network
 

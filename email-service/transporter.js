@@ -18,6 +18,8 @@ const transporter = nodemailer.createTransport(
 );
 
 const sendMail = async (mailList) => {
+	logger.info(`Send mail to ${JSON.stringify(mailList)}`);
+
 	try {
 		// send mail with defined transport object
 		const info = await transporter.sendMail({
