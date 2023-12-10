@@ -2,10 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import "semantic-ui-css/semantic.min.css";
+import 'react-toastify/dist/ReactToastify.css';
+
 import {
 	createBrowserRouter,
-	RouterProvider,
-	Navigate,
+	RouterProvider
 } from "react-router-dom";
 
 import Root from "./pages/Root";

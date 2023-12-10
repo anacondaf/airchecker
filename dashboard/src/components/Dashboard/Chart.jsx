@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Line } from "react-chartjs-2";
 import { Dropdown } from "semantic-ui-react";
 import "../../styles/chart.style.css";
@@ -9,6 +8,8 @@ import zoomPlugin from "chartjs-plugin-zoom";
 import { format } from "date-fns";
 import { Chart as ChartJS } from "chart.js";
 ChartJS.register(zoomPlugin);
+
+import { Axios } from "../../config/axios";
 
 const pollutantTypes = ["PM 2.5", "CO", "TVOC", "O3", "CO2", "Temp", "Humid"];
 
@@ -236,10 +237,8 @@ function Chart() {
 		async function fetchAllData() {
 			console.log(`Fetch... ${import.meta.env.VITE_API_URL}`);
 
-			let response = await axios.get(
-				`${
-					import.meta.env.VITE_API_URL
-				}/v1/analytics?type=${pollutantType}&from=${queryDate.from}&to=${
+			let response = await Axios.get(
+				`analytics?type=${pollutantType}&from=${queryDate.from}&to=${
 					queryDate.to
 				}`
 			);

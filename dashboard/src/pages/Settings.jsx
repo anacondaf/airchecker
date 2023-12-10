@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "../styles/settings.style.css";
-import { Checkbox, Dropdown, Select } from 'semantic-ui-react';
+import { Checkbox, Select } from 'semantic-ui-react';
+import { toast } from 'react-toastify';
+import { Axios } from '../config/axios';
 
 const friendOptions = [
   {
@@ -42,51 +44,89 @@ const friendOptions = [
 ]
 
 function Settings() {
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState({
+    isError: false,
+    msg: ""
+  });
+
+  const handleEmailEnter = (e) => {
+    setEmail(e.target.value);
+  }
+
+  const handleEmailOnKeyDown = async (e) => {
+	
+    if (e.key === 'Enter') {
+		try {
+			const x = await Axios.insertSubscriberHandler(email);
+		
+		} catch (error) {
+			console.log(error);
+
+			toast.error(`${error.response.data.validation ? error.response.data.validation.body.message : error.response.data.message}`, {
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
+		}
+    }
+  }
+
 	return (
-		<div className="settings">
-			<h1>Settings</h1>
+		<>
+			<div className="settings">
+				<h1>Settings</h1>
+				<div className="settings_container">
+					<div className="setting_item">
 
-            <div className="settings_container">
-                <div className="setting_item">
+						<div className="left_panel">
+							<h4>AQI Level Alert</h4>
+							<div className="divider"></div>
+							<Select 
+							placeholder='Select AQI Level' 
+							options={friendOptions} />
+						</div>
+					</div>
 
-                    <div className="left_panel">
-                        <h4>AQI Level Alert</h4>
-                        <div className="divider"></div>
-                        <Select 
-                        placeholder='Select AQI Level' 
-                        options={friendOptions} />
-                    </div>
-                </div>
+					<div className="subscribe setting_item">
 
-                <div className="subscribe setting_item">
+						<div className="left_panel">
+							<h4>Subscribe Email Alert</h4>
 
-                    <div className="left_panel">
-                        <h4>Subscribe Email Alert</h4>
+							<div className="divider"></div>
 
-                        <div className="divider"></div>
+							<input 
+							placeholder="example@gmail.com" 
+							onChange={(e) => {handleEmailEnter(e)}}
+							onKeyDown={(e) => {handleEmailOnKeyDown(e)}}
+							value={email} />
+						</div>
 
-                        <input placeholder="example@gmail.com"></input>
-                    </div>
+						<Checkbox toggle />
 
-                    <Checkbox toggle />
+					</div>
 
-                </div>
+					<div className="setting_item">
 
-                <div className="setting_item">
+						<div className="left_panel">
+							<h4>Receive Notifications</h4>
 
-                    <div className="left_panel">
-                        <h4>Receive Notifications</h4>
+							<div className="divider"></div>
 
-                        <div className="divider"></div>
+							<p>Receive notification after an hour.</p>
+						</div>
 
-                        <p>Receive notification after an hour.</p>
-                    </div>
+						<Checkbox toggle />
 
-                    <Checkbox toggle />
+					</div>
+				</div>
+			</div>
 
-                </div>
-            </div>
-		</div>
+			
+		</>
+		
 	);
 }
 
