@@ -15,10 +15,11 @@ This is my graduation thesis project which covers the application from IoT, Web 
 2. Backend technologies:
     - NodeJS and ExpressJS framework
 
-3. Communication Protocol:
+3. Communication & Protocol:
     - MQTT with MQTT Broker provided by EMQX
     - RESTFul API
     - Websocket using Socket.IO
+    - RabbitMQ for communicating between api service with email service
 
 4. Database:
     - MongoDB
@@ -26,12 +27,12 @@ This is my graduation thesis project which covers the application from IoT, Web 
 5. UI:
     - HTML, CSS and vanilla JS
     - ChartJS. Library website: https://www.chartjs.org/
-    - Rechartjs. Library website: https://recharts.org/en-US
     - i18n for english and vietnamese translation. Library website: https://www.i18next.com/
     - PWA
     - PDFjs for viewing guide book. Library website: https://mozilla.github.io/pdf.js/
     - Shepherd for user app tour. Library website: https://shepherdjs.dev/
     - Semantic UI for ReactJS. Library website: https://react.semantic-ui.com/
+    - ReactJS framework for dashboard page
 
 6. Deployment:
     - Server Provider: Vultr, Google Cloud Compute Engine
@@ -44,7 +45,7 @@ This is my graduation thesis project which covers the application from IoT, Web 
 
 ## About docker compose port
 
-- All internal services: backend, client is running on port with pattern 808[order]. While order is the order of each docker container and are freely to customize
+- All internal services: backend, client, prediction_service, email_service is running on port with pattern 808[order]. While order is the order of each docker container and are freely to customize
 
 - All support containers such as grafana, portainer or health check, etc. is following the pattern of 900[order]. Order has the same logic as internal services and is defined above ☝️
 
