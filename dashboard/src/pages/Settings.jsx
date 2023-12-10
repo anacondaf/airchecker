@@ -58,7 +58,15 @@ function Settings() {
 	
     if (e.key === 'Enter') {
 		try {
-			const x = await Axios.insertSubscriberHandler(email);
+			const successResponse = await Axios.insertSubscriberHandler(email);
+
+			toast.success(`${successResponse.data.message}`, {
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			});
 		
 		} catch (error) {
 			console.log(error);
