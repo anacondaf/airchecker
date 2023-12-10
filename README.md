@@ -12,19 +12,22 @@ This is my graduation thesis project which covers the application from IoT, Web 
     - ESP8266 Wifi Kit: WeMos D1 R1
     - Sensors for measuring air concentration: MQ135, MQ7, DHT11, Sharp GP2Y1010AU0F dust sensor, CCS811 CJMCU, MQ131
 
-2. Backend technologies:
-    - NodeJS and ExpressJS framework
+2. Backend Services:
 
-3. Communication & Protocol:
+    2.1. API service:
+   
+   - Dependencies:
+
+4. Communication & Protocol:
     - MQTT with MQTT Broker provided by EMQX
     - RESTFul API
     - Websocket using Socket.IO
     - RabbitMQ for communicating between api service with email service
 
-4. Database:
+5. Database:
     - MongoDB
 
-5. UI:
+6. UI:
     - HTML, CSS and vanilla JS
     - ChartJS. Library website: https://www.chartjs.org/
     - i18n for english and vietnamese translation. Library website: https://www.i18next.com/
@@ -34,11 +37,11 @@ This is my graduation thesis project which covers the application from IoT, Web 
     - Semantic UI for ReactJS. Library website: https://react.semantic-ui.com/
     - ReactJS framework for dashboard page
 
-6. Deployment:
+7. Deployment:
     - Server Provider: Vultr, Google Cloud Compute Engine
     - Docker
   
-7. Prediction:
+8. Prediction:
     - Python
     - Flask
     - LSTM model
