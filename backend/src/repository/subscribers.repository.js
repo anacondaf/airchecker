@@ -18,4 +18,23 @@ const insertNewSubscriber = async (email) => {
 	return subscriber;
 };
 
-module.exports = { findExistedSubscriber, insertNewSubscriber };
+const getAllSubscribers = async () => {
+	const subscribers = await SubscriberModel.find();
+	return subscribers;
+};
+
+const findSubscriberById = async (id) => {
+	return await SubscriberModel.findOne({ _id: id });
+};
+
+const deleteSubscriberById = async (id) => {
+	return await SubscriberModel.findByIdAndDelete(id);
+};
+
+module.exports = {
+	findExistedSubscriber,
+	insertNewSubscriber,
+	getAllSubscribers,
+	deleteSubscriberById,
+	findSubscriberById,
+};
