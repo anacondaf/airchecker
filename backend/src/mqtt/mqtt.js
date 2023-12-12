@@ -4,6 +4,10 @@ const logger = require("../config/logger");
 const { getData } = require("../helper/getData");
 const AirQualityModel = require("../models/AirQuality");
 const { calcAQI } = require("../helper/calculateTotalAQI");
+const { producer } = require("../rabbitmq/producer");
+
+const SubscriberModel = require("../models/Subscriber");
+const { getAQIInfo } = require("../helper/aqiScale");
 
 const mqttClient = (io) => {
 	return new Promise((resolve) => {
@@ -59,7 +63,7 @@ const mqttClient = (io) => {
 
 			client.on("message", async (topic, message) => {
 				message = JSON.parse(message);
-				logger.info(`Message from MQTT Broker: ${message}`);
+				logger.info(`Message from MQTT Broker: ${JSON.stringify(message)}`);
 
 				var aqiIndex = await calcAQI([
 					{
@@ -100,6 +104,45 @@ const mqttClient = (io) => {
 				} = await getData();
 
 				const pollutantsAqi = aqiIndex[0]["pollutantsAqi"];
+
+				// Send to message queue for mailing
+				logger.info("Publishing message to EmailService...");
+
+				const subscriberMailList = await SubscriberModel.find({}).select({
+					email: 1,
+					_id: 0,
+				});
+
+				const rabbitmqMessage = {
+					mailList: subscriberMailList.map((v) => v.email),
+					data: {
+						co: {
+							aqi: pollutantsAqi["co"],
+							levelsOfConcern: getAQIInfo(pollutantsAqi["co"]).levelsOfConcern,
+							description: getAQIInfo(pollutantsAqi["co"]).description,
+						},
+						o3: {
+							aqi: pollutantsAqi["o3"],
+							levelsOfConcern: getAQIInfo(pollutantsAqi["o3"]).levelsOfConcern,
+							description: getAQIInfo(pollutantsAqi["o3"]).description,
+						},
+
+						pm25: {
+							aqi: pollutantsAqi["pm25"],
+							levelsOfConcern: getAQIInfo(pollutantsAqi["pm25"])
+								.levelsOfConcern,
+							description: getAQIInfo(pollutantsAqi["pm25"]).description,
+						},
+						tvoc: {
+							aqi: pollutantsAqi["tvoc"],
+							levelsOfConcern: getAQIInfo(pollutantsAqi["tvoc"])
+								.levelsOfConcern,
+							description: getAQIInfo(pollutantsAqi["tvoc"]).description,
+						},
+					},
+				};
+
+				await producer.publishEmailMessage(rabbitmqMessage);
 
 				io.emit("update-chart", {
 					labels,

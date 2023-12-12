@@ -2,23 +2,29 @@ const amqp = require("amqplib");
 const config = require("../config/config");
 const logger = require("../config/logger");
 
+let instance;
+
 class Producer {
 	channel;
 
-	async createChannel() {
-		const connection = await amqp.connect(config.rabbitmq.url);
-		this.channel = await connection.createChannel();
+	constructor() {
+		if (instance) {
+			throw new Error("New producer instance cannot be created");
+		}
+
+		(async () => {
+			const connection = await amqp.connect(config.rabbitmq.url);
+			this.channel = await connection.createChannel();
+		})();
+
+		instance = this;
 	}
 
 	async publishEmailMessage(message, routingKey = "MailService") {
-		if (!this.channel) {
-			await this.createChannel();
-		}
-
 		const mailServiceExchangeName = config.rabbitmq.mailServiceExchangeName;
 		await this.channel.assertExchange(mailServiceExchangeName, "direct");
 
-		const logDetails = {
+		const messageDetails = {
 			logType: routingKey,
 			message: message,
 			dateTime: new Date(),
@@ -27,7 +33,7 @@ class Producer {
 		await this.channel.publish(
 			mailServiceExchangeName,
 			routingKey,
-			Buffer.from(JSON.stringify(logDetails))
+			Buffer.from(JSON.stringify(messageDetails))
 		);
 
 		logger.info(
@@ -36,4 +42,6 @@ class Producer {
 	}
 }
 
-module.exports = Producer;
+let producer = new Producer();
+
+module.exports.producer = producer;

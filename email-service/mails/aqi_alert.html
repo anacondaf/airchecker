@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        .logo {
+            width: 64px;
+            height: 64px;
+        }
+
+        .title {
+            margin-bottom: 6px;
+        }
+
+        .subtitle {
+            margin-top: 6px;
+        }
+    </style>
+</head>
+
+<body>
+    <table align="center"
+        style="max-width: 600px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+        <tr>
+            <td align="center">
+                <img src="https://res.cloudinary.com/dv1jbd8mq/image/upload/v1697540735/fxan8fhvg4qdsi8rkvrb.png" alt=""
+                    class="logo">
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <h2 class="title">AQI Hourly Alert</h2>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <p class="subtitle">Below is your AQI alert from the sensor device:</p>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <table class="aqi-table">
+                    <tr>
+                        <th>Pollutant</th>
+                        <th>AQI</th>
+                        <th>Level of Concerns</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>CO</td>
+                        <td>{{data.co.aqi}}</td>
+                        <td>{{data.co.levelsOfConcern}}</td>
+                        <td>{{data.co.description}}</td>
+                    </tr>
+                    <tr>
+                        <td>O3</td>
+                        <td>{{data.o3.aqi}}</td>
+                        <td>{{data.o3.levelsOfConcern}}</td>
+                        <td>{{data.o3.description}}</td>
+                    </tr>
+                    <tr>
+                        <td>PM2.5</td>
+                        <td>{{data.pm25.aqi}}</td>
+                        <td>{{data.pm25.levelsOfConcern}}</td>
+                        <td>{{data.pm25.description}}</td>
+                    </tr>
+                    <tr>
+                        <td>TVOC</td>
+                        <td>{{data.tvoc.aqi}}</td>
+                        <td>{{data.tvoc.levelsOfConcern}}</td>
+                        <td>{{data.tvoc.description}}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>

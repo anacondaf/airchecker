@@ -5,34 +5,43 @@ const amqp = require("amqplib");
 const sendMail = require("./transporter");
 
 async function consumeMessages() {
-	const connection = await amqp.connect(config.amqp.url);
-	const channel = await connection.createChannel();
+	try {
+		const connection = await amqp.connect(config.amqp.url);
 
-	await channel.assertExchange(config.amqp.exchangeName, "direct");
+		logger.info("Connect RabbitMQ successfull");
 
-	const q = await channel.assertQueue(config.amqp.queueName);
+		const channel = await connection.createChannel();
 
-	await channel.bindQueue(
-		q.queue,
-		config.amqp.exchangeName,
-		config.amqp.bindingKey
-	);
+		await channel.assertExchange(config.amqp.exchangeName, "direct");
 
-	channel.consume(q.queue, async (msg) => {
-		const data = JSON.parse(msg.content);
-		logger.info(
-			`Receive message from exchange [${
-				config.amqp.exchangeName
-			}], data ${JSON.stringify(data)}`
+		const q = await channel.assertQueue(config.amqp.queueName);
+
+		await channel.bindQueue(
+			q.queue,
+			config.amqp.exchangeName,
+			config.amqp.bindingKey
 		);
 
-		const { message: mailList } = data;
-		console.log(mailList);
+		channel.consume(q.queue, async (msg) => {
+			const content = JSON.parse(msg.content);
 
-		await sendMail(mailList);
+			logger.info(
+				`Receive message from exchange [${
+					config.amqp.exchangeName
+				}], data ${JSON.stringify(content)}`
+			);
 
-		channel.ack(msg);
-	});
+			const {
+				message: { mailList, data },
+			} = content;
+
+			await sendMail(mailList, data);
+
+			channel.ack(msg);
+		});
+	} catch (error) {
+		logger.error(error);
+	}
 }
 
 consumeMessages();

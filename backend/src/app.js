@@ -13,8 +13,7 @@ const { errorHandler } = require("./middlewares/errors");
 const ApiError = require("./utils/ApiError");
 const httpStatus = require("http-status");
 
-const Producer = require("./rabbitmq/producer");
-const producer = new Producer();
+const { producer } = require("./rabbitmq/producer");
 
 const start = async (agenda) => {
 	const app = express();
