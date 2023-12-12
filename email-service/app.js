@@ -1,25 +1,25 @@
-const config = require("./config.json");
-const logger = require("./logger");
+const config = require("./config/config");
+const logger = require("./config/logger");
 const amqp = require("amqplib");
 
 const sendMail = require("./transporter");
 
 async function consumeMessages() {
 	try {
-		const connection = await amqp.connect(config.amqp.url);
+		const connection = await amqp.connect(config.rabbitmq.url);
 
 		logger.info("Connect RabbitMQ successfull");
 
 		const channel = await connection.createChannel();
 
-		await channel.assertExchange(config.amqp.exchangeName, "direct");
+		await channel.assertExchange(config.rabbitmq.exchangeName, "direct");
 
-		const q = await channel.assertQueue(config.amqp.queueName);
+		const q = await channel.assertQueue(config.rabbitmq.queueName);
 
 		await channel.bindQueue(
 			q.queue,
-			config.amqp.exchangeName,
-			config.amqp.bindingKey
+			config.rabbitmq.exchangeName,
+			config.rabbitmq.bindingKey
 		);
 
 		channel.consume(q.queue, async (msg) => {
@@ -27,7 +27,7 @@ async function consumeMessages() {
 
 			logger.info(
 				`Receive message from exchange [${
-					config.amqp.exchangeName
+					config.rabbitmq.exchangeName
 				}], data ${JSON.stringify(content)}`
 			);
 

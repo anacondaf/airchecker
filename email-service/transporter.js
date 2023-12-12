@@ -1,22 +1,21 @@
 const nodemailer = require("nodemailer");
-const config = require("./config.json");
-const logger = require("./logger");
+const config = require("./config/config");
+const logger = require("./config/logger");
 const fs = require("fs");
 const handlebars = require("handlebars");
-const textToImage = require("text-to-image");
 
 const transporter = nodemailer.createTransport(
 	{
-		host: config.smtp_server.host,
-		port: config.smtp_server.port,
+		host: config.smtp.host,
+		port: config.smtp.port,
 		secure: true,
 		auth: {
-			user: config.smtp_server.username,
-			pass: config.smtp_server.password,
+			user: config.smtp.username,
+			pass: config.smtp.password,
 		},
 	},
 	{
-		from: `"AQI Alert ⚠️" ${config.smtp_server.username}`,
+		from: `"AQI Alert ⚠️" ${config.smtp.username}`,
 	}
 );
 

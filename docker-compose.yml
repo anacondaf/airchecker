@@ -38,6 +38,15 @@ services:
     networks:
       - node-network
 
+  email_service:
+    build:
+      context: ./email-service
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    container_name: email_service
+    networks:
+      - node-network
+
   prediction_service:
     build:
       context: ./prediction-service
