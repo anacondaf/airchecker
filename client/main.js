@@ -479,6 +479,67 @@ const fabHandler = (e) => {
 	e.preventDefault();
 };
 
+const handleToolTip = (pollutantAQIInfo) => {
+	const pollutantCardIndexMap = {
+		0: "co",
+		1: "tvoc",
+		2: "o3",
+		3: "pm25",
+	};
+
+	let pollutantCards = document.querySelectorAll(".pollutant-card");
+
+	pollutantCards = Array.from(
+		document.querySelectorAll(".pollutant-card")
+	).slice(0, 4);
+
+	pollutantCards.forEach((card, index) => {
+		const tooltip = card.querySelector("#tooltip");
+		let popperInstance = null;
+
+		function create() {
+			popperInstance = Popper.createPopper(card, tooltip, {
+				placement: index % 2 == 0 ? "left" : "right",
+				modifiers: [
+					{
+						name: "offset",
+						options: {
+							offset: [0, 5],
+						},
+					},
+				],
+			});
+		}
+
+		function show() {
+			if (pollutantAQIInfo.get(pollutantCardIndexMap[index])["levels"] >= 3) {
+				tooltip.setAttribute("data-show", "");
+				create();
+			}
+		}
+
+		function hide() {
+			tooltip.removeAttribute("data-show");
+
+			if (popperInstance) {
+				popperInstance.destroy();
+				popperInstance = null;
+			}
+		}
+
+		const showEvents = ["mouseenter", "focus"];
+		const hideEvents = ["mouseleave", "blur"];
+
+		showEvents.forEach((event) => {
+			card.addEventListener(event, show);
+		});
+
+		hideEvents.forEach((event) => {
+			card.addEventListener(event, hide);
+		});
+	});
+};
+
 window.onload = (event) => {
 	// var isWelcomed = sessionStorage.getItem("isWelcomed");
 	// console.log("isWelcomed: ", isWelcomed);
@@ -601,6 +662,8 @@ window.onload = (event) => {
 				}
 
 				console.log("pollutantAQIInfo: \n", pollutantAQIInfo);
+
+				handleToolTip(pollutantAQIInfo);
 
 				coAQIIndexCircle.style.background = `conic-gradient(${
 					pollutantAQIInfo.get("co")["hexColor"]
