@@ -37,7 +37,7 @@ const socketio = (httpServer) => {
 				latestCreatedAt,
 			} = await getData();
 
-			if (labels.length == 0 || calc_aqi == null) {
+			if (calc_aqi == null) {
 				socket.emit("update-chart", {
 					labels,
 					aqi: aqi != null ? Math.round(aqi * 100) / 100 : null,
