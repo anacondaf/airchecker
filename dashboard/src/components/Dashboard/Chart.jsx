@@ -238,9 +238,7 @@ function Chart() {
 			console.log(`Fetch... ${import.meta.env.VITE_API_URL}`);
 
 			let response = await Axios.get(
-				`analytics?type=${pollutantType}&from=${queryDate.from}&to=${
-					queryDate.to
-				}`
+				`analytics?type=${pollutantType}&from=${queryDate.from}&to=${queryDate.to}`
 			);
 
 			const labels = response.data.map((x) => {
@@ -338,7 +336,7 @@ function Chart() {
 				</div>
 
 				<div className="buttons">
-					<button onClick={() => setPage(page - 1)} disabled={page === 0}>
+					<button onClick={() => setPage(page - 1)} disabled={page === 1}>
 						Previous
 					</button>
 
@@ -362,7 +360,7 @@ function Chart() {
 				</div>
 
 				<div className="chart-container">
-					<Line data={data} options={options} height="100px"/>
+					<Line data={data} options={options} height="100px" />
 				</div>
 			</div>
 		</>
