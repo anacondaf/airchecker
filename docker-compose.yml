@@ -1,19 +1,4 @@
 services:
-  mysql:
-    image: mysql:8.0
-    restart: unless-stopped
-    container_name: mysql_air_checker
-    environment:
-      - MYSQL_DATABASE=airchecker
-      - MYSQL_ROOT_PASSWORD=P@ssw0rd!
-    ports:
-      - "3306:3306"
-    volumes:
-      - ./airchecker/mysqldata:/var/lib/mysql
-      - ./configs/init.sql:/docker-entrypoint-initdb.d/init.sql
-    networks:
-      - node-network
-
   emqx:
     image: emqx/emqx:5.3.0
     restart: unless-stopped

@@ -37,44 +37,74 @@ const socketio = (httpServer) => {
 				latestCreatedAt,
 			} = await getData();
 
-			var aqiIndex = await calcPollutantAQI([
-				{
-					co: co,
-					tvoc: tvoc,
-					o3: o3,
-					pm25: pm25,
-				},
-			]);
+			if (labels.length == 0 || calc_aqi == null) {
+				socket.emit("update-chart", {
+					labels,
+					aqi: aqi != null ? Math.round(aqi * 100) / 100 : null,
+					datas,
+					humidity,
+					temperature,
+					co2,
+					calc_aqi,
+					co: {
+						value: co,
+						aqi: null,
+					},
+					o3: {
+						value: o3,
+						aqi: null,
+					},
 
-			const pollutantsAqi = aqiIndex[0]["pollutantsAqi"];
+					pm25: {
+						value: pm25,
+						aqi: null,
+					},
+					tvoc: {
+						value: tvoc,
+						aqi: null,
+					},
+					latestCreatedAt,
+				});
+			} else {
+				var aqiIndex = await calcPollutantAQI([
+					{
+						co: co,
+						tvoc: tvoc,
+						o3: o3,
+						pm25: pm25,
+					},
+				]);
 
-			socket.emit("update-chart", {
-				labels,
-				aqi: aqi != null ? Math.round(aqi * 100) / 100 : null,
-				datas,
-				humidity,
-				temperature,
-				co2,
-				calc_aqi,
-				co: {
-					value: co,
-					aqi: pollutantsAqi["co"],
-				},
-				o3: {
-					value: o3,
-					aqi: pollutantsAqi["o3"],
-				},
+				const pollutantsAqi = aqiIndex[0]["pollutantsAqi"];
 
-				pm25: {
-					value: pm25,
-					aqi: pollutantsAqi["pm25"],
-				},
-				tvoc: {
-					value: tvoc,
-					aqi: pollutantsAqi["tvoc"],
-				},
-				latestCreatedAt,
-			});
+				socket.emit("update-chart", {
+					labels,
+					aqi: aqi != null ? Math.round(aqi * 100) / 100 : null,
+					datas,
+					humidity,
+					temperature,
+					co2,
+					calc_aqi,
+					co: {
+						value: co,
+						aqi: pollutantsAqi["co"],
+					},
+					o3: {
+						value: o3,
+						aqi: pollutantsAqi["o3"],
+					},
+
+					pm25: {
+						value: pm25,
+						aqi: pollutantsAqi["pm25"],
+					},
+					tvoc: {
+						value: tvoc,
+						aqi: pollutantsAqi["tvoc"],
+					},
+					latestCreatedAt,
+				});
+			}
 		});
 
 		resolve({ message: "Socket.io is connected", io });

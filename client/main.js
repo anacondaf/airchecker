@@ -614,6 +614,7 @@ window.onload = (event) => {
 
 				sweetAlert();
 			} else {
+				// Tính thời gian cập nhật mới
 				updatedTimeSpan.innerHTML = moment(msg.latestCreatedAt).fromNow();
 				aqiText.innerHTML = aqi;
 

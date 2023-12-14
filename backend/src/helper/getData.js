@@ -119,6 +119,7 @@ const getData = async () => {
 		o3: null,
 		pm25: null,
 		calc_aqi: null,
+		latestCreatedAt: null,
 	};
 };
 
