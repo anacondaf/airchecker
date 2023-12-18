@@ -88,7 +88,14 @@ void connectWifi() {
   WiFiManager wifiManager;
   wifiManager.setAPCallback(configModeCallback);
 
-  if (!wifiManager.autoConnect()) {
+  // Serial.println();
+  // Serial.println("==============Factory reset==============");
+  // wifiManager.resetSettings();
+  // delay(1000);
+
+  const char WIFI_NAME[] = "AC_8266";
+
+  if (!wifiManager.autoConnect(WIFI_NAME)) {
     Serial.println("Failed to connect and hit timeout");
     ESP.reset();
     delay(1000);
