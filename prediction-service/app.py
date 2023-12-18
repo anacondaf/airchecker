@@ -34,15 +34,11 @@ mongo_collection = mongo_db['dataset']
 
 def predict_aqi(target_date, previous_aqi=None):
     # Get the data for the 5 days before the target_date
-    n_input = 5
+    n_input = 14
     n_features = 1
 
     start_date = target_date - timedelta(days=n_input)
     end_date = target_date - timedelta(days=1)
-
-    # If a previous_aqi value is provided, use it as input for the last day
-    if previous_aqi is not None:
-        end_date = target_date - timedelta(days=2)
 
     print('Get input date range for target_date [' + str(target_date) + ']')
     print('[' + str(start_date) + ' - ' + str(end_date) + ']')
@@ -54,8 +50,9 @@ def predict_aqi(target_date, previous_aqi=None):
 
     input_data = np.array([entry['aqi'] for entry in data_from_mongo])
 
+    # If a previous_aqi value is provided, add the previous_aqi which is array into input_data
     if previous_aqi is not None:
-        input_data = np.append(input_data, previous_aqi)
+        input_data = np.append(input_data, previous_aqi)[-n_input:]
 
     print(input_data)
 
@@ -122,17 +119,29 @@ def predict_aqi_endpoint():
 
     print('predicted_aqi for [' + str(target_date) + ']' ' is: ' + str(predicted_aqi_target_date) + '\n')
 
-    # Predict AQI for the day after target_date using the predicted_aqi_target_date as input
-    next_day = target_date + timedelta(days=1)
-    predicted_aqi_next_day = predict_aqi(next_day, previous_aqi=predicted_aqi_target_date)
-
-    print('predicted_aqi for [' + str(next_day) + ']' ' is: ' + str(predicted_aqi_next_day) + '\n')
-
     formatDatePattern = "%d/%m/%Y"
 
+    # Predict AQI for the day after target_date using the predicted_aqi_target_date as input
+    next_day = target_date
+    predicted_aqi_next_day = predicted_aqi_target_date
+
+    predicted_dates = [target_date.strftime(formatDatePattern)]
+    predicted_aqis = [float(predicted_aqi_target_date)]
+
+    x = [predicted_aqi_next_day]
+
+    for count in range(7):
+        next_day = next_day + timedelta(days=1)
+        predicted_aqi_next_day = predict_aqi(next_day, previous_aqi=x)
+        print('predicted_aqi for [' + str(next_day) + ']' ' is: ' + str(predicted_aqi_next_day) + '\n')
+        x.append(predicted_aqi_next_day)
+
+        predicted_dates.append(next_day.strftime(formatDatePattern))
+        predicted_aqis.append(float(predicted_aqi_next_day))
+
     response_data = {
-        'predictedDates': [target_date.strftime(formatDatePattern), next_day.strftime(formatDatePattern)],
-        'predictedAqis': [float(predicted_aqi_target_date), float(predicted_aqi_next_day)]
+        'predictedDates': predicted_dates,
+        'predictedAqis': predicted_aqis
     }
 
     print(response_data)
