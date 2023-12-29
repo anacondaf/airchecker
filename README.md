@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This is my graduation thesis project which covers the application from IoT, Web Development, Deployment and Data Mining knowledge. I've tried my best to complete and do what is best for the project. During conducting this project, I am not only have a general perception about air quality field but also have opportunies to hands-on coding and building the whole application from scratch. I feel very satisfied and proud of for what I have achieved and accomplished.
+This is my graduation thesis project which covers the application from IoT, Web Development, Deployment and Machine Learning. I've tried my best to complete and do what is best for the project. During conducting this project, I am not only have a general perception about air quality field but also have opportunies to hands-on coding and building the whole application from scratch. I feel very satisfied and proud of for what I have achieved and accomplished.
 
 
 ## Technologies
