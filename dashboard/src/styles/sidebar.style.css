@@ -1,0 +1,12 @@
+/* This is for menu item */
+.ps-menuitem-root .active {
+	color: var(--main-blue, "#ffffff"); /* put any color you want */
+	font-weight: 500;
+	background-color: #003642;
+}
+
+/* This is for submenu item */
+.nav-member .react-slidedown .pro-menu-item a.active {
+	color: #003642; /* put any color you want */
+	font-weight: 500;
+}

@@ -1,23 +1,23 @@
 import "../styles/root.style.css";
 import { Outlet } from "react-router-dom";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
 
 import Navbar from "../components/Navbar";
-import MainMenu from "../components/MainMenu";
+import { SideBar } from "../components/Sidebar/Sidebar";
+
+import { Navigate } from "react-router-dom";
 
 function Root() {
 	return (
 		<div className="root_page">
-			<Navbar />
-
+			<SideBar />
 			<div className="page_content">
-				<MainMenu />
+				<Navbar />
 
 				<div id="detail">
 					<Outlet />
 				</div>
 			</div>
-
 			<ToastContainer
 				position="top-right"
 				newestOnTop={false}
@@ -26,6 +26,8 @@ function Root() {
 				pauseOnFocusLoss
 				autoClose={5000}
 			/>
+
+			<Navigate to="/dashboard" replace={true} />
 		</div>
 	);
 }

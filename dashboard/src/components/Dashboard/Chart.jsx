@@ -151,12 +151,6 @@ const filterByDateTime = (filterByIndex) => {
 			break;
 		}
 
-		// case 5: {
-		// 	// Yesterday
-		// 	var from = new Date(now.getTime() -  * 60 * 60 * 1000).toISOString();
-		// 	break;
-		// }
-
 		case 5: {
 			// Last 7 days
 			var from = new Date(

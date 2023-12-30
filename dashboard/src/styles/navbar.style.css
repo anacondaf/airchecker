@@ -1,8 +1,7 @@
 .navbar {
 	display: flex;
-	justify-content: space-between;
 	align-items: center;
-	height: 50px;
+	height: 60px;
 	width: 100%;
 	padding: 16px 32px;
 	box-shadow: 1px 1px 10px 1px #dfdfdf;
@@ -17,11 +16,6 @@
 	margin-right: 8px;
 }
 
-.navbar > .right_panel {
-	display: flex;
-	justify-content: space-around;
-}
-
 .navbar .avatar {
 	border: 1px solid #b6b6b6;
 	border-radius: 50%;
@@ -30,9 +24,14 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	margin-right: 16px;
 }
 
 .navbar .avatar > img {
 	width: 24px;
 	height: 24px;
+}
+
+.navbar .input {
+	flex-basis: 50%;
 }

@@ -8,7 +8,6 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding-left: 24px;
 }
 
 .chart .category {
@@ -67,4 +66,8 @@
 
 .chart > .buttons > button:last-child {
 	margin-left: 8px;
+}
+
+.chart > .buttons > .page {
+	margin: 0;
 }

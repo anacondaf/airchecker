@@ -1,10 +1,12 @@
 html {
 	box-sizing: border-box;
 }
+
 *,
 *:before,
 *:after {
 	box-sizing: inherit;
+	font-family: "Poppins", sans-serif !important;
 }
 
 h1,
@@ -14,12 +16,11 @@ h4,
 h5,
 h6,
 p {
-	margin: 0 !important;
+	margin: 0;
 	padding: 0 !important;
 }
 
 body {
-	font-family: "Montserrat", sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
