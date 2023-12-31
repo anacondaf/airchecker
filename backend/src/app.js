@@ -4,9 +4,7 @@ const cors = require("cors");
 const logger = require("./config/logger");
 const webpush = require("web-push");
 const config = require("./config/config");
-// const { captureScreenshot } = require("./puppeteer/puppeteer");
 const { calcAQI } = require("./helper/calculateTotalAQI");
-const Agendash = require("agendash");
 const v1Route = require("./routes/v1");
 const { errors } = require("celebrate");
 const { errorHandler } = require("./middlewares/errors");
@@ -14,6 +12,8 @@ const ApiError = require("./utils/ApiError");
 const httpStatus = require("http-status");
 
 const { producer } = require("./rabbitmq/producer");
+
+const { redisClient } = require("./redis/redis");
 
 const start = async (agenda) => {
 	const app = express();
@@ -44,6 +44,11 @@ const start = async (agenda) => {
 
 const apiRoutes = (app, io, mqtt) => {
 	app.use("/v1", v1Route);
+
+	app.get("/test-cache", async (req, res, next) => {
+		const value = await redisClient.get("value");
+		res.send(value);
+	});
 
 	app.post("/amqp", async (req, res, next) => {
 		await producer.publishEmailMessage(req.body.mailList);

@@ -1,11 +1,12 @@
 const { retrieveDailyAqi } = require("./retrieveDailyAqi");
+const { getHourlyAqi } = require("./getHourlyAqi");
 const logger = require("../../config/logger");
 
-let definitions = [retrieveDailyAqi];
+let definitions = [retrieveDailyAqi, getHourlyAqi];
 
 const loadDefinitions = async (agenda) => {
 	try {
-		console.log()
+		console.log();
 		for (let definition of definitions) {
 			await definition(agenda);
 		}

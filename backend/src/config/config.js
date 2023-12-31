@@ -29,6 +29,9 @@ const envVarsSchema = Joi.object()
 		RABBITMQ: Joi.string(),
 		RABBITMQ_MAILSERVICE_EXCHANGE_NAME: Joi.string(),
 		RABBITMQ_MAILSERVICE_QUEUE_NAME: Joi.string(),
+		REDIS_HOST: Joi.string(),
+		REDIS_PORT: Joi.string(),
+		REDIS_PASSWORD: Joi.string(),
 	})
 	.unknown();
 
@@ -69,5 +72,10 @@ module.exports = {
 		url: envVars.RABBITMQ,
 		mailServiceExchangeName: envVars.RABBITMQ_MAILSERVICE_EXCHANGE_NAME,
 		mailServiceQueueName: envVars.RABBITMQ_MAILSERVICE_QUEUE_NAME,
+	},
+	redis: {
+		host: envVars.REDIS_HOST,
+		port: envVars.REDIS_PORT,
+		password: envVars.REDIS_PASSWORD,
 	},
 };

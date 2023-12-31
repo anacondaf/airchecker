@@ -118,6 +118,7 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: admin
+      RABBITMQ_DEFAULT_VHOST: vhost
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -125,6 +126,14 @@ services:
       - ./airchecker/rabbitmq:/var/lib/rabbitmq
     networks:
       - node-network
+
+  redisgui:
+    image: redislabs/redisinsight:latest
+    container_name: redisgui_air_checker
+    ports:
+      - "9002:8001"
+    volumes:
+      - ./airchecker/redis:/data
 
 networks:
   node-network:

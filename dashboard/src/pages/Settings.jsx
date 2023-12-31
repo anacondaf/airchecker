@@ -121,7 +121,7 @@ function Settings() {
 								id={v._id}
 								key={i}
 							>
-								<p>{v.email}</p>
+								<p className="sub_email">{v.email}</p>
 								<FontAwesomeIcon
 									style={{ marginLeft: "8px", color: "red", cursor: "pointer" }}
 									icon={faTrash}

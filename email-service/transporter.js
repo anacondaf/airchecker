@@ -38,7 +38,6 @@ const sendMail = async (mailList, data) => {
 		const info = await transporter.sendMail({
 			to: mailList,
 			subject: "AQI Level Alert",
-			text: "Hello world?",
 			html: htmlToSend,
 		});
 
