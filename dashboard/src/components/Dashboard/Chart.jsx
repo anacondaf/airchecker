@@ -26,6 +26,7 @@ const mapping = {
 const options = {
 	responsive: true,
 	plugins: {
+		datalabels: false,
 		chartAreaBorder: {
 			borderColor: "red",
 			borderWidth: 2,
@@ -34,7 +35,7 @@ const options = {
 		},
 		title: {
 			display: true,
-			text: "Chart with Tick Configuration",
+			text: "Pollutant Chart",
 		},
 		zoom: {
 			pan: {
@@ -283,6 +284,8 @@ function Chart() {
 	return (
 		<>
 			<div className="chart">
+				<h1>Dashboard</h1>
+
 				<div className="top">
 					<ul className="category">
 						{pollutantTypes.map((p, idx) => {

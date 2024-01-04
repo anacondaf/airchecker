@@ -183,7 +183,12 @@ export function SideBar() {
 						Dashboard
 					</MenuItem>
 
-					<MenuItem icon={<AnalyticsRoundedIcon />}>Analystics</MenuItem>
+					<MenuItem
+						component={<Link to="stats" className="link" />}
+						icon={<AnalyticsRoundedIcon />}
+					>
+						Statistics
+					</MenuItem>
 
 					{/* <SubMenu label="Charts" icon={<BarChartRoundedIcon />}>
 						<MenuItem icon={<TimelineRoundedIcon />}> Timeline Chart </MenuItem>

@@ -48,7 +48,7 @@
 	color: #171b1c;
 }
 
-.chart-container {
+.chart .chart-container {
 	width: 100%;
 	margin: 24px 0;
 	border: 1px solid #000000;
