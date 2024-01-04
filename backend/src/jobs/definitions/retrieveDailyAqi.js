@@ -29,6 +29,8 @@ const retrieveDailyAqi = async (agenda) => {
 						data: requestBody,
 					});
 
+					await HourlyAQIModel.deleteMany();
+
 					done();
 				} catch (error) {
 					console.error(error);
