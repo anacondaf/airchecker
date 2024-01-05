@@ -2,11 +2,14 @@ import { useState } from "react";
 import { PieChart } from "../components/Statistics/PieChart";
 import { BarChart } from "../components/Statistics/BarChart";
 
-import { Divider, Button, Dropdown } from "semantic-ui-react";
+import { Divider, Dropdown } from "semantic-ui-react";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { Button as MuiBtn } from "@mui/material";
+import { Download as DownloadIcon, Add as AddIcon } from "@mui/icons-material";
+
 import styled from "styled-components";
 
 import "../styles/statistics.style.css";
@@ -47,20 +50,18 @@ const barChartData = {
 	labels: ["January", "February", "March", "April", "May", "June", "July"],
 	datasets: [
 		{
-			label: "Dataset 1",
+			label: "Max",
 			data: [200, 50],
 			backgroundColor: "rgb(0, 116, 135)",
 			stack: "Stack 0",
 			barPercentage: 1.1,
-			// categoryPercentage: 1,
 		},
 		{
-			label: "Dataset 2",
+			label: "Min",
 			data: [100, 20],
 			backgroundColor: "rgb(75, 192, 192)",
 			stack: "Stack 1",
 			barPercentage: 1.1,
-			// categoryPercentage: 1,
 		},
 	],
 };
@@ -114,13 +115,23 @@ function Statistics() {
 			<div className="query">
 				<div className="picker">
 					<DateTimePickerComponent label="From" />
-					<span>-</span>
+					<span style={{ margin: "0 8px" }}>-</span>
 					<DateTimePickerComponent label="To" />
 				</div>
 
-				<Button primary className="submit_btn">
-					Submit
-				</Button>
+				<div className="submit_btn_area">
+					<MuiBtn
+						variant="outlined"
+						startIcon={<AddIcon />}
+						style={{ marginRight: "16px" }}
+					>
+						Submit
+					</MuiBtn>
+
+					<MuiBtn variant="outlined" startIcon={<DownloadIcon />}>
+						Export
+					</MuiBtn>
+				</div>
 			</div>
 
 			<Divider />
