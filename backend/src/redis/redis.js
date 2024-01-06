@@ -16,14 +16,14 @@ client.on("ready", () => {
 });
 
 client.on("error", (err) => {
-	reject(`Redis Client Error [${err}]`);
+	logger.info(`Redis Client Error [${err}]`);
 });
 
 (async () => {
 	try {
 		await client.connect();
 	} catch (error) {
-		reject(`error while connecting redis [${error}]`);
+		logger.info(`error while connecting redis [${error}]`);
 	}
 })();
 

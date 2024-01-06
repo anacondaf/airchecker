@@ -38,4 +38,12 @@ instance.deleteSubscribersByIdHandler = async (id) => {
 	});
 };
 
+instance.getStatsDateRange = async () => {
+	return await instance.get(`stats/range`, {
+		headers: {
+			"Content-Type": "application/json",
+		},
+	});
+};
+
 export const Axios = instance;

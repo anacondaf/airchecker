@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const analyticsRoute = require("./analytics.route");
 const subscribersRoute = require("./subscribers.route");
+const statsRoute = require("./statistics.route");
 
 const featureRoutes = [
 	{
@@ -11,6 +12,10 @@ const featureRoutes = [
 	{
 		path: "/subscribers",
 		route: subscribersRoute,
+	},
+	{
+		path: "/stats",
+		route: statsRoute,
 	},
 ];
 

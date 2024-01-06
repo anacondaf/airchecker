@@ -40,7 +40,9 @@ const pieOptions = {
 	},
 };
 
-export function PieChart({ data }) {
+export const PieChart = React.forwardRef((props, ref) => {
+	const { data } = props;
+
 	return (
 		<div className="statistic_chart">
 			<ChartContainer>
@@ -49,8 +51,9 @@ export function PieChart({ data }) {
 					options={pieOptions}
 					height="150px"
 					plugins={[ChartDataLabels]}
+					ref={(e) => (ref.current[0] = e)}
 				/>
 			</ChartContainer>
 		</div>
 	);
-}
+});

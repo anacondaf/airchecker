@@ -157,59 +157,44 @@ export function SideBar() {
 	};
 
 	return (
-		<div style={{ display: "flex", height: "100vh" }}>
-			<Sidebar
+		<Sidebar
+			collapsed={collapsed}
+			backgroundColor={hexToRgba(
+				themes[theme].sidebar.backgroundColor,
+				hasImage ? 0.9 : 1
+			)}
+			rootStyles={{
+				color: themes[theme].sidebar.color,
+			}}
+			image="https://user-images.githubusercontent.com/25878302/144499035-2911184c-76d3-4611-86e7-bc4e8ff84ff5.jpg"
+		>
+			<SidebarHeader
+				style={{ marginBottom: "24px", marginTop: "16px" }}
 				collapsed={collapsed}
-				className="app"
-				backgroundColor={hexToRgba(
-					themes[theme].sidebar.backgroundColor,
-					hasImage ? 0.9 : 1
-				)}
-				rootStyles={{
-					color: themes[theme].sidebar.color,
-				}}
-				image="https://user-images.githubusercontent.com/25878302/144499035-2911184c-76d3-4611-86e7-bc4e8ff84ff5.jpg"
-			>
-				<SidebarHeader
-					style={{ marginBottom: "24px", marginTop: "16px" }}
-					collapsed={collapsed}
-				/>
+			/>
 
-				<Menu style={{ paddingTop: "8px" }} menuItemStyles={menuItemStyles}>
-					<MenuItem
-						component={<Link to="dashboard" className="link" />}
-						icon={<DashboardRoundedIcon />}
-					>
-						Dashboard
-					</MenuItem>
+			<Menu style={{ paddingTop: "8px" }} menuItemStyles={menuItemStyles}>
+				<MenuItem
+					component={<Link to="dashboard" className="link" />}
+					icon={<DashboardRoundedIcon />}
+				>
+					Dashboard
+				</MenuItem>
 
-					<MenuItem
-						component={<Link to="stats" className="link" />}
-						icon={<AnalyticsRoundedIcon />}
-					>
-						Statistics
-					</MenuItem>
+				<MenuItem
+					component={<Link to="stats" className="link" />}
+					icon={<AnalyticsRoundedIcon />}
+				>
+					Statistics
+				</MenuItem>
 
-					{/* <SubMenu label="Charts" icon={<BarChartRoundedIcon />}>
-						<MenuItem icon={<TimelineRoundedIcon />}> Timeline Chart </MenuItem>
-						<MenuItem icon={<BubbleChartRoundedIcon />}>Bubble Chart</MenuItem>
-					</SubMenu> */}
-
-					{/* <SubMenu label="Wallets" icon={<WalletRoundedIcon />}>
-						<MenuItem icon={<AccountBalanceRoundedIcon />}>
-							Current Wallet
-						</MenuItem>
-						<MenuItem icon={<SavingsRoundedIcon />}>Savings Wallet</MenuItem>
-					</SubMenu> */}
-
-					<MenuItem
-						component={<Link to="settings" className="link" />}
-						icon={<SettingsApplicationsRoundedIcon />}
-					>
-						Settings
-					</MenuItem>
-				</Menu>
-			</Sidebar>
-		</div>
+				<MenuItem
+					component={<Link to="settings" className="link" />}
+					icon={<SettingsApplicationsRoundedIcon />}
+				>
+					Settings
+				</MenuItem>
+			</Menu>
+		</Sidebar>
 	);
 }

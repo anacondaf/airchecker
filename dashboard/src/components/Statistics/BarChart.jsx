@@ -63,7 +63,9 @@ const options = {
 	},
 };
 
-export function BarChart({ data }) {
+export const BarChart = React.forwardRef((props, ref) => {
+	const { data } = props;
+
 	return (
 		<div className="statistic_chart">
 			<ChartContainer>
@@ -73,8 +75,9 @@ export function BarChart({ data }) {
 					height="300px"
 					width="600px"
 					plugins={[ChartDataLabels]}
+					ref={(e) => (ref.current[1] = e)}
 				/>
 			</ChartContainer>
 		</div>
 	);
-}
+});

@@ -22,9 +22,8 @@
 	height: 45px;
 }
 
-.statistics .statistic_panel {
-	height: 100%;
-	margin-top: 24px;
+.statistics .statistic_panel_container {
+	height: 500px;
 }
 
 .statistics .statistic_panel .chart_item {
