@@ -25,8 +25,7 @@ import {
 	pdf,
 } from "@react-pdf/renderer";
 
-import { format as dateFnsFormat, formatISO, addHours } from "date-fns";
-import { zonedTimeToUtc } from "date-fns-tz";
+import { format as dateFnsFormat } from "date-fns";
 
 import styled from "styled-components";
 
@@ -48,88 +47,6 @@ const Layout1 = styled.div`
 	margin: 32px 0;
 `;
 
-const data = {
-	labels: ["Spring", "Summer", "Autumn", "Winter"],
-	datasets: [
-		{
-			label: "# of Votes",
-			data: [50, 15, 20, 15],
-			backgroundColor: [
-				"rgb(228, 166, 70)",
-				"rgb(49, 113, 182)",
-				"rgb(0, 116, 135)",
-				"rgb(229, 57, 69)",
-			],
-			datalabels: {
-				color: "#ffffff",
-			},
-		},
-	],
-};
-
-const barChartData = {
-	labels: [
-		"January",
-		"February",
-		"March",
-		"April",
-		"May",
-		"June",
-		"July",
-		"Aug",
-		"Sep",
-		"Oct",
-		"Nov",
-		"Dec",
-	],
-	datasets: [
-		{
-			label: "Max",
-			data: [200, 50],
-			backgroundColor: "rgb(0, 116, 135)",
-			stack: "Stack 0",
-			barPercentage: 1.1,
-		},
-		{
-			label: "Min",
-			data: [100, 20],
-			backgroundColor: "rgb(75, 192, 192)",
-			stack: "Stack 1",
-			barPercentage: 1.1,
-		},
-	],
-};
-
-const styles = {
-	dateTimePicker: {
-		marginLeft: "16px",
-	},
-};
-
-const DateTimePickerComponent = function ({ label, limit, onChangeFunc }) {
-	return (
-		<LocalizationProvider dateAdapter={AdapterDateFns}>
-			<DemoContainer components={["DateTimePicker"]}>
-				<DateTimePicker
-					label={label}
-					viewRenderers={{
-						hours: renderTimeViewClock,
-						minutes: renderTimeViewClock,
-						seconds: renderTimeViewClock,
-					}}
-					style={styles.dateTimePicker}
-					ampm={false}
-					ampmInClock={false}
-					maxDate={zonedTimeToUtc(limit.maxDate, "Asia/Bangkok")}
-					minDate={zonedTimeToUtc(limit.minDate, "Asia/Bangkok")}
-					format="dd/MM/yyyy HH:mm:ss"
-					onChange={(e) => onChangeFunc(e)}
-				/>
-			</DemoContainer>
-		</LocalizationProvider>
-	);
-};
-
 const yearDropDownOptions = [
 	{
 		key: "2023",
@@ -142,16 +59,6 @@ const yearDropDownOptions = [
 		value: "2024",
 	},
 ];
-
-const ChartDropDown = function () {
-	return (
-		<Dropdown
-			inline
-			options={yearDropDownOptions}
-			defaultValue={yearDropDownOptions[0].value}
-		/>
-	);
-};
 
 // Create pdfStyles
 const pdfStyles = StyleSheet.create({
@@ -203,7 +110,7 @@ const pdfStyles = StyleSheet.create({
 });
 
 const PdfReportDocument = ({ props }) => {
-	const { base64List, date } = props;
+	const { base64List, date, monthChartYear, seasonChartYear } = props;
 
 	Font.register({
 		family: "Oswald",
@@ -217,50 +124,69 @@ const PdfReportDocument = ({ props }) => {
 				<Text style={pdfStyles.date}>{date}</Text>
 
 				<Text style={pdfStyles.subtitle}>
-					Chart I: Pollution Index by Season [2023]
+					Chart I: Season AQI in year {seasonChartYear}
 				</Text>
 
 				<PdfImage style={pdfStyles.image} src={base64List[0]} />
 
 				<Text style={pdfStyles.subtitle}>
-					Chart II: Monthly Min-Max AQI value [2023]
+					Chart II: Monthly Average AQI in year {monthChartYear}
 				</Text>
 
 				<PdfImage style={pdfStyles.image} src={base64List[1]} />
-
-				<Text style={pdfStyles.text}>
-					En un lugar de la Mancha, de cuyo nombre no quiero acordarme, no ha
-					mucho tiempo que vivía un hidalgo de los de lanza en astillero, adarga
-					antigua, rocín flaco y galgo corredor. Una olla de algo más vaca que
-					carnero, salpicón las más noches, duelos y quebrantos los sábados,
-					lentejas los viernes, algún palomino de añadidura los domingos,
-					consumían las tres partes de su hacienda. El resto della concluían
-					sayo de velarte, calzas de velludo para las fiestas con sus pantuflos
-					de lo mismo, los días de entre semana se honraba con su vellori de lo
-					más fino. Tenía en su casa una ama que pasaba de los cuarenta, y una
-					sobrina que no llegaba a los veinte, y un mozo de campo y plaza, que
-					así ensillaba el rocín como tomaba la podadera. Frisaba la edad de
-					nuestro hidalgo con los cincuenta años, era de complexión recia, seco
-					de carnes, enjuto de rostro; gran madrugador y amigo de la caza.
-					Quieren decir que tenía el sobrenombre de Quijada o Quesada (que en
-					esto hay alguna diferencia en los autores que deste caso escriben),
-					aunque por conjeturas verosímiles se deja entender que se llama
-					Quijana; pero esto importa poco a nuestro cuento; basta que en la
-					narración dél no se salga un punto de la verdad
-				</Text>
 			</Page>
 		</Document>
 	);
 };
 
 function Statistics() {
-	const [statsMaxDate, setStatsMaxDate] = useState({
-		from: null,
-		to: null,
+	const [seasonChartData, setSeasonChartData] = useState({
+		labels: ["Spring", "Summer", "Autumn", "Winter"],
+		datasets: [
+			{
+				label: "% pollution",
+				data: [50, 15, 20, 15],
+				backgroundColor: [
+					"rgb(228, 166, 70)",
+					"rgb(49, 113, 182)",
+					"rgb(0, 116, 135)",
+					"rgb(229, 57, 69)",
+				],
+				datalabels: {
+					color: "#ffffff",
+				},
+			},
+		],
 	});
 
-	const [statsFromDate, setStatsFromDate] = useState();
-	const [statsToDate, setStatsToDate] = useState();
+	const [monthlyChartData, setMonthlyChartData] = useState({
+		labels: [
+			"January",
+			"February",
+			"March",
+			"April",
+			"May",
+			"June",
+			"July",
+			"Aug",
+			"Sep",
+			"Oct",
+			"Nov",
+			"Dec",
+		],
+		datasets: [
+			{
+				label: "Avg AQI",
+				data: [200, 50],
+				backgroundColor: "rgb(0, 116, 135)",
+				stack: "Stack 0",
+				barPercentage: 1.1,
+			},
+		],
+	});
+
+	const [seasonChartYear, setSeasonChartYear] = useState(2023);
+	const [monthChartYear, setMonthChartYear] = useState(2023);
 
 	const canvas = useRef([]);
 
@@ -280,6 +206,8 @@ function Statistics() {
 				props={{
 					base64List: base64List,
 					date: reportDate,
+					monthChartYear: monthChartYear,
+					seasonChartYear: seasonChartYear,
 				}}
 			/>
 		).toBlob();
@@ -287,34 +215,56 @@ function Statistics() {
 		saveAs(blob, `statistic_report_${reportDate}.pdf`);
 	};
 
-	const onFromChange = (newValue) => {
-		setStatsFromDate(formatISO(addHours(newValue, -7)));
+	const getStatsSeason = async (year = 2023) => {
+		setSeasonChartYear(year);
+
+		const datas = await Axios.get(`stats/season?year=${year}`, {
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+
+		setSeasonChartData((prevState) => ({
+			...prevState,
+			datasets: prevState.datasets.map((dataset) => ({
+				...dataset,
+				data: Object.values(datas.data).map((value) => parseFloat(value)),
+			})),
+		}));
 	};
 
-	const onToChange = (newValue) => {
-		setStatsToDate(formatISO(addHours(newValue, -7)));
+	const getStatsMonthly = async (year = 2023) => {
+		setMonthChartYear(year);
+
+		const datas = await Axios.get(`stats/monthly?year=${year}`, {
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+
+		setMonthlyChartData((prevState) => ({
+			...prevState,
+			datasets: prevState.datasets.map((dataset) => ({
+				...dataset,
+				data: Object.values(datas.data).map((i) =>
+					(Math.round(i.averageAqi * 100) / 100).toFixed(2)
+				),
+			})),
+		}));
 	};
 
-	const onSubmitClick = async (e) => {
-		try {
-			const datas = await Axios.get(`stats/monthly?year=2024`, {
-				headers: {
-					"Content-Type": "application/json",
-				},
-			});
-		} catch (error) {
-			console.error(error);
-		}
+	const seasonChartDropDownOnChangeHandler = (year) => {
+		getStatsSeason(year);
+	};
+
+	const monthChartDropDownOnChangeHandler = (year) => {
+		getStatsMonthly(year);
 	};
 
 	useEffect(() => {
 		async function fetchStatsDateRange() {
-			let response = await Axios.getStatsDateRange();
-
-			setStatsMaxDate({
-				from: response.data.from[0].createdAt,
-				to: response.data.to[0].createdAt,
-			});
+			getStatsSeason();
+			getStatsMonthly();
 		}
 
 		fetchStatsDateRange();
@@ -325,30 +275,7 @@ function Statistics() {
 			<h1>Statistics</h1>
 
 			<div className="query">
-				<div className="picker">
-					<DateTimePickerComponent
-						label="From"
-						limit={{ minDate: statsMaxDate.from, maxDate: statsMaxDate.to }}
-						onChangeFunc={onFromChange}
-					/>
-					<span style={{ margin: "0 8px" }}>-</span>
-					<DateTimePickerComponent
-						label="To"
-						limit={{ minDate: statsMaxDate.from, maxDate: statsMaxDate.to }}
-						onChangeFunc={onToChange}
-					/>
-				</div>
-
 				<div className="submit_btn_area">
-					<MuiBtn
-						variant="outlined"
-						startIcon={<AddIcon />}
-						style={{ marginRight: "16px" }}
-						onClick={(e) => onSubmitClick(e)}
-					>
-						Submit
-					</MuiBtn>
-
 					<MuiBtn
 						variant="outlined"
 						startIcon={<DownloadIcon />}
@@ -367,15 +294,22 @@ function Statistics() {
 						<div className="chart_item">
 							<div className="header">
 								<ChartItemTitle className="chart_title">
-									Pollution Index by Season
+									Season AQI
 								</ChartItemTitle>
 
-								<ChartDropDown />
+								<Dropdown
+									inline
+									options={yearDropDownOptions}
+									defaultValue={yearDropDownOptions[0].value}
+									onChange={(e, data) =>
+										seasonChartDropDownOnChangeHandler(data.value)
+									}
+								/>
 							</div>
 
 							<Divider style={{ width: "100%" }} />
 
-							<PieChart data={data} ref={canvas} />
+							<PieChart data={seasonChartData} ref={canvas} />
 						</div>
 
 						<span className="custom_vert_divider"></span>
@@ -383,31 +317,22 @@ function Statistics() {
 						<div className="chart_item" style={{ width: "700px" }}>
 							<div className="header">
 								<ChartItemTitle className="chart_title">
-									Monthly Min-Max AQI value
+									Monthly Average AQI
 								</ChartItemTitle>
 
-								<ChartDropDown />
+								<Dropdown
+									inline
+									options={yearDropDownOptions}
+									defaultValue={yearDropDownOptions[0].value}
+									onChange={(e, data) =>
+										monthChartDropDownOnChangeHandler(data.value)
+									}
+								/>
 							</div>
 
 							<Divider style={{ width: "100%" }} />
 
-							<BarChart data={barChartData} ref={canvas} />
-						</div>
-					</Layout1>
-
-					<Layout1>
-						<div className="chart_item" style={{ width: "700px" }}>
-							<div className="header">
-								<ChartItemTitle className="chart_title">
-									Pollutants Statistics Yearly
-								</ChartItemTitle>
-
-								<ChartDropDown />
-							</div>
-
-							<Divider style={{ width: "100%" }} />
-
-							<BarChart data={barChartData} ref={canvas} />
+							<BarChart data={monthlyChartData} ref={canvas} />
 						</div>
 					</Layout1>
 				</div>

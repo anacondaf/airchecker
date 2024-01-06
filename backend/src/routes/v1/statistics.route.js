@@ -16,25 +16,19 @@ const {
 	statisticsController,
 } = require("../../controller/statistics.controller");
 
-var getStatisticsValidationSchema = {
-	[Segments.BODY]: Joi.object().keys({
-		from: Joi.date().required(),
-		to: Joi.date().greater(Joi.ref("from")).required(),
-	}),
-};
-
 router.get("/range", async (req, res, next) => {
 	var dto = await statisticsController.getStatisticDateRange();
 	res.status(httpStatus.OK).json(dto);
 });
 
-router.get(
-	"/monthly",
-	celebrate(getStatisticsValidationSchema),
-	async (req, res, next) => {
-		var dto = await statisticsController.getMonthlyStatisticsData(req.query);
-		res.status(httpStatus.OK).json(dto);
-	}
-);
+router.get("/monthly", async (req, res, next) => {
+	var dto = await statisticsController.getMonthlyStatisticsData(req.query);
+	res.status(httpStatus.OK).json(dto);
+});
+
+router.get("/season", async (req, res, next) => {
+	var dto = await statisticsController.getSeasonStatisticsData(req.query);
+	res.status(httpStatus.OK).json(dto);
+});
 
 module.exports = router;

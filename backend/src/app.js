@@ -13,7 +13,7 @@ const httpStatus = require("http-status");
 
 const { producer } = require("./rabbitmq/producer");
 
-const { redisClient } = require("./redis/redis");
+// const { redisClient } = require("./redis/redis");
 
 const start = async (agenda) => {
 	const app = express();
@@ -46,7 +46,7 @@ const apiRoutes = (app, io, mqtt) => {
 	app.use("/v1", v1Route);
 
 	app.get("/test-cache", async (req, res, next) => {
-		const value = await redisClient.get("value");
+		// const value = await redisClient.get("value");
 		res.send(value);
 	});
 

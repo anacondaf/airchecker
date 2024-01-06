@@ -10,7 +10,13 @@ const getMonthlyStatisticsData = async (query) => {
 	return data;
 };
 
+const getSeasonStatisticsData = async (query) => {
+	const data = await statisticsService.getSeasonStatisticsData(query);
+	return data;
+};
+
 exports.statisticsController = {
 	getStatisticDateRange,
 	getMonthlyStatisticsData,
+	getSeasonStatisticsData,
 };

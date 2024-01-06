@@ -17,7 +17,7 @@ const getDateTimeRange = async () => {
 	};
 };
 
-const getMonthlyStatisticsData = async (year) => {
+const getStatisticsDataByYear = async (year) => {
 	let query = {
 		$expr: {
 			$eq: [{ $year: "$createdAt" }, year],
@@ -29,4 +29,4 @@ const getMonthlyStatisticsData = async (year) => {
 	return pollutionDatas;
 };
 
-module.exports = { getDateTimeRange, getMonthlyStatisticsData };
+module.exports = { getDateTimeRange, getStatisticsDataByYear };
