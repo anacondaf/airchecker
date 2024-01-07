@@ -5,6 +5,12 @@
 
 .statistics .query {
 	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.statistics .query .submit_btn_area {
+	display: flex;
 	flex-direction: column;
 }
 
@@ -22,8 +28,10 @@
 	height: 45px;
 }
 
-.statistics .statistic_panel_container {
-	height: 500px;
+.statistics .statistic_panel {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 .statistics .statistic_panel .chart_item {
@@ -31,7 +39,7 @@
 	flex-direction: column;
 	align-items: center;
 	width: 580px;
-	padding: 16px;
+	padding: 24px;
 	border-radius: 15px;
 	box-shadow: 2px 8px 10px 2px #c7c8ce;
 	background-color: #f9faff;

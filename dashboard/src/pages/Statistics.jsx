@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { PieChart } from "../components/Statistics/PieChart";
 import { BarChart } from "../components/Statistics/BarChart";
+import { StackedBarChart } from "../components/Statistics/StackedBarChart";
+import { DoughnutChart } from "../components/Statistics/DoughnutChart";
 
 import { Divider, Dropdown } from "semantic-ui-react";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
@@ -8,11 +10,12 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import vi from "date-fns/locale/vi";
 
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { DateRangePicker } from "@mui/x-date-pickers-pro";
 import { renderTimeViewClock } from "@mui/x-date-pickers/timeViewRenderers";
+import { SingleInputDateRangeField } from "@mui/x-date-pickers-pro/SingleInputDateRangeField";
 
 import { Button as MuiBtn } from "@mui/material";
-import { Download as DownloadIcon, Add as AddIcon } from "@mui/icons-material";
+import { Download as DownloadIcon } from "@mui/icons-material";
 
 import { saveAs } from "file-saver";
 import {
@@ -42,9 +45,10 @@ const ChartItemTitle = styled.h4`
 `;
 
 const Layout1 = styled.div`
-	flex: 1;
 	display: flex;
+	justify-content: space-between;
 	margin: 32px 0;
+	width: 100%;
 `;
 
 const yearDropDownOptions = [
@@ -110,7 +114,8 @@ const pdfStyles = StyleSheet.create({
 });
 
 const PdfReportDocument = ({ props }) => {
-	const { base64List, date, monthChartYear, seasonChartYear } = props;
+	const { base64List, date, monthChartYear, seasonChartYear, dateRange } =
+		props;
 
 	Font.register({
 		family: "Oswald",
@@ -134,6 +139,18 @@ const PdfReportDocument = ({ props }) => {
 				</Text>
 
 				<PdfImage style={pdfStyles.image} src={base64List[1]} />
+
+				<Text style={pdfStyles.subtitle}>
+					Chart III: Monthly Pollutants Value {monthChartYear}
+				</Text>
+
+				<PdfImage style={pdfStyles.image} src={base64List[2]} />
+
+				<Text style={pdfStyles.subtitle}>
+					Chart IV: Top 3 Monthly Pollutants {monthChartYear}
+				</Text>
+
+				<PdfImage style={pdfStyles.image} src={base64List[3]} />
 			</Page>
 		</Document>
 	);
@@ -272,9 +289,8 @@ function Statistics() {
 
 	return (
 		<div className="statistics">
-			<h1>Statistics</h1>
-
 			<div className="query">
+				<h1>Statistics</h1>
 				<div className="submit_btn_area">
 					<MuiBtn
 						variant="outlined"
@@ -286,56 +302,108 @@ function Statistics() {
 				</div>
 			</div>
 
-			<Divider />
-
 			<div className="statistic_panel">
-				<div className="statistic_panel_container">
-					<Layout1>
-						<div className="chart_item">
-							<div className="header">
-								<ChartItemTitle className="chart_title">
-									Season AQI
-								</ChartItemTitle>
+				<Layout1>
+					<div className="chart_item" style={{ flexBasis: "48%" }}>
+						<div className="header">
+							<ChartItemTitle className="chart_title">
+								Season AQI
+							</ChartItemTitle>
 
-								<Dropdown
-									inline
-									options={yearDropDownOptions}
-									defaultValue={yearDropDownOptions[0].value}
-									onChange={(e, data) =>
-										seasonChartDropDownOnChangeHandler(data.value)
-									}
-								/>
-							</div>
-
-							<Divider style={{ width: "100%" }} />
-
-							<PieChart data={seasonChartData} ref={canvas} />
+							<Dropdown
+								inline
+								options={yearDropDownOptions}
+								defaultValue={yearDropDownOptions[0].value}
+								onChange={(e, data) =>
+									seasonChartDropDownOnChangeHandler(data.value)
+								}
+							/>
 						</div>
 
-						<span className="custom_vert_divider"></span>
+						<Divider style={{ width: "100%" }} />
 
-						<div className="chart_item" style={{ width: "700px" }}>
-							<div className="header">
-								<ChartItemTitle className="chart_title">
-									Monthly Average AQI
-								</ChartItemTitle>
+						<PieChart data={seasonChartData} ref={canvas} />
+					</div>
 
-								<Dropdown
-									inline
-									options={yearDropDownOptions}
-									defaultValue={yearDropDownOptions[0].value}
-									onChange={(e, data) =>
-										monthChartDropDownOnChangeHandler(data.value)
-									}
-								/>
-							</div>
+					<span className="custom_vert_divider"></span>
 
-							<Divider style={{ width: "100%" }} />
+					<div className="chart_item" style={{ flexBasis: "52%" }}>
+						<div className="header">
+							<ChartItemTitle className="chart_title">
+								Monthly Average AQI
+							</ChartItemTitle>
 
-							<BarChart data={monthlyChartData} ref={canvas} />
+							<Dropdown
+								inline
+								options={yearDropDownOptions}
+								defaultValue={yearDropDownOptions[0].value}
+								onChange={(e, data) =>
+									monthChartDropDownOnChangeHandler(data.value)
+								}
+							/>
 						</div>
-					</Layout1>
-				</div>
+
+						<Divider style={{ width: "100%" }} />
+
+						<BarChart data={monthlyChartData} ref={canvas} />
+					</div>
+				</Layout1>
+
+				<Layout1>
+					<div className="chart_item" style={{ flexBasis: "53%" }}>
+						<div className="header">
+							<ChartItemTitle className="chart_title">
+								Monthly Pollutants Value
+							</ChartItemTitle>
+
+							<LocalizationProvider dateAdapter={AdapterDateFns}>
+								<DemoContainer components={["SingleInputDateRangeField"]}>
+									<DateRangePicker
+										slots={{ field: SingleInputDateRangeField }}
+										name="allowedRange"
+										sx={{
+											"& .MuiStack-root": {
+												paddingTop: 0,
+											},
+											"& .MuiInputBase-root": {
+												"& .MuiInputBase-input": {
+													padding: 1,
+												},
+											},
+										}}
+									/>
+								</DemoContainer>
+							</LocalizationProvider>
+						</div>
+
+						<Divider style={{ width: "100%" }} />
+
+						<StackedBarChart ref={canvas} />
+					</div>
+
+					<span className="custom_vert_divider"></span>
+
+					<div className="chart_item" style={{ flexBasis: "47%" }}>
+						<div className="header">
+							<ChartItemTitle className="chart_title">
+								Top 3 Monthly Pollutants
+							</ChartItemTitle>
+
+							<Dropdown
+								inline
+								options={yearDropDownOptions}
+								defaultValue={yearDropDownOptions[0].value}
+								onChange={(e, data) =>
+									seasonChartDropDownOnChangeHandler(data.value)
+								}
+							/>
+						</div>
+
+						<Divider style={{ width: "100%" }} />
+
+						<DoughnutChart ref={canvas} />
+					</div>
+				</Layout1>
 			</div>
 		</div>
 	);
