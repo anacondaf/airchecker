@@ -15,8 +15,14 @@ const getSeasonStatisticsData = async (query) => {
 	return data;
 };
 
+const getAvgMonthlyPollutant = async (query) => {
+	const data = await statisticsService.getAvgMonthlyPollutant(query);
+	return data;
+};
+
 exports.statisticsController = {
 	getStatisticDateRange,
 	getMonthlyStatisticsData,
 	getSeasonStatisticsData,
+	getAvgMonthlyPollutant,
 };

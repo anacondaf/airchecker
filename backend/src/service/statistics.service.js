@@ -37,14 +37,9 @@ const getMonthlyStatisticsData = async ({ year }) => {
 		return acc;
 	}, {});
 
-	console.log(groupedByMonth);
-
 	queryResults.forEach((item) => {
 		const date = new Date(item.createdAt);
-
 		const month = date.getMonth();
-		console.log(month);
-
 		groupedByMonth[month].push(item.calc_aqi ?? item.aqi);
 	});
 
@@ -62,8 +57,6 @@ const getMonthlyStatisticsData = async ({ year }) => {
 			};
 		}
 	);
-
-	console.log(averageAqiByMonth);
 
 	return averageAqiByMonth;
 };
@@ -115,8 +108,71 @@ const getSeasonStatisticsData = async ({ year }) => {
 	return stats;
 };
 
+const getAvgMonthlyPollutant = async ({ year }) => {
+	let monthlyAvg = [];
+
+	const monthMap = [
+		"January",
+		"February",
+		"March",
+		"April",
+		"May",
+		"June",
+		"July",
+		"Aug",
+		"Sep",
+		"Oct",
+		"Nov",
+		"Dec",
+	];
+
+	for (let month = 0; month < 12; month++) {
+		const startOfMonth = new Date(year, month, 1);
+		const endOfMonth = new Date(year, month + 1, 0);
+
+		const queryResults = await AirQualityModel.aggregate([
+			{
+				$match: {
+					createdAt: {
+						$gte: startOfMonth,
+						$lte: endOfMonth,
+					},
+				},
+			},
+			{
+				$group: {
+					_id: null,
+					avgCO: { $avg: "$co" },
+					avgO3: { $avg: "$o3" },
+					avgTVOC: { $avg: "$tvoc" },
+					avgPM25: { $avg: "$pm25" },
+				},
+			},
+			{
+				$project: {
+					_id: 0,
+					avgCO: { $convert: { input: "$avgCO", to: "double" } },
+					avgO3: { $convert: { input: "$avgO3", to: "double" } },
+					avgTVOC: { $convert: { input: "$avgTVOC", to: "double" } },
+					avgPM25: { $convert: { input: "$avgPM25", to: "double" } },
+				},
+			},
+		]);
+
+		monthlyAvg.push({
+			month: monthMap[startOfMonth.getMonth()],
+			data: queryResults[0] ?? {},
+		});
+	}
+
+	console.log(monthlyAvg);
+
+	return monthlyAvg;
+};
+
 module.exports = {
 	getStatisticDateRange,
 	getMonthlyStatisticsData,
 	getSeasonStatisticsData,
+	getAvgMonthlyPollutant,
 };

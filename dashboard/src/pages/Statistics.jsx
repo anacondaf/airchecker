@@ -114,8 +114,14 @@ const pdfStyles = StyleSheet.create({
 });
 
 const PdfReportDocument = ({ props }) => {
-	const { base64List, date, monthChartYear, seasonChartYear, dateRange } =
-		props;
+	const {
+		base64List,
+		date,
+		monthChartYear,
+		seasonChartYear,
+		doughnutChartYear,
+		stackedBarChartYear,
+	} = props;
 
 	Font.register({
 		family: "Oswald",
@@ -141,13 +147,13 @@ const PdfReportDocument = ({ props }) => {
 				<PdfImage style={pdfStyles.image} src={base64List[1]} />
 
 				<Text style={pdfStyles.subtitle}>
-					Chart III: Monthly Pollutants Value {monthChartYear}
+					Chart III: Monthly Avg Pollutants Value {stackedBarChartYear}
 				</Text>
 
 				<PdfImage style={pdfStyles.image} src={base64List[2]} />
 
 				<Text style={pdfStyles.subtitle}>
-					Chart IV: Top 3 Monthly Pollutants {monthChartYear}
+					Chart IV: Top 3 Most Polluted Months {doughnutChartYear}
 				</Text>
 
 				<PdfImage style={pdfStyles.image} src={base64List[3]} />
@@ -202,8 +208,65 @@ function Statistics() {
 		],
 	});
 
+	const [doughnutChartData, setDoughnutChartData] = useState({
+		labels: ["January", "June", "Dec"],
+		datasets: [
+			{
+				label: "AQI value",
+				data: [110, 50, 80],
+				backgroundColor: [
+					"rgb(79, 70, 229)",
+					"rgb(59, 130, 246)",
+					"rgb(49, 46, 129)",
+				],
+				borderWidth: 0,
+			},
+		],
+	});
+
+	const [stackedBarChartData, setStackedBarChartData] = useState({
+		labels: [
+			"January",
+			"February",
+			"March",
+			"April",
+			"May",
+			"June",
+			"July",
+			"Aug",
+			"Sep",
+			"Oct",
+			"Nov",
+			"Dec",
+		],
+		datasets: [
+			{
+				label: "O3",
+				data: [11, 10, 2, 19],
+				backgroundColor: "rgb(129, 140, 248)",
+			},
+			{
+				label: "CO",
+				data: [80, 10, 2, 19],
+				backgroundColor: "rgb(199, 210, 254)",
+			},
+			{
+				label: "PM25",
+				data: [100, 10, 2, 19],
+				backgroundColor: "rgb(55, 48, 163)",
+			},
+			{
+				label: "TVOC",
+				data: [230, 10, 2, 19],
+				backgroundColor: "rgb(79, 70, 229)",
+			},
+		],
+	});
+
 	const [seasonChartYear, setSeasonChartYear] = useState(2023);
 	const [monthChartYear, setMonthChartYear] = useState(2023);
+	const [doughnutChartYear, setDoughnutChartYear] = useState(2023);
+	const [stackedBarChartYear, setStackedChartYear] = useState(2023);
 
 	const canvas = useRef([]);
 
@@ -225,6 +288,8 @@ function Statistics() {
 					date: reportDate,
 					monthChartYear: monthChartYear,
 					seasonChartYear: seasonChartYear,
+					doughnutChartYear,
+					stackedBarChartYear,
 				}}
 			/>
 		).toBlob();
@@ -270,18 +335,50 @@ function Statistics() {
 		}));
 	};
 
+	const getStatsMonthlyStackedBar = async (year = 2023) => {
+		setStackedChartYear(year);
+
+		const datas = await Axios.get(`stats/pollutants/monthly?year=${year}`, {
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+
+		setStackedBarChartData((prevState) => ({
+			...prevState,
+			datasets: prevState.datasets.map((dataset) => ({
+				label: dataset.label,
+				backgroundColor: dataset.backgroundColor,
+				data: datas.data.map((item) =>
+					(Math.round(item.data[`avg${dataset.label}`] * 100) / 100).toFixed(1)
+				),
+			})),
+		}));
+	};
+
+	// ======================================================================================================================
+
+	const monthlyAvgAQIDropDownChangeHandler = (year) => {
+		getStatsMonthly(year);
+	};
+
 	const seasonChartDropDownOnChangeHandler = (year) => {
 		getStatsSeason(year);
 	};
 
-	const monthChartDropDownOnChangeHandler = (year) => {
-		getStatsMonthly(year);
+	const doughnutChartDropDownOnChangeHandler = (year) => {
+		// getStatsMonthlyDoughnut(year);
+	};
+
+	const stackedChartDropDownOnChangeHandler = (year) => {
+		getStatsMonthlyStackedBar(year);
 	};
 
 	useEffect(() => {
 		async function fetchStatsDateRange() {
 			getStatsSeason();
 			getStatsMonthly();
+			getStatsMonthlyStackedBar();
 		}
 
 		fetchStatsDateRange();
@@ -338,7 +435,7 @@ function Statistics() {
 								options={yearDropDownOptions}
 								defaultValue={yearDropDownOptions[0].value}
 								onChange={(e, data) =>
-									monthChartDropDownOnChangeHandler(data.value)
+									monthlyAvgAQIDropDownChangeHandler(data.value)
 								}
 							/>
 						</div>
@@ -353,10 +450,10 @@ function Statistics() {
 					<div className="chart_item" style={{ flexBasis: "53%" }}>
 						<div className="header">
 							<ChartItemTitle className="chart_title">
-								Monthly Pollutants Value
+								Monthly Avg Pollutants Value
 							</ChartItemTitle>
 
-							<LocalizationProvider dateAdapter={AdapterDateFns}>
+							{/* <LocalizationProvider dateAdapter={AdapterDateFns}>
 								<DemoContainer components={["SingleInputDateRangeField"]}>
 									<DateRangePicker
 										slots={{ field: SingleInputDateRangeField }}
@@ -373,12 +470,20 @@ function Statistics() {
 										}}
 									/>
 								</DemoContainer>
-							</LocalizationProvider>
+							</LocalizationProvider> */}
+							<Dropdown
+								inline
+								options={yearDropDownOptions}
+								defaultValue={yearDropDownOptions[0].value}
+								onChange={(e, data) =>
+									stackedChartDropDownOnChangeHandler(data.value)
+								}
+							/>
 						</div>
 
 						<Divider style={{ width: "100%" }} />
 
-						<StackedBarChart ref={canvas} />
+						<StackedBarChart data={stackedBarChartData} ref={canvas} />
 					</div>
 
 					<span className="custom_vert_divider"></span>
@@ -386,7 +491,7 @@ function Statistics() {
 					<div className="chart_item" style={{ flexBasis: "47%" }}>
 						<div className="header">
 							<ChartItemTitle className="chart_title">
-								Top 3 Monthly Pollutants
+								Top 3 Most Polluted Months
 							</ChartItemTitle>
 
 							<Dropdown
@@ -394,14 +499,14 @@ function Statistics() {
 								options={yearDropDownOptions}
 								defaultValue={yearDropDownOptions[0].value}
 								onChange={(e, data) =>
-									seasonChartDropDownOnChangeHandler(data.value)
+									doughnutChartDropDownOnChangeHandler(data.value)
 								}
 							/>
 						</div>
 
 						<Divider style={{ width: "100%" }} />
 
-						<DoughnutChart ref={canvas} />
+						<DoughnutChart data={doughnutChartData} ref={canvas} />
 					</div>
 				</Layout1>
 			</div>

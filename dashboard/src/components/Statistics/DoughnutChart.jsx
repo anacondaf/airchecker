@@ -57,10 +57,8 @@ const options = {
 	},
 };
 
-const labels = ["January", "June", "Dec"];
-
 const data = {
-	labels: labels,
+	labels: ["January", "June", "Dec"],
 	datasets: [
 		{
 			label: "AQI value",

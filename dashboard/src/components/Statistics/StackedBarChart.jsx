@@ -65,48 +65,9 @@ const options = {
 	},
 };
 
-const labels = [
-	"January",
-	"February",
-	"March",
-	"April",
-	"May",
-	"June",
-	"July",
-	"Aug",
-	"Sep",
-	"Oct",
-	"Nov",
-	"Dec",
-];
-
-const data = {
-	labels,
-	datasets: [
-		{
-			label: "O3",
-			data: [100, 10, 2, 19],
-			backgroundColor: "rgb(55, 48, 163)",
-		},
-		{
-			label: "CO",
-			data: [80, 10, 2, 19],
-			backgroundColor: "rgb(79, 70, 229)",
-		},
-		{
-			label: "PM 2.5",
-			data: [11, 10, 2, 19],
-			backgroundColor: "rgb(129, 140, 248)",
-		},
-		{
-			label: "TVOC",
-			data: [230, 10, 2, 19],
-			backgroundColor: "rgb(199, 210, 254)",
-		},
-	],
-};
-
 export const StackedBarChart = React.forwardRef((props, ref) => {
+	const { data } = props;
+
 	return (
 		<div className="statistic_chart">
 			<ChartContainer>

@@ -31,4 +31,9 @@ router.get("/season", async (req, res, next) => {
 	res.status(httpStatus.OK).json(dto);
 });
 
+router.get("/pollutants/monthly", async (req, res, next) => {
+	var dto = await statisticsController.getAvgMonthlyPollutant(req.query);
+	res.status(httpStatus.OK).json(dto);
+});
+
 module.exports = router;
