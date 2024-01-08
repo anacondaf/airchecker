@@ -215,9 +215,9 @@ function Statistics() {
 				label: "AQI value",
 				data: [110, 50, 80],
 				backgroundColor: [
-					"rgb(79, 70, 229)",
-					"rgb(59, 130, 246)",
 					"rgb(49, 46, 129)",
+					"rgb(59, 130, 246)",
+					"rgb(79, 70, 229)",
 				],
 				borderWidth: 0,
 			},
@@ -356,6 +356,39 @@ function Statistics() {
 		}));
 	};
 
+	const getStatsMonthlyDoughnut = async (year = 2023) => {
+		setDoughnutChartYear(year);
+
+		const qty = 3;
+
+		const datas = await Axios.get(
+			`stats/pollutants/top?qty=${qty}&year=${year}`,
+			{
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}
+		);
+
+		const labels = datas.data.map((item) => item._id.month);
+		// console.log(labels);
+
+		// console.log(datas);
+
+		setDoughnutChartData((prevState) => {
+			console.log(prevState);
+			return {
+				labels: labels,
+				datasets: prevState.datasets.map((dataset) => ({
+					label: dataset.label,
+					borderWidth: dataset.borderWidth,
+					backgroundColor: dataset.backgroundColor,
+					data: datas.data.map((item) => item.maxAqi),
+				})),
+			};
+		});
+	};
+
 	// ======================================================================================================================
 
 	const monthlyAvgAQIDropDownChangeHandler = (year) => {
@@ -367,7 +400,7 @@ function Statistics() {
 	};
 
 	const doughnutChartDropDownOnChangeHandler = (year) => {
-		// getStatsMonthlyDoughnut(year);
+		getStatsMonthlyDoughnut(year);
 	};
 
 	const stackedChartDropDownOnChangeHandler = (year) => {
@@ -379,6 +412,7 @@ function Statistics() {
 			getStatsSeason();
 			getStatsMonthly();
 			getStatsMonthlyStackedBar();
+			getStatsMonthlyDoughnut();
 		}
 
 		fetchStatsDateRange();

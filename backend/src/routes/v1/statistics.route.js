@@ -36,4 +36,9 @@ router.get("/pollutants/monthly", async (req, res, next) => {
 	res.status(httpStatus.OK).json(dto);
 });
 
+router.get("/pollutants/top", async (req, res, next) => {
+	var dto = await statisticsController.getTop3PollutedMonths(req.query);
+	res.status(httpStatus.OK).json(dto);
+});
+
 module.exports = router;

@@ -20,9 +20,15 @@ const getAvgMonthlyPollutant = async (query) => {
 	return data;
 };
 
+const getTop3PollutedMonths = async (query) => {
+	const data = await statisticsService.getTop3PollutedMonths(query);
+	return data;
+};
+
 exports.statisticsController = {
 	getStatisticDateRange,
 	getMonthlyStatisticsData,
 	getSeasonStatisticsData,
 	getAvgMonthlyPollutant,
+	getTop3PollutedMonths,
 };

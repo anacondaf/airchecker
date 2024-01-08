@@ -57,23 +57,9 @@ const options = {
 	},
 };
 
-const data = {
-	labels: ["January", "June", "Dec"],
-	datasets: [
-		{
-			label: "AQI value",
-			data: [110, 50, 80],
-			backgroundColor: [
-				"rgb(79, 70, 229)",
-				"rgb(59, 130, 246)",
-				"rgb(49, 46, 129)",
-			],
-			borderWidth: 0,
-		},
-	],
-};
-
 export const DoughnutChart = React.forwardRef((props, ref) => {
+	const { data } = props;
+
 	return (
 		<div className="statistic_chart">
 			<ChartContainer>

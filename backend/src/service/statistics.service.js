@@ -165,9 +165,61 @@ const getAvgMonthlyPollutant = async ({ year }) => {
 		});
 	}
 
-	console.log(monthlyAvg);
-
 	return monthlyAvg;
+};
+
+const getTop3PollutedMonths = async ({ qty = 3, year }) => {
+	const monthMap = [
+		"January",
+		"February",
+		"March",
+		"April",
+		"May",
+		"June",
+		"July",
+		"August",
+		"September",
+		"October",
+		"November",
+		"December",
+	];
+
+	const result = await AirQualityModel.aggregate([
+		{
+			$match: {
+				createdAt: {
+					$gte: new Date(`${year}-01-01T00:00:00Z`),
+					$lte: new Date(`${year}-12-31T16:59:59Z`),
+				},
+			},
+		},
+		{
+			$addFields: {
+				aqiValue: {
+					$cond: {
+						if: { $ifNull: ["$calc_aqi", false] },
+						then: "$calc_aqi",
+						else: "$aqi",
+					},
+				},
+			},
+		},
+		{
+			$group: {
+				_id: { month: { $month: "$createdAt" } },
+				maxAqi: { $max: "$calc_aqi" },
+			},
+		},
+		{ $sort: { maxAqi: -1 } },
+		{ $limit: parseInt(qty) },
+	]);
+
+	result.forEach((item) => {
+		item._id.month = monthMap[item._id.month - 1];
+		item.maxAqi = parseInt(item.maxAqi);
+	});
+
+	return result;
 };
 
 module.exports = {
@@ -175,4 +227,5 @@ module.exports = {
 	getMonthlyStatisticsData,
 	getSeasonStatisticsData,
 	getAvgMonthlyPollutant,
+	getTop3PollutedMonths,
 };
