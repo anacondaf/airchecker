@@ -117,10 +117,347 @@
                 </div>
             </section>
 
+            <div class="right-panel">
+                <div class="detail-pollutants">
+                    <div class="accordion" onmousedown="accordion(event)" ontouchstart="accordion(event)">
+                        <p data-i18n="accordion.title" id="accordion-title">View detail pollutants</p>
+                        <i class=" fa-solid fa-caret-down" id="acc-icon"></i>
+                    </div>
+
+                    <div class="panel-wrapper">
+                        <div class="panel">
+                            <div class="pollutant-card">
+                                <div class="info">
+                                    <p data-i18n="pollutant.co"></p>
+                                    <p>(ppm)</p>
+                                </div>
+
+                                <div class="index-pollutant" id="co-index">
+                                    <span id="co"></span>
+                                </div>
+
+                                <div id="tooltip" role="tooltip">
+                                    <h4 style="margin:6px 0">Solutions: </h4>
+
+                                    <ul class="solution">
+                                        <li>
+                                            <strong>
+                                                Open doors and windows, turn off combustion appliances and leave the
+                                                house.
+                                            </strong>
+                                        </li>
+                                        <li>
+                                            <strong>Install CO alarms near sleeping areas.</strong>
+                                        </li>
+                                        <li>
+                                            <strong>
+                                                Check heating systems and fuel-burning
+                                                appliances annually
+                                            </strong>
+                                        </li>
+                                        <li>
+                                            <strong>
+                                                Avoid the use of non-vented combustion
+                                                appliances.
+                                            </strong>
+                                        </li>
+                                        <li>
+                                            <strong>
+                                                Never burn fuels indoors except in devices
+                                                such as stoves or furnaces that are made for
+                                                safe use.
+                                            </strong>
+                                        </li>
+                                        <li>
+                                            <strong>Be Attentive to possible symptoms of CO
+                                                poisoning.</strong>
+                                        </li>
+                                        <li>
+                                            <strong>
+                                                Open flues when using the fireplace.
+                                            </strong>
+                                        </li>
+                                        <li>
+                                            <strong>
+                                                Don’t smoke.
+                                            </strong>
+                                        </li>
+                                        <li>
+                                            <strong>
+                                                DON'T sleep in any room with an unvented gas or kerosene space heater.
+                                            </strong>
+                                        </li>
+                                        <li>
+                                            <strong>
+                                                DON’T ignore symptoms, particularly if more than one person is feeling
+                                                them.
+                                                You could lose consciousness and die if you
+                                                do nothing.
+                                            </strong>
+                                        </li>
+                                    </ul>
+                                    <div id="arrow" data-popper-arrow></div>
+                                </div>
+                            </div>
+
+                            <div class="pollutant-card">
+                                <div class="info">
+                                    <p data-i18n="pollutant.tvoc"></p>
+                                    <p>(ppb)</p>
+                                </div>
+
+                                <div class="index-pollutant" id="tvoc-index">
+                                    <span id="tvoc"></span>
+                                </div>
+
+                                <div id="tooltip" role="tooltip">
+                                    <h4 style="margin:6px 0">Solutions: </h4>
+
+                                    <ul class="solution">
+                                        <li>
+                                            <strong>
+                                                Eliminate VOCs by removing the source. Use alternatives low-VOC products
+                                                to
+                                                reduce harmful compounds like benzene, formaldehyde, and methylene
+                                                chloride
+                                                in your space.
+                                            </strong>
+                                        </li>
+                                        <li>
+                                            <strong>Don't allow smoking indoors or near building openings. </strong>
+                                        </li>
+                                        <li>
+                                            <strong>
+                                                Install Ventilation system. VOCs build up indoors due to poor
+                                                ventilation.
+                                                They’re emitted from everyday products and need fresh air for dilution
+                                                or
+                                                removal.
+                                            </strong>
+                                        </li>
+                                        <li>
+                                            <strong>
+                                                Safely store VOC-emitting items such as adhesives, paint, cleaning
+                                                agents
+                                                and materials used in construction in designated areas, restricting
+                                                these
+                                                areas
+                                            </strong>
+                                        </li>
+                                    </ul>
+                                    <div id="arrow" data-popper-arrow></div>
+                                </div>
+                            </div>
+
+                            <div class="pollutant-card">
+                                <div class="info">
+                                    <p data-i18n="pollutant.o3"></p>
+                                    <p>(ppm)</p>
+                                </div>
+
+                                <div class="index-pollutant" id="o3-index">
+                                    <span id="o3"></span>
+                                </div>
+
+                                <div id="tooltip" role="tooltip">
+                                    <h4 style="margin:6px 0">Solutions: </h4>
+
+                                    <ul class="solution">
+                                        <li>
+                                            <strong>
+                                                Use public transportation, carpool, bike, or walk.
+                                            </strong>
+                                        </li>
+                                        <li>
+                                            <strong>
+                                                Use environmentally safe paints and cleaning products.
+                                            </strong>
+                                        </li>
+                                        <li>
+                                            <strong>
+                                                Combine errands and reduce trips. Walk to errands when possible.
+                                            </strong>
+                                        </li>
+                                        <li>
+                                            <strong>
+                                                Avoid excessive idling of your automobile.
+                                            </strong>
+                                        </li>
+                                        <li>
+                                            <strong>
+                                                Avoid burning leaves, trash, and other materials.
+                                            </strong>
+                                        </li>
+                                        <li>
+                                            <strong>
+                                                Refuel your car in the evening when its cooler.
+                                            </strong>
+                                        </li>
+                                    </ul>
+                                    <div id="arrow" data-popper-arrow></div>
+                                </div>
+                            </div>
+
+                            <div class="pollutant-card">
+                                <div class="info">
+                                    <p data-i18n="pollutant.pm25"></p>
+                                    <p>(ug/m3)</p>
+                                </div>
+
+                                <div class="index-pollutant" id="pm25-index">
+                                    <span id="pm25"></span>
+                                </div>
+
+                                <div id="tooltip" role="tooltip">
+                                    <h4 style="margin:6px 0">Solutions: </h4>
+
+                                    <ul class="solution">
+                                        <li>
+                                            <strong>Stay indoors in an area with filtered air.</strong>
+                                        </li>
+                                        <li>
+                                            <strong>
+                                                Don’t use ozone-generating air cleaners as they increase home pollution.
+                                            </strong>
+                                        </li>
+                                        <li>
+                                            <strong>
+                                                If you lack air filters at home, consider visiting a place that has
+                                                them, like a friend’s house.
+                                            </strong>
+                                        </li>
+                                        <li>
+                                            <strong>
+                                                Avoid strenuous activities. Opt for calm indoor activities like reading
+                                                or watching TV.
+                                            </strong>
+                                        </li>
+                                        <li>
+                                            <strong>Keep your activity levels low.</strong>
+                                        </li>
+                                        <li>
+                                            <strong>
+                                                Establish a clean sleeping area in a room with minimal windows and
+                                                doors.
+                                            </strong>
+                                        </li>
+                                        <li>
+                                            <strong>
+                                                Avoid using anything that burns, such as wood fireplaces, gas logs and
+                                                even candles or incense.
+                                            </strong>
+                                        </li>
+                                        <li>
+                                            <strong>
+                                                Don’t smoke.
+                                            </strong>
+                                        </li>
+                                        <li>
+                                            <strong>
+                                                If it’s too hot indoors with closed windows, or if you’re at risk, seek
+                                                a place with filtered air.
+                                            </strong>
+                                        </li>
+                                        <li>
+                                            <strong>
+                                                Selecting an air cleaner.
+                                            </strong>
+                                        </li>
+                                        <li>
+                                            <strong>
+                                                Use N-95 or P-100 respirators for outdoor activities if necessary.
+                                            </strong>
+                                        </li>
+                                    </ul>
+                                    <div id="arrow" data-popper-arrow></div>
+                                </div>
+                            </div>
+
+                            <div class="pollutant-card">
+                                <div class="info">
+                                    <p data-i18n="pollutant.temp"></p>
+                                    <p>(&deg;C)</p>
+                                </div>
+
+                                <div class="index-pollutant">
+                                    <span id="temp">nan</span>
+                                </div>
+                            </div>
+
+                            <div class="pollutant-card">
+                                <div class="info">
+                                    <p data-i18n="pollutant.humid"></p>
+                                    <p>(%)</p>
+                                </div>
+
+                                <div class="index-pollutant">
+                                    <span id="humidity"></span>
+                                </div>
+                            </div>
+
+                            <div class="pollutant-card">
+                                <div class="info">
+                                    <p data-i18n="pollutant.co2"></p>
+                                    <p>(ppm)</p>
+                                </div>
+
+                                <div class="index-pollutant">
+                                    <span id="co2"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="updated_time">
+                            Last updated: <span id="updated-time-span">1 min ago</span>
+                        </p>
+
+                        <div class="color_legend">
+                            <p>Legend</p>
+
+                            <div class="legend_divider"></div>
+
+                            <div class="legend_container">
+                                <div class="legend">
+                                    <div class="color" style="background-color: #00E400;"></div>
+                                    <p>Good</p>
+                                </div>
+
+                                <div class="legend">
+                                    <div class="color" style="background-color: #FFFF00;"></div>
+                                    <p>Moderate</p>
+                                </div>
+
+                                <div class="legend">
+                                    <div class="color" style="background-color: #FF7E00;"></div>
+                                    <p>Unhealthy for Sensitive Groups</p>
+                                </div>
+
+                                <div class="legend">
+                                    <div class="color" style="background-color: #FF0000;"></div>
+                                    <p>Unhealthy</p>
+                                </div>
+
+                                <div class="legend">
+                                    <div class="color" style="background-color: #8F3F97;"></div>
+                                    <p>Very Unhealthy</p>
+                                </div>
+
+                                <div class="legend">
+                                    <div class="color" style="background-color: #7E0023;"></div>
+                                    <p>Hazardous</p>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="divider"></div>
 
             <section class="forecast section">
-                <p data-i18n="forecast.title" style="margin-bottom: 1.5em;">Forecast today and tomorrow</p>
+                <p data-i18n="forecast.title" style="margin-bottom: 1.5em;">Forecasting</p>
 
                 <div class="inner-wrap">
                     <div class="forecast-box">
@@ -311,334 +648,7 @@
             <div class="divider"></div>
         </div>
 
-        <div class="right-panel">
-            <div class="detail-pollutants">
-                <div class="accordion" onmousedown="accordion(event)" ontouchstart="accordion(event)">
-                    <p data-i18n="accordion.title" id="accordion-title">View detail pollutants</p>
-                    <i class=" fa-solid fa-caret-down" id="acc-icon"></i>
-                </div>
 
-                <div class="panel-wrapper">
-                    <div class="panel">
-                        <div class="pollutant-card">
-                            <div class="info">
-                                <p data-i18n="pollutant.co"></p>
-                                <p>(ppm)</p>
-                            </div>
-
-                            <div class="index-pollutant" id="co-index">
-                                <span id="co"></span>
-                            </div>
-
-                            <div id="tooltip" role="tooltip">
-                                <h4 style="margin:6px 0">Solutions: </h4>
-
-                                <ul class="solution">
-                                    <li>
-                                        <strong>
-                                            Open doors and windows, turn off combustion appliances and leave the house.
-                                        </strong>
-                                    </li>
-                                    <li>
-                                        <strong>Install CO alarms near sleeping areas.</strong>
-                                    </li>
-                                    <li>
-                                        <strong>
-                                            Check heating systems and fuel-burning
-                                            appliances annually
-                                        </strong>
-                                    </li>
-                                    <li>
-                                        <strong>
-                                            Avoid the use of non-vented combustion
-                                            appliances.
-                                        </strong>
-                                    </li>
-                                    <li>
-                                        <strong>
-                                            Never burn fuels indoors except in devices
-                                            such as stoves or furnaces that are made for
-                                            safe use.
-                                        </strong>
-                                    </li>
-                                    <li>
-                                        <strong>Be Attentive to possible symptoms of CO
-                                            poisoning.</strong>
-                                    </li>
-                                    <li>
-                                        <strong>
-                                            Open flues when using the fireplace.
-                                        </strong>
-                                    </li>
-                                    <li>
-                                        <strong>
-                                            Don’t smoke.
-                                        </strong>
-                                    </li>
-                                    <li>
-                                        <strong>
-                                            DON'T sleep in any room with an unvented gas or kerosene space heater.
-                                        </strong>
-                                    </li>
-                                    <li>
-                                        <strong>
-                                            DON’T ignore symptoms, particularly if more than one person is feeling them.
-                                            You could lose consciousness and die if you
-                                            do nothing.
-                                        </strong>
-                                    </li>
-                                </ul>
-                                <div id="arrow" data-popper-arrow></div>
-                            </div>
-                        </div>
-
-                        <div class="pollutant-card">
-                            <div class="info">
-                                <p data-i18n="pollutant.tvoc"></p>
-                                <p>(ppb)</p>
-                            </div>
-
-                            <div class="index-pollutant" id="tvoc-index">
-                                <span id="tvoc"></span>
-                            </div>
-
-                            <div id="tooltip" role="tooltip">
-                                <h4 style="margin:6px 0">Solutions: </h4>
-
-                                <ul class="solution">
-                                    <li>
-                                        <strong>
-                                            Eliminate VOCs by removing the source. Use alternatives low-VOC products to
-                                            reduce harmful compounds like benzene, formaldehyde, and methylene chloride
-                                            in your space.
-                                        </strong>
-                                    </li>
-                                    <li>
-                                        <strong>Don't allow smoking indoors or near building openings. </strong>
-                                    </li>
-                                    <li>
-                                        <strong>
-                                            Install Ventilation system. VOCs build up indoors due to poor ventilation.
-                                            They’re emitted from everyday products and need fresh air for dilution or
-                                            removal.
-                                        </strong>
-                                    </li>
-                                    <li>
-                                        <strong>
-                                            Safely store VOC-emitting items such as adhesives, paint, cleaning agents
-                                            and materials used in construction in designated areas, restricting these
-                                            areas
-                                        </strong>
-                                    </li>
-                                </ul>
-                                <div id="arrow" data-popper-arrow></div>
-                            </div>
-                        </div>
-
-                        <div class="pollutant-card">
-                            <div class="info">
-                                <p data-i18n="pollutant.o3"></p>
-                                <p>(ppm)</p>
-                            </div>
-
-                            <div class="index-pollutant" id="o3-index">
-                                <span id="o3"></span>
-                            </div>
-
-                            <div id="tooltip" role="tooltip">
-                                <h4 style="margin:6px 0">Solutions: </h4>
-
-                                <ul class="solution">
-                                    <li>
-                                        <strong>
-                                            Use public transportation, carpool, bike, or walk.
-                                        </strong>
-                                    </li>
-                                    <li>
-                                        <strong>
-                                            Use environmentally safe paints and cleaning products.
-                                        </strong>
-                                    </li>
-                                    <li>
-                                        <strong>
-                                            Combine errands and reduce trips. Walk to errands when possible.
-                                        </strong>
-                                    </li>
-                                    <li>
-                                        <strong>
-                                            Avoid excessive idling of your automobile.
-                                        </strong>
-                                    </li>
-                                    <li>
-                                        <strong>
-                                            Avoid burning leaves, trash, and other materials.
-                                        </strong>
-                                    </li>
-                                    <li>
-                                        <strong>
-                                            Refuel your car in the evening when its cooler.
-                                        </strong>
-                                    </li>
-                                </ul>
-                                <div id="arrow" data-popper-arrow></div>
-                            </div>
-                        </div>
-
-                        <div class="pollutant-card">
-                            <div class="info">
-                                <p data-i18n="pollutant.pm25"></p>
-                                <p>(ug/m3)</p>
-                            </div>
-
-                            <div class="index-pollutant" id="pm25-index">
-                                <span id="pm25"></span>
-                            </div>
-
-                            <div id="tooltip" role="tooltip">
-                                <h4 style="margin:6px 0">Solutions: </h4>
-
-                                <ul class="solution">
-                                    <li>
-                                        <strong>Stay indoors in an area with filtered air.</strong>
-                                    </li>
-                                    <li>
-                                        <strong>
-                                            Don’t use ozone-generating air cleaners as they increase home pollution.
-                                        </strong>
-                                    </li>
-                                    <li>
-                                        <strong>
-                                            If you lack air filters at home, consider visiting a place that has
-                                            them, like a friend’s house.
-                                        </strong>
-                                    </li>
-                                    <li>
-                                        <strong>
-                                            Avoid strenuous activities. Opt for calm indoor activities like reading
-                                            or watching TV.
-                                        </strong>
-                                    </li>
-                                    <li>
-                                        <strong>Keep your activity levels low.</strong>
-                                    </li>
-                                    <li>
-                                        <strong>
-                                            Establish a clean sleeping area in a room with minimal windows and
-                                            doors.
-                                        </strong>
-                                    </li>
-                                    <li>
-                                        <strong>
-                                            Avoid using anything that burns, such as wood fireplaces, gas logs and
-                                            even candles or incense.
-                                        </strong>
-                                    </li>
-                                    <li>
-                                        <strong>
-                                            Don’t smoke.
-                                        </strong>
-                                    </li>
-                                    <li>
-                                        <strong>
-                                            If it’s too hot indoors with closed windows, or if you’re at risk, seek
-                                            a place with filtered air.
-                                        </strong>
-                                    </li>
-                                    <li>
-                                        <strong>
-                                            Selecting an air cleaner.
-                                        </strong>
-                                    </li>
-                                    <li>
-                                        <strong>
-                                            Use N-95 or P-100 respirators for outdoor activities if necessary.
-                                        </strong>
-                                    </li>
-                                </ul>
-                                <div id="arrow" data-popper-arrow></div>
-                            </div>
-                        </div>
-
-                        <div class="pollutant-card">
-                            <div class="info">
-                                <p data-i18n="pollutant.temp"></p>
-                                <p>(&deg;C)</p>
-                            </div>
-
-                            <div class="index-pollutant">
-                                <span id="temp">nan</span>
-                            </div>
-                        </div>
-
-                        <div class="pollutant-card">
-                            <div class="info">
-                                <p data-i18n="pollutant.humid"></p>
-                                <p>(%)</p>
-                            </div>
-
-                            <div class="index-pollutant">
-                                <span id="humidity"></span>
-                            </div>
-                        </div>
-
-                        <div class="pollutant-card">
-                            <div class="info">
-                                <p data-i18n="pollutant.co2"></p>
-                                <p>(ppm)</p>
-                            </div>
-
-                            <div class="index-pollutant">
-                                <span id="co2"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <p class="updated_time">
-                        Last updated: <span id="updated-time-span">1 min ago</span>
-                    </p>
-
-                    <div class="color_legend">
-                        <p>Legend</p>
-
-                        <div class="legend_divider"></div>
-
-                        <div class="legend_container">
-                            <div class="legend">
-                                <div class="color" style="background-color: #00E400;"></div>
-                                <p>Good</p>
-                            </div>
-
-                            <div class="legend">
-                                <div class="color" style="background-color: #FFFF00;"></div>
-                                <p>Moderate</p>
-                            </div>
-
-                            <div class="legend">
-                                <div class="color" style="background-color: #FF7E00;"></div>
-                                <p>Unhealthy for Sensitive Groups</p>
-                            </div>
-
-                            <div class="legend">
-                                <div class="color" style="background-color: #FF0000;"></div>
-                                <p>Unhealthy</p>
-                            </div>
-
-                            <div class="legend">
-                                <div class="color" style="background-color: #8F3F97;"></div>
-                                <p>Very Unhealthy</p>
-                            </div>
-
-                            <div class="legend">
-                                <div class="color" style="background-color: #7E0023;"></div>
-                                <p>Hazardous</p>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="floating-action-button" id="fab" onmousedown="fabHandler(event)" ontouchstart="fabHandler(event)">
             <img alt="fab-book" class="fab-book" src="assets/fabtn_icons/icons8-book-48.png">

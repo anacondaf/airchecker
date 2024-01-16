@@ -965,7 +965,7 @@ $(function () {
 								title: "View detail pollutants",
 							},
 							forecast: {
-								title: "Forecast today and tomorrow",
+								title: "Forecast",
 								aqi: "Air Quality Index",
 							},
 						},
@@ -989,7 +989,7 @@ $(function () {
 								title: "Xem chi tiết chất ô nhiễm",
 							},
 							forecast: {
-								title: "Dự báo hôm nay và ngày mai",
+								title: "Dự báo",
 								aqi: "Chỉ số chất lượng không khí",
 							},
 						},
