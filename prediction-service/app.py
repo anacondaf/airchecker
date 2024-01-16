@@ -24,7 +24,7 @@ best_scaler_filename = "./best_scaler.pkl"
 best_model = load_model(best_model_filename)
 best_scaler = joblib.load(best_scaler_filename)
 
-MONGODB_URL="mongodb+srv://admin:Pa$$word!@aircheckercluster.yymawyw.mongodb.net/aircheckerdb?retryWrites=true&w=majority"
+MONGODB_URL="mongodb://localhost:27017/aircheckerdb"
 # MONGODB_URL="mongodb://localhost:27017/aircheckerdb"
 
 # Connect to MongoDB

@@ -65,7 +65,7 @@ void measureOpticalDustSensor() {
   Serial.print("PM2.5 voltage: ");
   Serial.println(voltage);
 
-  pm25 = 170 * voltage - 0.1; // unit: ug/m3
+  pm25 = (170 * voltage - 0.1) / 2; // unit: ug/m3
 
   Serial.print("PM2.5: ");
   Serial.print(pm25);
