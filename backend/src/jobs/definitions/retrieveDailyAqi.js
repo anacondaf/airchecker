@@ -18,7 +18,7 @@ const retrieveDailyAqi = async (agenda) => {
 						.toISOString()
 						.replace(/T(.+)/g, "T00:00:00.000Z");
 
-					logger.info(`Get AQI for ${offsetNextDay}`);
+					logger.info(`Get AQI for ${offsetToday}`);
 
 					let hourlyAqi = await AirQualityModel.aggregate([
 						{
