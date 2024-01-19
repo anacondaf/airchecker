@@ -18,6 +18,8 @@ const retrieveDailyAqi = async (agenda) => {
 						.toISOString()
 						.replace(/T(.+)/g, "T00:00:00.000Z");
 
+					logger.info(`Get AQI for ${offsetNextDay}`);
+
 					let hourlyAqi = await AirQualityModel.aggregate([
 						{
 							$addFields: {
@@ -56,7 +58,7 @@ const retrieveDailyAqi = async (agenda) => {
 						},
 					]).exec();
 
-					console.log(hourlyAqi);
+					logger.info(JSON.stringify(hourlyAqi));
 
 					hourlyAqi = hourlyAqi.map((x) => {
 						return {
@@ -65,7 +67,7 @@ const retrieveDailyAqi = async (agenda) => {
 						};
 					});
 
-					console.log(hourlyAqi);
+					logger.info(JSON.stringify(hourlyAqi));
 
 					const compositeAqiObject = hourlyAqi.reduce((prev, curr) =>
 						prev.aqi > curr.aqi ? prev : curr
@@ -76,7 +78,7 @@ const retrieveDailyAqi = async (agenda) => {
 						date: compositeAqiObject.dateTime.substring(0, 10),
 					};
 
-					console.log(requestBody);
+					logger.info(JSON.stringify(requestBody));
 
 					await axios({
 						method: "post",
